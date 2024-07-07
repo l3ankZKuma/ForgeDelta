@@ -1,0 +1,18 @@
+[submodule "ForgeDelta/vendor/spdlog"]
+	path = ForgeDelta/vendor/spdlog
+	url = https://github.com/gabime/spdlog
+[submodule "ForgeDelta/vendor/glfw"]
+	path = ForgeDelta/vendor/glfw
+	url = https://github.com/glfw/glfw
+[submodule "ForgeDelta/vendor/glm"]
+	path = ForgeDelta/vendor/glm
+	url = https://github.com/icaven/glm
+[submodule "ForgeDelta/vendor/imgui"]
+	path = ForgeDelta/vendor/imgui
+	url = https://github.com/ocornut/imgui
+[submodule "ForgeDelta/vendor/EASTL"]
+	path = ForgeDelta/vendor/EASTL
+	url = https://github.com/electronicarts/EASTL
+[submodule "ForgeDelta/vendor/EABase"]
+	path = ForgeDelta/vendor/EABase
+	url = https://github.com/electronicarts/EABase
