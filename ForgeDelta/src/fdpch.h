@@ -15,15 +15,20 @@
 #include<numeric>
 #include<iterator>
 #include<initializer_list>
-
-
-
-
-// Meta-programming
-#include <type_traits>
+#include<fstream>
+#include<chrono>
+#include<thread>
+#include<mutex>
+#include<condition_variable>
+#include<atomic>
+#include<filesystem>
 #include <tuple>
 #include <variant>
 #include <optional>
+
+// Meta-programming
+#include <type_traits>
+
 
 #ifdef FD_PLATFORM_WINDOWS
   #include <Windows.h>
@@ -38,6 +43,10 @@
 #include<glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp> // For glm::value_ptr
 #include <glm/gtc/matrix_transform.hpp> // For glm::ortho
+
+//spdlog
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
 
 
 
