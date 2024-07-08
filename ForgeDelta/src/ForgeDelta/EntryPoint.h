@@ -8,14 +8,11 @@ extern ForgeDelta::Application* ForgeDelta::CreateApplication();
 int main(int argc,char **argv) {
 
   auto app = ForgeDelta::CreateApplication();
+
   InitializeApplication(app);
   RunApplication(app);
   ShutdownApplication(app);
-  
   delete app;
-
-
-
 
   return 0;
 }

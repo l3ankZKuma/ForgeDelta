@@ -9,9 +9,12 @@ namespace ForgeDelta {
 
     app->m_Window = new WindowData();
     InitializeWindow(app->m_Window);
-    SetEventCallback(app->m_Window, [app](Event& e) {
-      OnEvent(app, e);
-      });
+    SetEventCallback(app->m_Window, [&app](Event& e) {
+      OnApplicationEvent(app, e);
+     });
+
+    app->m_StackLayer = LayerStack();
+
   }
 
   void ShutdownApplication(Application* app) {
@@ -22,17 +25,17 @@ namespace ForgeDelta {
   void RunApplication(Application* app) {
 
     while (app->m_Running) {
-      glClearColor(1.f, 0.f, 0.f, 1.0f);
+      glClearColor(.5f, 0.1f, 0.f, 1.0f);
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-      OnUpdate(app);
+      OnApplicationUpdate(app);
     }
   }
 
-  void OnUpdate(Application* app) {
+  void OnApplicationUpdate(Application* app) {
     OnWindowUpdate(app->m_Window);
   }
 
-  void OnEvent(Application* app, Event& e) {
+  void OnApplicationEvent(Application* app, Event& e) {
     EventDispatcher dispatcher(e);
     dispatcher.Dispatch<WindowCloseEvent>([app](WindowCloseEvent& e) {
       app->m_Running = false;

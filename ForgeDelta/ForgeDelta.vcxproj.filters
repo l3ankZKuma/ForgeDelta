@@ -25,14 +25,16 @@
     <ClInclude Include="src\ForgeDelta\Core\Log.h" />
     <ClInclude Include="src\ForgeDelta\Core\Window.h" />
     <ClInclude Include="src\ForgeDelta\Core\Time.h" />
-    <ClInclude Include="src\ForgeDelta\Core\Timer.h" />
+    <ClInclude Include="src\ForgeDelta\Core\TimeStep.h" />
     <ClInclude Include="src\ForgeDelta\Core\Input.h" />
     <ClInclude Include="src\ForgeDelta\Core\Events\ApplicationEvent.h" />
     <ClInclude Include="src\ForgeDelta\Core\Events\Event.h" />
     <ClInclude Include="src\ForgeDelta\Core\Events\KeyEvent.h" />
     <ClInclude Include="src\ForgeDelta\Core\Events\MouseEvent.h" />
     <ClInclude Include="src\ForgeDelta\Core\KeyCodes.h" />
-    <ClInclude Include="Window.h" />
+    <ClInclude Include="src\ForgeDelta\Core\Layer.h" />
+    <ClInclude Include="src\ForgeDelta\Imgui\ImguiLayer.h" />
+    <ClInclude Include="src\ForgeDelta\Core\LayerStack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\fdpch.cpp">
@@ -46,6 +48,8 @@
     <ClCompile Include="src\ForgeDelta\Core\Log.cpp" />
     <ClCompile Include="src\ForgeDelta\Core\Window.cpp" />
     <ClCompile Include="src\ForgeDelta\Core\Input.cpp" />
-    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="src\ForgeDelta\Imgui\ImguiLayer.cpp" />
+    <ClCompile Include="src\ForgeDelta\Core\LayerStack.cpp" />
+    <ClCompile Include="src\ForgeDelta\Imgui\ImguiBuild.cpp" />
   </ItemGroup>
 </Project>
