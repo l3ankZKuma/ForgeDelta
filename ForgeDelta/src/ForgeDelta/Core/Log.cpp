@@ -3,7 +3,7 @@
 
 namespace ForgeDelta {
 
-  static LogSystemData g_LogSystemData;
+  LogSystemData g_LogSystemData;
 
   void
   InitLogSystem() {

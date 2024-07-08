@@ -24,7 +24,15 @@
     <ClInclude Include="src\ForgeDelta\Core\Base.h" />
     <ClInclude Include="src\ForgeDelta\Core\Log.h" />
     <ClInclude Include="src\ForgeDelta\Core\Window.h" />
-    <ClInclude Include="WindowsWindow.h" />
+    <ClInclude Include="src\ForgeDelta\Core\Time.h" />
+    <ClInclude Include="src\ForgeDelta\Core\Timer.h" />
+    <ClInclude Include="src\ForgeDelta\Core\Input.h" />
+    <ClInclude Include="src\ForgeDelta\Core\Events\ApplicationEvent.h" />
+    <ClInclude Include="src\ForgeDelta\Core\Events\Event.h" />
+    <ClInclude Include="src\ForgeDelta\Core\Events\KeyEvent.h" />
+    <ClInclude Include="src\ForgeDelta\Core\Events\MouseEvent.h" />
+    <ClInclude Include="src\ForgeDelta\Core\KeyCodes.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\fdpch.cpp">
@@ -37,6 +45,7 @@
     <ClCompile Include="src\ForgeDelta\Core\Base.cpp" />
     <ClCompile Include="src\ForgeDelta\Core\Log.cpp" />
     <ClCompile Include="src\ForgeDelta\Core\Window.cpp" />
-    <ClCompile Include="WindowsWindow.cpp" />
+    <ClCompile Include="src\ForgeDelta\Core\Input.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
 </Project>

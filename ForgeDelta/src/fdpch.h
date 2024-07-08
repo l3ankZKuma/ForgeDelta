@@ -44,10 +44,6 @@
 #include <glm/gtc/type_ptr.hpp> // For glm::value_ptr
 #include <glm/gtc/matrix_transform.hpp> // For glm::ortho
 
-//spdlog
-#include <spdlog/spdlog.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
-
 
 
 
