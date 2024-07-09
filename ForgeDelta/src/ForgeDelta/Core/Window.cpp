@@ -42,9 +42,13 @@ namespace ForgeDelta {
       return;
     }
 
+
+    glfwSwapInterval(1); // Enable vsync
+    glfwSetWindowUserPointer(window->GLFWWindow, window);
     SetVSync(window, window->VSync);
 
-    glfwSetWindowUserPointer(window->GLFWWindow, window);
+
+
 
     glfwSetWindowSizeCallback(window->GLFWWindow, [](GLFWwindow* window, int width, int height) {
       WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);

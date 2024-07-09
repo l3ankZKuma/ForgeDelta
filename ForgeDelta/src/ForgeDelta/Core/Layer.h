@@ -20,4 +20,8 @@ namespace ForgeDelta {
   void OnLayerUpdate(LayerData* layerData, TimeStep ts);
   void OnLayerEvent(LayerData* layerData, Event& e);
   void OnImGuiRender(LayerData* layerData);
+
+  //for ImGuiLayer
+  void BeginImGuiLayer();
+  void EndImGuiLayer();
 }

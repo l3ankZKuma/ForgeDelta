@@ -25,4 +25,5 @@ namespace ForgeDelta {
   void SetVSync(WindowData* windowData, bool enabled);
   void SetEventCallback(WindowData* windowData, const EventCallbackFn& callback);
 
+
 }
