@@ -1,7 +1,7 @@
 #include <ForgeDelta.h>
 
 
-ForgeDelta::Application* ForgeDelta::CreateApplication() {
-  return new Application();
+ForgeDelta::ApplicationData* ForgeDelta::CreateApplication() {
+  return new ApplicationData();
 }
 

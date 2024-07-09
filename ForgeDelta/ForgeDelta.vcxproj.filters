@@ -4,6 +4,18 @@
     <Filter Include="src">
       <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\ForgeDelta">
+      <UniqueIdentifier>{192F2D28-05FD-202E-EE90-9154DAFDFC92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ForgeDelta\Core">
+      <UniqueIdentifier>{11AB8C2C-7D0C-6A3A-067A-B0EC72DAA0F9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ForgeDelta\Core\Events">
+      <UniqueIdentifier>{D519138C-C129-BF5C-2AE3-237B1612AEF5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ForgeDelta\Imgui">
+      <UniqueIdentifier>{235B8DBE-0FEA-1688-B808-2B83A476272E}</UniqueIdentifier>
+    </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
     </Filter>
@@ -12,44 +24,94 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ForgeDelta.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ForgeDelta\Core\Application.h">
+      <Filter>src\ForgeDelta\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ForgeDelta\Core\Base.h">
+      <Filter>src\ForgeDelta\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ForgeDelta\Core\Events\ApplicationEvent.h">
+      <Filter>src\ForgeDelta\Core\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ForgeDelta\Core\Events\Event.h">
+      <Filter>src\ForgeDelta\Core\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ForgeDelta\Core\Events\KeyEvent.h">
+      <Filter>src\ForgeDelta\Core\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ForgeDelta\Core\Events\MouseEvent.h">
+      <Filter>src\ForgeDelta\Core\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ForgeDelta\Core\Input.h">
+      <Filter>src\ForgeDelta\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ForgeDelta\Core\KeyCodes.h">
+      <Filter>src\ForgeDelta\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ForgeDelta\Core\Layer.h">
+      <Filter>src\ForgeDelta\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ForgeDelta\Core\LayerStack.h">
+      <Filter>src\ForgeDelta\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ForgeDelta\Core\Log.h">
+      <Filter>src\ForgeDelta\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ForgeDelta\Core\Time.h">
+      <Filter>src\ForgeDelta\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ForgeDelta\Core\TimeStep.h">
+      <Filter>src\ForgeDelta\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ForgeDelta\Core\Window.h">
+      <Filter>src\ForgeDelta\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ForgeDelta\EntryPoint.h">
+      <Filter>src\ForgeDelta</Filter>
+    </ClInclude>
     <ClInclude Include="src\fdpch.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\ForgeDelta\Core\Application.h" />
-    <ClInclude Include="src\ForgeDelta.h" />
-    <ClInclude Include="src\ForgeDelta\EntryPoint.h" />
-    <ClInclude Include="src\ForgeDelta\Core\Base.h" />
-    <ClInclude Include="src\ForgeDelta\Core\Log.h" />
-    <ClInclude Include="src\ForgeDelta\Core\Window.h" />
-    <ClInclude Include="src\ForgeDelta\Core\Time.h" />
-    <ClInclude Include="src\ForgeDelta\Core\TimeStep.h" />
-    <ClInclude Include="src\ForgeDelta\Core\Input.h" />
-    <ClInclude Include="src\ForgeDelta\Core\Events\ApplicationEvent.h" />
-    <ClInclude Include="src\ForgeDelta\Core\Events\Event.h" />
-    <ClInclude Include="src\ForgeDelta\Core\Events\KeyEvent.h" />
-    <ClInclude Include="src\ForgeDelta\Core\Events\MouseEvent.h" />
-    <ClInclude Include="src\ForgeDelta\Core\KeyCodes.h" />
-    <ClInclude Include="src\ForgeDelta\Core\Layer.h" />
-    <ClInclude Include="src\ForgeDelta\Imgui\ImguiLayer.h" />
-    <ClInclude Include="src\ForgeDelta\Core\LayerStack.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ForgeDelta\Core\Application.cpp">
+      <Filter>src\ForgeDelta\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ForgeDelta\Core\Base.cpp">
+      <Filter>src\ForgeDelta\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ForgeDelta\Core\Input.cpp">
+      <Filter>src\ForgeDelta\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ForgeDelta\Core\Layer.cpp">
+      <Filter>src\ForgeDelta\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ForgeDelta\Core\LayerStack.cpp">
+      <Filter>src\ForgeDelta\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ForgeDelta\Core\Log.cpp">
+      <Filter>src\ForgeDelta\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ForgeDelta\Core\Window.cpp">
+      <Filter>src\ForgeDelta\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ForgeDelta\Imgui\ImguiBuild.cpp">
+      <Filter>src\ForgeDelta\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ForgeDelta\Imgui\ImguiLayer.cpp">
+      <Filter>src\ForgeDelta\Imgui</Filter>
+    </ClCompile>
     <ClCompile Include="src\fdpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\ForgeDelta\Core\Application.cpp" />
-    <ClCompile Include="src\ForgeDelta\Core\Base.cpp" />
-    <ClCompile Include="src\ForgeDelta\Core\Log.cpp" />
-    <ClCompile Include="src\ForgeDelta\Core\Window.cpp" />
-    <ClCompile Include="src\ForgeDelta\Core\Input.cpp" />
-    <ClCompile Include="src\ForgeDelta\Imgui\ImguiLayer.cpp" />
-    <ClCompile Include="src\ForgeDelta\Core\LayerStack.cpp" />
-    <ClCompile Include="src\ForgeDelta\Imgui\ImguiBuild.cpp" />
   </ItemGroup>
 </Project>

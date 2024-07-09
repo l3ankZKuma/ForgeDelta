@@ -1,30 +1,31 @@
 #include "fdpch.h"
-#include "ImguiLayer.h"
+#include "ForgeDelta/Core/Layer.h"
+
+
+
+//imgui
+#include "imgui.h"
+#include "backends/imgui_impl_glfw.h"
+#include "backends/imgui_impl_opengl3.h"
+
+
 
 namespace ForgeDelta {
 
-  void InitializeImGuiLayer(ImGuiLayerData* layerData) {
-
-
-  }
-  void ShutdownImGuiLayer(ImGuiLayerData* layerData) {
-
+  void InitializeImGuiLayer(LayerData* layerData) {
 
   }
-  void BeginImGuiLayer(ImGuiLayerData* layerData) {
-
-
-  }
-  void EndImGuiLayer(ImGuiLayerData* layerData) {
-
+  void ShutdownImGuiLayer(LayerData* layerData) {
 
   }
-  void OnImGuiLayerEvent(ImGuiLayerData* layerData, Event& e) {
-
+  void BeginImGuiLayer(LayerData* layerData) {
 
   }
+  void EndImGuiLayer(LayerData* layerData) {
 
+  }
+  void OnImGuiLayerEvent(LayerData* layerData, Event& e) {
+
+  }
 
 }
-
-

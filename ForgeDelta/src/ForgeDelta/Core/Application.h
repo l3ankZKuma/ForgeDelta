@@ -6,17 +6,20 @@
 
 namespace ForgeDelta {
 
-  struct Application {
+  struct ApplicationData {
     LayerStack m_StackLayer;
     WindowData* m_Window;
+    LayerData *imguiLayer;
     bool m_Running = true;
   };
 
-  void InitializeApplication(Application* app);
-  void ShutdownApplication(Application* app);
-  void RunApplication(Application* app);
-  void OnApplicationUpdate(Application* app);
-  void OnApplicationEvent(Application* app, Event& e);
+  extern std::atomic<ApplicationData*> g_Application;  // Use atomic for thread safety
 
-  Application* CreateApplication();
+  void InitializeApplication(ApplicationData* app);
+  void ShutdownApplication(ApplicationData* app);
+  void RunApplication(ApplicationData* app);
+  void OnApplicationUpdate(ApplicationData* app);
+  void OnApplicationEvent(ApplicationData* app, Event& e);
+
+  ApplicationData* CreateApplication();
 }

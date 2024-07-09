@@ -3,7 +3,7 @@
 
 #ifdef FD_PLATFORM_WINDOWS
 
-extern ForgeDelta::Application* ForgeDelta::CreateApplication();
+extern ForgeDelta::ApplicationData* ForgeDelta::CreateApplication();
 
 int main(int argc,char **argv) {
 
