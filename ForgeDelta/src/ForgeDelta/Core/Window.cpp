@@ -1,10 +1,12 @@
 #include "fdpch.h"
 #include "Window.h"
+
 #include"ForgeDelta/Core/Events/Event.h"
 #include"ForgeDelta/Core/KeyCodes.h"
 #include"ForgeDelta/Core/Events/MouseEvent.h"
 #include"ForgeDelta/Core/Events/ApplicationEvent.h"
 #include"ForgeDelta/Core/Events/KeyEvent.h"
+#include "ForgeDelta/Core/Log.h"
 
 
 namespace ForgeDelta {

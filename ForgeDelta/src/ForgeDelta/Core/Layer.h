@@ -4,6 +4,7 @@
 namespace ForgeDelta {
   class TimeStep;
   class Event;
+  struct ApplicationData;
 }
 
 namespace ForgeDelta {
@@ -24,6 +25,8 @@ namespace ForgeDelta {
   void OnLayerUpdate(LayerData* layerData, TimeStep ts);
   void OnLayerEvent(LayerData* layerData, Event& e);
   void OnImGuiRender(LayerData* layerData);
+
+  void InjectionApplicationToLayer(ApplicationData* app);
 
   //for ImGuiLayer
   void BeginImGuiLayer();

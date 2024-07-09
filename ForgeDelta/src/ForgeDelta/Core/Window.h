@@ -1,10 +1,13 @@
 #pragma once
-#include "ForgeDelta/Core/Base.h"
-#include "ForgeDelta/Core/Events/Event.h"
-#include "ForgeDelta/Core/Log.h"
-#include "ForgeDelta/Core/Events/ApplicationEvent.h"
+
+#include <functional>
+#include<string>
 
 class GLFWwindow;
+
+namespace ForgeDelta {
+  class Event;
+}
 
 namespace ForgeDelta {
 

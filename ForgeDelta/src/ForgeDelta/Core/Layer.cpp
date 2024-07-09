@@ -16,6 +16,14 @@
 
 namespace ForgeDelta {
 
+  static ApplicationData* s_app = nullptr;
+  static GLFWwindow *s_window = nullptr;
+
+  void InjectionApplicationToLayer(ApplicationData* app) {
+    s_app = app;
+    s_window = app->m_Window->GLFWWindow;
+  }
+
   void OnLayerAttach(LayerData* layerData) {
     switch (layerData->m_Type) {
     case LayerType::BaseLayer:

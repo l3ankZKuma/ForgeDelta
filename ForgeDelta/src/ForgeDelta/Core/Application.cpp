@@ -1,10 +1,14 @@
 #include "fdpch.h"
 #include "Application.h"
-#include "ForgeDelta/Core/Base.h"
 
+#include "ForgeDelta/Core/Base.h"
 #include"ForgeDelta/Core/Layer.h"
+#include"ForgeDelta/Core/Input.h"
 #include"ForgeDelta/Core/TimeStep.h"      
 #include "ForgeDelta/Core/Events/Event.h"
+#include "ForgeDelta/Core/Events/ApplicationEvent.h"
+#include "ForgeDelta/Core/Log.h"
+
 namespace ForgeDelta {
 
   std::atomic<ApplicationData*> g_Application(nullptr);
@@ -26,6 +30,9 @@ namespace ForgeDelta {
     app->m_ImguiLayer = new LayerData();
     app->m_ImguiLayer->m_Type = LayerType::ImGuiLayer;
     PushOverlay(app->m_StackLayer, app->m_ImguiLayer);
+
+    InjectionApplicationToLayer(app);
+    InjectApplicationToInput(app);
   }
 
   void ShutdownApplication(ApplicationData* app) {
