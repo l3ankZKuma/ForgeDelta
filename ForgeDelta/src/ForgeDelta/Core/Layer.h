@@ -1,6 +1,10 @@
 #pragma once
-#include "ForgeDelta/Core/TimeStep.h"
-#include "ForgeDelta/Core/Events/Event.h"
+
+
+namespace ForgeDelta {
+  class TimeStep;
+  class Event;
+}
 
 namespace ForgeDelta {
 

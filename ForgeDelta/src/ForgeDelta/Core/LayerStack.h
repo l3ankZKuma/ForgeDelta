@@ -1,5 +1,9 @@
 #pragma once
-#include "ForgeDelta/Core/Layer.h"
+
+namespace ForgeDelta {
+    struct LayerData;
+
+}
 
 namespace ForgeDelta {
 

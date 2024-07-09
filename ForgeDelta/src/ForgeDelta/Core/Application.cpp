@@ -2,6 +2,9 @@
 #include "Application.h"
 #include "ForgeDelta/Core/Base.h"
 
+#include"ForgeDelta/Core/Layer.h"
+#include"ForgeDelta/Core/TimeStep.h"      
+#include "ForgeDelta/Core/Events/Event.h"
 namespace ForgeDelta {
 
   std::atomic<ApplicationData*> g_Application(nullptr);
@@ -60,9 +63,9 @@ namespace ForgeDelta {
 
     BeginImGuiLayer();
 
-  {
-    OnImGuiRender(app->m_ImguiLayer);
-  }
+    {
+      OnImGuiRender(app->m_ImguiLayer);
+    }
 
     EndImGuiLayer();
 

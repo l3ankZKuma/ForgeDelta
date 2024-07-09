@@ -1,10 +1,13 @@
 #pragma once
 
-#include "ForgeDelta/Core/Events/Event.h"
+
 #include "ForgeDelta/Core/Window.h"
 #include "ForgeDelta/Core/LayerStack.h"
-#include"ForgeDelta/Core/TimeStep.h"      
 
+namespace ForgeDelta {
+  class TimeStep;
+  class Event;
+}
 
 namespace ForgeDelta {
 
@@ -21,7 +24,7 @@ namespace ForgeDelta {
   void InitializeApplication(ApplicationData* app);
   void ShutdownApplication(ApplicationData* app);
   void RunApplication(ApplicationData* app);
-  void OnApplicationUpdate(ApplicationData* app,TimeStep ts);
+  void OnApplicationUpdate(ApplicationData* app, TimeStep ts);
   void OnApplicationEvent(ApplicationData* app, Event& e);
 
   ApplicationData* CreateApplication();

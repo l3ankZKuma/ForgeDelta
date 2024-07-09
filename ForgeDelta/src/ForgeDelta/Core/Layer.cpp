@@ -10,6 +10,10 @@
 // Application
 #include "ForgeDelta/Core/Application.h"
 
+// TimeStep
+#include"ForgeDelta/Core/TimeStep.h"      
+
+
 namespace ForgeDelta {
 
   void OnLayerAttach(LayerData* layerData) {
@@ -85,13 +89,13 @@ namespace ForgeDelta {
       break;
     }
   }
-void BeginImGuiLayer() {
+  void BeginImGuiLayer() {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
-}
+  }
 
-void EndImGuiLayer() {
+  void EndImGuiLayer() {
     ImGuiIO& io = ImGui::GetIO();
     ApplicationData* app = g_Application.load(std::memory_order_relaxed);
     io.DisplaySize = ImVec2{ (float)app->m_Window->Width, (float)app->m_Window->Height };
@@ -100,10 +104,10 @@ void EndImGuiLayer() {
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
     if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
-        GLFWwindow* backup_current_context = glfwGetCurrentContext();
-        ImGui::UpdatePlatformWindows();
-        ImGui::RenderPlatformWindowsDefault();
-        glfwMakeContextCurrent(backup_current_context);
+      GLFWwindow* backup_current_context = glfwGetCurrentContext();
+      ImGui::UpdatePlatformWindows();
+      ImGui::RenderPlatformWindowsDefault();
+      glfwMakeContextCurrent(backup_current_context);
     }
   }
 }

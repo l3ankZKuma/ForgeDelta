@@ -104,9 +104,6 @@
     <ClCompile Include="src\ForgeDelta\Imgui\ImguiBuild.cpp">
       <Filter>src\ForgeDelta\Imgui</Filter>
     </ClCompile>
-    <ClCompile Include="src\ForgeDelta\Imgui\ImguiLayer.cpp">
-      <Filter>src\ForgeDelta\Imgui</Filter>
-    </ClCompile>
     <ClCompile Include="src\fdpch.cpp">
       <Filter>src</Filter>
     </ClCompile>

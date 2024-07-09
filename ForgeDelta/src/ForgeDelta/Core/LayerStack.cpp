@@ -1,5 +1,7 @@
 #include "fdpch.h"
 #include "LayerStack.h"
+#include "ForgeDelta/Core/Layer.h"
+
 
 namespace ForgeDelta {
 
