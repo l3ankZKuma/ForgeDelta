@@ -5,7 +5,6 @@
 
 namespace ForgeDelta {
 
-	void InjectApplicationToInput(ApplicationData* appData);
 
 	struct ControllerButtonData
 	{

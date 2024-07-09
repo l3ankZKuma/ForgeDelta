@@ -143,6 +143,11 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ForgeDelta\Renderer\Renderer.h" />
+    <ClInclude Include="src\ForgeDelta\Renderer\RendererCommand.h" />
+    <ClInclude Include="src\ForgeDelta\Manager.h" />
+    <ClInclude Include="src\ForgeDelta\Renderer\Shader.h" />
+    <ClInclude Include="src\ForgeDelta\Renderer\Buffer.h" />
     <ClInclude Include="src\ForgeDelta.h" />
     <ClInclude Include="src\ForgeDelta\Core\Application.h" />
     <ClInclude Include="src\ForgeDelta\Core\Base.h" />
@@ -160,9 +165,15 @@
     <ClInclude Include="src\ForgeDelta\Core\Window.h" />
     <ClInclude Include="src\ForgeDelta\EntryPoint.h" />
     <ClInclude Include="src\fdpch.h" />
+    <ClInclude Include="src\ForgeDelta\Renderer\Texture.h" />
     <ClInclude Include="vendor\stb_image\stb_image.h" />
+    <ClInclude Include="src\ForgeDelta\Renderer\VertexArray.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ForgeDelta\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\ForgeDelta\Renderer\RendererCommand.cpp" />
+    <ClCompile Include="src\ForgeDelta\Renderer\Shader.cpp" />
+    <ClCompile Include="src\ForgeDelta\Renderer\Buffer.cpp" />
     <ClCompile Include="src\ForgeDelta\Core\Application.cpp" />
     <ClCompile Include="src\ForgeDelta\Core\Base.cpp" />
     <ClCompile Include="src\ForgeDelta\Core\Input.cpp" />
@@ -174,7 +185,9 @@
     <ClCompile Include="src\fdpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\ForgeDelta\Renderer\Texture.cpp" />
     <ClCompile Include="vendor\stb_image\stb_image.cpp" />
+    <ClCompile Include="src\ForgeDelta\Renderer\VertexArray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\glfw\glfw.vcxproj">

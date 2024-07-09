@@ -18,8 +18,6 @@ namespace ForgeDelta {
     bool m_Running = true;
   };
 
-  extern std::atomic<ApplicationData*> g_Application;
-  extern float g_lastFrameTime;
 
   void InitializeApplication(ApplicationData* app);
   void ShutdownApplication(ApplicationData* app);

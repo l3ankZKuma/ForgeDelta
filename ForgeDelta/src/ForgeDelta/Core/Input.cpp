@@ -1,16 +1,12 @@
 #include "fdpch.h"
 #include "Input.h"
 #include "ForgeDelta/Core/Log.h"
+#include"ForgeDelta/Manager.h"
 
 namespace ForgeDelta {
 
-  static ApplicationData* s_app = nullptr;
-  static GLFWwindow* s_window = nullptr;
+  static ApplicationData* s_app = Manager::GetInstance().GetApplicationData();
 
-  void InjectApplicationToInput(ApplicationData* app) {
-    s_app = app;
-    s_window = app->m_Window->GLFWWindow;
-  }
 
   //void Input::Update() {
   //  // This method should be called every frame to update the input states

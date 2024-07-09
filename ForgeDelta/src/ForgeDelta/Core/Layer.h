@@ -26,7 +26,6 @@ namespace ForgeDelta {
   void OnLayerEvent(LayerData* layerData, Event& e);
   void OnImGuiRender(LayerData* layerData);
 
-  void InjectionApplicationToLayer(ApplicationData* app);
 
   //for ImGuiLayer
   void BeginImGuiLayer();

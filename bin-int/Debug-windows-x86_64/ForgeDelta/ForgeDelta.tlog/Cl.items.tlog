@@ -1,3 +1,7 @@
+D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Renderer\Renderer.cpp;D:\Project_CSKMITL\bin-int\Debug-windows-x86_64\ForgeDelta\Renderer.obj
+D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Renderer\RendererCommand.cpp;D:\Project_CSKMITL\bin-int\Debug-windows-x86_64\ForgeDelta\RendererCommand.obj
+D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Renderer\Shader.cpp;D:\Project_CSKMITL\bin-int\Debug-windows-x86_64\ForgeDelta\Shader.obj
+D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Renderer\Buffer.cpp;D:\Project_CSKMITL\bin-int\Debug-windows-x86_64\ForgeDelta\Buffer.obj
 D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Core\Application.cpp;D:\Project_CSKMITL\bin-int\Debug-windows-x86_64\ForgeDelta\Application.obj
 D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Core\Base.cpp;D:\Project_CSKMITL\bin-int\Debug-windows-x86_64\ForgeDelta\Base.obj
 D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Core\Input.cpp;D:\Project_CSKMITL\bin-int\Debug-windows-x86_64\ForgeDelta\Input.obj
@@ -7,4 +11,6 @@ D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Core\Log.cpp;D:\Project_CSKMITL\bin
 D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Core\Window.cpp;D:\Project_CSKMITL\bin-int\Debug-windows-x86_64\ForgeDelta\Window.obj
 D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Imgui\ImguiBuild.cpp;D:\Project_CSKMITL\bin-int\Debug-windows-x86_64\ForgeDelta\ImguiBuild.obj
 D:\Project_CSKMITL\ForgeDelta\src\fdpch.cpp;D:\Project_CSKMITL\bin-int\Debug-windows-x86_64\ForgeDelta\fdpch.obj
+D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Renderer\Texture.cpp;D:\Project_CSKMITL\bin-int\Debug-windows-x86_64\ForgeDelta\Texture.obj
 D:\Project_CSKMITL\ForgeDelta\vendor\stb_image\stb_image.cpp;D:\Project_CSKMITL\bin-int\Debug-windows-x86_64\ForgeDelta\stb_image.obj
+D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Renderer\VertexArray.cpp;D:\Project_CSKMITL\bin-int\Debug-windows-x86_64\ForgeDelta\VertexArray.obj

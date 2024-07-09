@@ -78,6 +78,13 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
+    <ClInclude Include="src\ForgeDelta\Renderer\Buffer.h" />
+    <ClInclude Include="src\ForgeDelta\Renderer\VertexArray.h" />
+    <ClInclude Include="src\ForgeDelta\Renderer\Shader.h" />
+    <ClInclude Include="src\ForgeDelta\Renderer\Texture.h" />
+    <ClInclude Include="src\ForgeDelta\Renderer\Renderer.h" />
+    <ClInclude Include="src\ForgeDelta\Renderer\RendererCommand.h" />
+    <ClInclude Include="src\ForgeDelta\Manager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ForgeDelta\Core\Application.cpp">
@@ -110,5 +117,11 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
+    <ClCompile Include="src\ForgeDelta\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\ForgeDelta\Renderer\VertexArray.cpp" />
+    <ClCompile Include="src\ForgeDelta\Renderer\Shader.cpp" />
+    <ClCompile Include="src\ForgeDelta\Renderer\Texture.cpp" />
+    <ClCompile Include="src\ForgeDelta\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\ForgeDelta\Renderer\RendererCommand.cpp" />
   </ItemGroup>
 </Project>

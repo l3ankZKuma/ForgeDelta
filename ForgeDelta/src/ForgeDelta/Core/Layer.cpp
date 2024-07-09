@@ -14,17 +14,18 @@
 #include"ForgeDelta/Core/TimeStep.h"      
 
 
+#include"ForgeDelta/Manager.h"
+
+
 namespace ForgeDelta {
 
   static ApplicationData* s_app = nullptr;
-  static GLFWwindow *s_window = nullptr;
 
-  void InjectionApplicationToLayer(ApplicationData* app) {
-    s_app = app;
-    s_window = app->m_Window->GLFWWindow;
-  }
 
   void OnLayerAttach(LayerData* layerData) {
+
+    s_app = Manager::GetInstance().GetApplicationData(); 
+
     switch (layerData->m_Type) {
     case LayerType::BaseLayer:
       break;
@@ -44,8 +45,7 @@ namespace ForgeDelta {
         style.Colors[ImGuiCol_WindowBg].w = 1.0f;
       }
 
-      ApplicationData* app = g_Application.load(std::memory_order_relaxed);
-      GLFWwindow* window = app->m_Window->GLFWWindow;
+      GLFWwindow* window = s_app->m_Window->GLFWWindow;
 
       ImGui_ImplGlfw_InitForOpenGL(window, true);
       ImGui_ImplOpenGL3_Init("#version 410");
@@ -105,7 +105,7 @@ namespace ForgeDelta {
 
   void EndImGuiLayer() {
     ImGuiIO& io = ImGui::GetIO();
-    ApplicationData* app = g_Application.load(std::memory_order_relaxed);
+    ApplicationData* app = Manager::GetInstance().GetApplicationData();
     io.DisplaySize = ImVec2{ (float)app->m_Window->Width, (float)app->m_Window->Height };
 
     ImGui::Render();
