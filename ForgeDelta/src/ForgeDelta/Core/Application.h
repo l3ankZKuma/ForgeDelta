@@ -1,6 +1,5 @@
 #pragma once
 
-#include <atomic>
 #include "ForgeDelta/Core/Window.h"
 #include "ForgeDelta/Core/LayerStack.h"
 

@@ -14,7 +14,8 @@ namespace ForgeDelta {
 
 
   void InitializeApplication(ApplicationData* app) {
-    ForgeDelta::InitLogSystem();
+
+    Log::Init();
 
 
     app->m_Window = new WindowData();
@@ -49,6 +50,7 @@ namespace ForgeDelta {
       timeStep = time - lastFrameTime;
       lastFrameTime = time;
 
+      FD_CORE_INFO("TimeStep: {0}", 1/timeStep.GetS  econds());
 
       // Update the application
       OnApplicationUpdate(app, timeStep);
