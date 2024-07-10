@@ -45,12 +45,14 @@ namespace ForgeDelta {
     float lastFrameTime = 0.0f;
 
     while (app->m_Running) {
+
+
       // Calculate the time step
       float time = (float)glfwGetTime();
       timeStep = time - lastFrameTime;
       lastFrameTime = time;
 
-      FD_CORE_INFO("TimeStep: {0}", 1/timeStep.GetS  econds());
+     // FD_CORE_INFO("TimeStep: {0}", 1/timeStep.GetSeconds());
 
       // Update the application
       OnApplicationUpdate(app, timeStep);
