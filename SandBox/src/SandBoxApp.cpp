@@ -1,18 +1,27 @@
 #include <ForgeDelta.h>
 #include"fdpch.h"
 
-void SandBox() {
 
 
-  auto app = ForgeDelta::Manager::GetInstance().GetApplicationData();
+class SandBox : public ForgeDelta::Application {
+  public:
 
 
-}
+  SandBox() {
+
+  }
+
+  ~SandBox() {
+
+  }
 
 
 
-ForgeDelta::ApplicationData* ForgeDelta::CreateApplication() {
-  return new ApplicationData();
+};
+
+
+ForgeDelta::Application* ForgeDelta::CreateApplication() {
+  return new SandBox();
 }
 
  

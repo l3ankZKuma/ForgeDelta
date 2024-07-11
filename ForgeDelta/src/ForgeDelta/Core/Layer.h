@@ -1,33 +1,26 @@
 #pragma once
 
-
 namespace ForgeDelta {
-  class TimeStep;
   class Event;
-  struct ApplicationData;
+  class TimeStep;
 }
 
 namespace ForgeDelta {
 
-  enum class LayerType {
-    BaseLayer,
-    ImGuiLayer
-  };
+	class Layer {
+	public:
+		Layer(const std::string_view = "Layer");
+		virtual ~Layer() = default;
 
-  struct LayerData {
-    std::string m_DebugName;
-    LayerType m_Type;
-    bool m_BlockEvents = true; // For ImGuiLayer
-  };
+		virtual void OnAttach() = 0;
+		virtual void OnDetach() = 0;
+		virtual void OnUpdate(TimeStep ts) = 0;
+		virtual void OnEvent(Event& event) = 0;
+		virtual void OnImGuiRender() = 0;
 
-  void OnLayerAttach(LayerData* layerData);
-  void OnLayerDetach(LayerData* layerData);
-  void OnLayerUpdate(LayerData* layerData, TimeStep ts);
-  void OnLayerEvent(LayerData* layerData, Event& e);
-  void OnImGuiRender(LayerData* layerData);
+		const std::string& GetName() const { return m_DebugName; }
+	protected:
+		std::string m_DebugName;
+	};
 
-
-  //for ImGuiLayer
-  void BeginImGuiLayer();
-  void EndImGuiLayer();
 }

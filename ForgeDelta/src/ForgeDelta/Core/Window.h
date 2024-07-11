@@ -13,7 +13,7 @@ namespace ForgeDelta {
 
   using EventCallbackFn = std::function<void(Event&)>;
 
-  struct WindowData {
+  struct Window {
     std::string Title = "ForgeDelta";
     uint32_t Width = 1280;
     uint32_t Height = 720;
@@ -22,11 +22,12 @@ namespace ForgeDelta {
     EventCallbackFn EventCallback;
   };
 
-  void InitializeWindow(WindowData* windowData);
-  void ShutdownWindow(WindowData* windowData);
-  void OnWindowUpdate(WindowData* windowData);
-  void SetVSync(WindowData* windowData, bool enabled);
-  void SetEventCallback(WindowData* windowData, const EventCallbackFn& callback);
+  void InitializeWindow(Window* windowData);
+  void ShutdownWindow(Window* windowData);
+  void OnWindowClear(Window* windowData);
+  void OnWindowUpdate(Window* windowData);
+  void SetVSync(Window* windowData, bool enabled);
+  void SetEventCallback(Window* windowData, const EventCallbackFn& callback);
 
 
 }

@@ -143,9 +143,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ForgeDelta\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\ForgeDelta\Renderer\Renderer.h" />
     <ClInclude Include="src\ForgeDelta\Renderer\RendererCommand.h" />
-    <ClInclude Include="src\ForgeDelta\Manager.h" />
     <ClInclude Include="src\ForgeDelta\Renderer\Shader.h" />
     <ClInclude Include="src\ForgeDelta\Renderer\Buffer.h" />
     <ClInclude Include="src\ForgeDelta.h" />
@@ -170,6 +170,7 @@
     <ClInclude Include="src\ForgeDelta\Renderer\VertexArray.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ForgeDelta\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\ForgeDelta\Renderer\Renderer.cpp" />
     <ClCompile Include="src\ForgeDelta\Renderer\RendererCommand.cpp" />
     <ClCompile Include="src\ForgeDelta\Renderer\Shader.cpp" />
@@ -181,7 +182,7 @@
     <ClCompile Include="src\ForgeDelta\Core\LayerStack.cpp" />
     <ClCompile Include="src\ForgeDelta\Core\Log.cpp" />
     <ClCompile Include="src\ForgeDelta\Core\Window.cpp" />
-    <ClCompile Include="src\ForgeDelta\Imgui\ImguiBuild.cpp" />
+    <ClCompile Include="src\ForgeDelta\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\fdpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

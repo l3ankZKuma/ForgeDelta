@@ -84,7 +84,7 @@
     <ClInclude Include="src\ForgeDelta\Renderer\Texture.h" />
     <ClInclude Include="src\ForgeDelta\Renderer\Renderer.h" />
     <ClInclude Include="src\ForgeDelta\Renderer\RendererCommand.h" />
-    <ClInclude Include="src\ForgeDelta\Manager.h" />
+    <ClInclude Include="src\ForgeDelta\ImGui\ImGuiLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ForgeDelta\Core\Application.cpp">
@@ -108,7 +108,7 @@
     <ClCompile Include="src\ForgeDelta\Core\Window.cpp">
       <Filter>src\ForgeDelta\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\ForgeDelta\Imgui\ImguiBuild.cpp">
+    <ClCompile Include="src\ForgeDelta\ImGui\ImGuiBuild.cpp">
       <Filter>src\ForgeDelta\Imgui</Filter>
     </ClCompile>
     <ClCompile Include="src\fdpch.cpp">
@@ -123,5 +123,6 @@
     <ClCompile Include="src\ForgeDelta\Renderer\Texture.cpp" />
     <ClCompile Include="src\ForgeDelta\Renderer\Renderer.cpp" />
     <ClCompile Include="src\ForgeDelta\Renderer\RendererCommand.cpp" />
+    <ClCompile Include="src\ForgeDelta\ImGui\ImGuiLayer.cpp" />
   </ItemGroup>
 </Project>

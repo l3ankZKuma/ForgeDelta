@@ -3,20 +3,13 @@
 
 #ifdef FD_PLATFORM_WINDOWS
 
-extern ForgeDelta::ApplicationData* ForgeDelta::CreateApplication();
-extern void SandBox();
+extern ForgeDelta::Application* ForgeDelta::CreateApplication();
 int main(int argc,char **argv) {
 
+  ForgeDelta::Log::Init();
   auto app = ForgeDelta::CreateApplication();
-
-  InitializeApplication(app);
-
-  SandBox();
-  RunApplication(app);
-
-  ShutdownApplication(app);
+  app->Run();
   delete app;
-
   return 0;
 }
 

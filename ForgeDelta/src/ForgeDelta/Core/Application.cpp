@@ -1,95 +1,98 @@
 #include "fdpch.h"
 #include "Application.h"
 
-#include "ForgeDelta/Core/Base.h"
-#include"ForgeDelta/Core/Layer.h"
-#include"ForgeDelta/Core/Input.h"
-#include"ForgeDelta/Core/TimeStep.h"      
-#include "ForgeDelta/Core/Events/Event.h"
-#include "ForgeDelta/Core/Events/ApplicationEvent.h"
+#include "ForgeDelta/Core/Layer.h"
+#include "ForgeDelta/Core/Input.h"
+#include "ForgeDelta/Core/TimeStep.h"
 #include "ForgeDelta/Core/Log.h"
-#include"ForgeDelta/Manager.h"
+#include "ForgeDelta/ImGui/ImGuiLayer.h"
+
+#include"ForgeDelta/Core/Base.h"
+
 
 namespace ForgeDelta {
 
+  Application::Application() {
 
-  void InitializeApplication(ApplicationData* app) {
-
-    Log::Init();
-
-
-    app->m_Window = new WindowData();
-    InitializeWindow(app->m_Window);
-    SetEventCallback(app->m_Window, [&app](Event& e) {
-      OnApplicationEvent(app, e);
-      });
-
-    app->m_StackLayer = LayerStack();
-    app->m_ImguiLayer = new LayerData();
-    app->m_ImguiLayer->m_Type = LayerType::ImGuiLayer;
-    Manager::GetInstance().SetApplicationData(app);
+    s_instance = this;  // Correct usage of s_instance
 
 
-    PushOverlay(app->m_StackLayer, app->m_ImguiLayer);
+    m_window = new Window();
+    InitializeWindow(m_window); // Correctly initialize the window
+    SetEventCallback(m_window,BIND_EVENT_FN(Application::OnEvent));  // Correct binding syntax
+    m_imGuiLayer = new ImGuiLayer();
+    PushOverlay(m_imGuiLayer);
+
 
   }
 
-  void ShutdownApplication(ApplicationData* app) {
-    ShutdownLayerStack(app->m_StackLayer);
-    ShutdownWindow(app->m_Window);
-    delete app->m_Window;
+  Application::~Application() {
+    ShutdownWindow(m_window);  // Properly shut down the window
+    delete m_window;
   }
 
-  void RunApplication(ApplicationData* app) {
+  void Application::Run() {
     TimeStep timeStep;
-    float lastFrameTime = 0.0f;
 
-    while (app->m_Running) {
+    while (m_running) {  // Correct usage of m_running
 
-
-      // Calculate the time step
+      OnWindowClear(m_window);
       float time = (float)glfwGetTime();
-      timeStep = time - lastFrameTime;
-      lastFrameTime = time;
-
-     // FD_CORE_INFO("TimeStep: {0}", 1/timeStep.GetSeconds());
-
-      // Update the application
-      OnApplicationUpdate(app, timeStep);
+      timeStep = time - m_lastFrameTime;
+      m_lastFrameTime = time;
 
 
+      if (!m_minimized) {
+        for (Layer* layer : m_layerStack)
+          layer->OnUpdate(timeStep);
+      }
+
+      m_imGuiLayer->Begin();
+      for (Layer* layer : m_layerStack)
+        layer->OnImGuiRender();
+      m_imGuiLayer->End();
+
+      OnWindowUpdate(m_window);  // Properly update the window
     }
   }
 
-
-  void OnApplicationUpdate(ApplicationData* app, TimeStep ts) {
-
-    // Clear the screen
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
-
-
-    BeginImGuiLayer();
-
-    {
-      OnImGuiRender(app->m_ImguiLayer);
-    }
-
-    EndImGuiLayer();
-
-
-
-    OnWindowUpdate(app->m_Window);
-
-  }
-
-  void OnApplicationEvent(ApplicationData* app, Event& e) {
+  void Application::OnEvent(Event& e) {
     EventDispatcher dispatcher(e);
-    dispatcher.Dispatch<WindowCloseEvent>([app](WindowCloseEvent& e) {
-      app->m_Running = false;
-      return true;
+    dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
+    dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(Application::OnWindowResize));
+
+    dispatcher.Dispatch<WindowResizeEvent>([this](WindowResizeEvent& event) -> bool {
+      return this->OnWindowResize(event);
       });
+
+    for (auto it = m_layerStack.end(); it != m_layerStack.begin(); ) {
+      (*--it)->OnEvent(e);
+      if (e.Handled)
+        break;
+    }
+  }
+
+  void Application::PushLayer(Layer* layer) {
+    m_layerStack.PushLayer(layer);
+    layer->OnAttach();
+  }
+
+  void Application::PushOverlay(Layer* overlay) {
+    m_layerStack.PushOverlay(overlay);
+    overlay->OnAttach();
+  }
+
+  bool Application::OnWindowClose(WindowCloseEvent& e) {
+    m_running = false;  // Proper usage of m_running
+    return true;
+  }
+
+  bool Application::OnWindowResize(WindowResizeEvent& e) {
+    if (e.GetWidth() == 0 || e.GetHeight() == 0) {
+      m_minimized = true;
+      return true;
+    }
+    m_minimized = false;
+    return false;
   }
 }

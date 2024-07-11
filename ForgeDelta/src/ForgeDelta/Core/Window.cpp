@@ -8,7 +8,6 @@
 #include"ForgeDelta/Core/Events/KeyEvent.h"
 #include "ForgeDelta/Core/Log.h"
 
-
 namespace ForgeDelta {
 
   static bool s_GLFWInitialized = false;
@@ -17,7 +16,7 @@ namespace ForgeDelta {
     std::cerr << "GLFW Error (" << error << "): " << description << std::endl;
   }
 
-  void InitializeWindow(WindowData* window) {
+  void InitializeWindow(Window* window) {
     if (!s_GLFWInitialized) {
       int success = glfwInit();
       if (!success) {
@@ -44,16 +43,12 @@ namespace ForgeDelta {
       return;
     }
 
-
     glfwSwapInterval(1); // Enable vsync
     glfwSetWindowUserPointer(window->GLFWWindow, window);
     SetVSync(window, window->VSync);
 
-
-
-
     glfwSetWindowSizeCallback(window->GLFWWindow, [](GLFWwindow* window, int width, int height) {
-      WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+      Window& data = *reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
       data.Width = width;
       data.Height = height;
 
@@ -61,34 +56,29 @@ namespace ForgeDelta {
       data.EventCallback(event);
       });
 
-
     glfwSetWindowCloseCallback(window->GLFWWindow, [](GLFWwindow* window) {
-
-
       WindowCloseEvent event;
-      WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+      Window& data = *reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
       data.EventCallback(event);
-
       });
 
     glfwSetKeyCallback(window->GLFWWindow, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
-
       switch (action) {
       case GLFW_PRESS: {
         KeyPressedEvent event(key, 0);
-        WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+        Window& data = *reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
         data.EventCallback(event);
         break;
       }
       case GLFW_RELEASE: {
         KeyReleasedEvent event(key);
-        WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+        Window& data = *reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
         data.EventCallback(event);
         break;
       }
       case GLFW_REPEAT: {
         KeyPressedEvent event(key, 1);
-        WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+        Window& data = *reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
         data.EventCallback(event);
         break;
       }
@@ -96,26 +86,22 @@ namespace ForgeDelta {
       });
 
     glfwSetCharCallback(window->GLFWWindow, [](GLFWwindow* window, unsigned int keycode) {
-
       KeyTypedEvent event(keycode);
-      WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+      Window& data = *reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
       data.EventCallback(event);
-
       });
 
-
     glfwSetMouseButtonCallback(window->GLFWWindow, [](GLFWwindow* window, int button, int action, int mods) {
-
       switch (action) {
       case GLFW_PRESS: {
         MouseButtonPressedEvent event(button);
-        WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+        Window& data = *reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
         data.EventCallback(event);
         break;
       }
       case GLFW_RELEASE: {
         MouseButtonReleasedEvent event(button);
-        WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+        Window& data = *reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
         data.EventCallback(event);
         break;
       }
@@ -123,43 +109,39 @@ namespace ForgeDelta {
       });
 
     glfwSetScrollCallback(window->GLFWWindow, [](GLFWwindow* window, double xOffset, double yOffset) {
-
       MouseScrolledEvent event((float)xOffset, (float)yOffset);
-      WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+      Window& data = *reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
       data.EventCallback(event);
-
       });
 
     glfwSetCursorPosCallback(window->GLFWWindow, [](GLFWwindow* window, double xPos, double yPos) {
-
       MouseMovedEvent event((float)xPos, (float)yPos);
-      WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+      Window& data = *reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
       data.EventCallback(event);
-
       });
-
-
-
- 
-
   }
 
-  void ShutdownWindow(WindowData* window) {
+  void ShutdownWindow(Window* window) {
     glfwDestroyWindow(window->GLFWWindow);
     glfwTerminate();
   }
 
-  void OnWindowUpdate(WindowData* window) {
+  void OnWindowUpdate(Window* window) {
     glfwPollEvents();
     glfwSwapBuffers(window->GLFWWindow);
   }
 
-  void SetVSync(WindowData* window, bool enabled) {
+  void OnWindowClear(Window* window) {
+    glClearColor(0.1f, 0.1f, 0.1f, 1);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  }
+
+  void SetVSync(Window* window, bool enabled) {
     glfwSwapInterval(enabled ? 1 : 0);
     window->VSync = enabled;
   }
 
-  void SetEventCallback(WindowData* window, const EventCallbackFn& callback) {
+  void SetEventCallback(Window* window, const EventCallbackFn& callback) {
     window->EventCallback = callback;
   }
 

@@ -2,27 +2,51 @@
 
 #include "ForgeDelta/Core/Window.h"
 #include "ForgeDelta/Core/LayerStack.h"
+#include "ForgeDelta/Core/Events/Event.h"
+#include "ForgeDelta/Core/Events/ApplicationEvent.h"
 
 namespace ForgeDelta {
   class TimeStep;
   class Event;
+  class ImGuiLayer;
+
 }
 
 namespace ForgeDelta {
 
-  struct ApplicationData {
-    LayerStack m_StackLayer;
-    WindowData* m_Window;
-    LayerData* m_ImguiLayer;
-    bool m_Running = true;
+  class Application {
+
+  public:
+    Application();
+    ~Application();
+
+    void Run();
+    void OnEvent(Event& e);
+    void OnUpdate(TimeStep ts);
+
+    void PushLayer(Layer* layer);
+    void PushOverlay(Layer* overlay);
+
+    inline static Application& Get() { return *s_instance; }
+    inline Window& GetWindow() { return *m_window; }
+
+  private:
+
+
+    Window* m_window;
+    bool m_minimized{ false };
+    bool m_running{ true };
+
+    LayerStack m_layerStack;
+    ImGuiLayer* m_imGuiLayer;
+
+    float m_lastFrameTime{ 0.0f };
+
+    bool OnWindowClose(WindowCloseEvent& e);
+    bool OnWindowResize(WindowResizeEvent& e);
+
+    inline static Application* s_instance{ nullptr };
   };
 
-
-  void InitializeApplication(ApplicationData* app);
-  void ShutdownApplication(ApplicationData* app);
-  void RunApplication(ApplicationData* app);
-  void OnApplicationUpdate(ApplicationData* app, TimeStep ts);
-  void OnApplicationEvent(ApplicationData* app, Event& e);
-
-  ApplicationData* CreateApplication();
+  Application* CreateApplication();
 }
