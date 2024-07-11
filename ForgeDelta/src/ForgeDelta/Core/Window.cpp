@@ -7,6 +7,7 @@
 #include"ForgeDelta/Core/Events/ApplicationEvent.h"
 #include"ForgeDelta/Core/Events/KeyEvent.h"
 #include "ForgeDelta/Core/Log.h"
+#include"ForgeDelta/Renderer/GraphicsContext.h"
 
 namespace ForgeDelta {
 
@@ -37,13 +38,12 @@ namespace ForgeDelta {
       return;
     }
 
-    glfwMakeContextCurrent(window->GLFWWindow);
-    FD_CORE_INFO("Created Window");
 
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-      std::cerr << "Failed to initialize GLAD!" << std::endl;
-      return;
-    }
+    window->Context = new GraphicsContext(window->GLFWWindow);
+    window->Context->Init();
+
+
+
 
     glfwSwapInterval(1); // Enable vsync
     glfwSetWindowUserPointer(window->GLFWWindow, window);
@@ -130,7 +130,7 @@ namespace ForgeDelta {
 
   void OnWindowUpdate(Window* window) {
     glfwPollEvents();
-    glfwSwapBuffers(window->GLFWWindow);
+    window->Context->SwapBuffers();
   }
 
   void OnWindowClear(Window* window) {

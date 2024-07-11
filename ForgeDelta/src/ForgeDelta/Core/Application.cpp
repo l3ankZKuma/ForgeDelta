@@ -16,7 +16,6 @@ namespace ForgeDelta {
 
     s_instance = this;  // Correct usage of s_instance
 
-
     m_window = new Window();
     InitializeWindow(m_window); // Correctly initialize the window
     SetEventCallback(m_window,BIND_EVENT_FN(Application::OnEvent));  // Correct binding syntax
@@ -38,7 +37,7 @@ namespace ForgeDelta {
 
       OnWindowClear(m_window);
 
-      float time = static_cast<flaot>(glfwGetTime());
+      float time = static_cast<float>(glfwGetTime());
       timeStep = time - m_lastFrameTime;
       m_lastFrameTime = time;
 

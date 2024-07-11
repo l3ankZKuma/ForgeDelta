@@ -7,6 +7,7 @@ struct GLFWwindow;
 
 namespace ForgeDelta {
   class Event;
+  class GraphicsContext;
 }
 
 namespace ForgeDelta {
@@ -20,6 +21,8 @@ namespace ForgeDelta {
     bool VSync = true;
     GLFWwindow* GLFWWindow = nullptr;
     EventCallbackFn EventCallback;
+    GraphicsContext* Context;
+    
   };
 
   void InitializeWindow(Window* windowData);

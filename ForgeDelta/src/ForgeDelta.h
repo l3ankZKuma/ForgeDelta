@@ -28,3 +28,6 @@
   #error ForgeDelta only supports Windows!
 #endif
 
+
+//pch
+#include "fdpch.h"

@@ -1,8 +1,8 @@
 #pragma once
 
 namespace ForgeDelta {
-  class Event;
-  class TimeStep;
+	class Event;
+	class TimeStep;
 }
 
 namespace ForgeDelta {

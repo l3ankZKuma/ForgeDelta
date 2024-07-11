@@ -6,13 +6,10 @@
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 
-
-
-#include"ForgeDelta/Core/Events/Event.h"
-#include"ForgeDelta/Core/Window.h"
-#include"ForgeDelta/Core/Application.h"
-
-#include"ForgeDelta/Core/TimeStep.h"
+#include "ForgeDelta/Core/Events/Event.h"
+#include "ForgeDelta/Core/Window.h"
+#include "ForgeDelta/Core/Application.h"
+#include "ForgeDelta/Core/TimeStep.h"
 
 namespace ForgeDelta {
 
@@ -31,12 +28,21 @@ namespace ForgeDelta {
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;        // Enable Gamepad Controls
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
 
+    // When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
+    ImGuiStyle& style = ImGui::GetStyle();
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+      style.WindowRounding = 0.0f;
+      style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+    }
+
     // Setup Platform/Renderer bindings
-    auto &app = Application::Get();
+    auto& app = Application::Get();
     m_window = &app.GetWindow();
     ImGui_ImplGlfw_InitForOpenGL(m_window->GLFWWindow, true);
     ImGui_ImplOpenGL3_Init("#version 410");
@@ -59,21 +65,20 @@ namespace ForgeDelta {
   void ImGuiLayer::OnUpdate(TimeStep ts) {}
 
   void ImGuiLayer::OnImGuiRender() {
-
     static bool show = true;
     ImGui::ShowDemoWindow(&show);
-
   }
 
   void ImGuiLayer::Begin() {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
+
   }
 
   void ImGuiLayer::End() {
     ImGuiIO& io = ImGui::GetIO();
-    io.DisplaySize = ImVec2((float)m_window->Width,(float)m_window->Height);
+    io.DisplaySize = ImVec2((float)m_window->Width, (float)m_window->Height);
 
     // Rendering
     ImGui::Render();
