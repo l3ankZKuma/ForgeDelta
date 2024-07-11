@@ -143,8 +143,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ForgeDelta\Renderer\Context.h" />
     <ClInclude Include="src\ForgeDelta\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\ForgeDelta\Renderer\Renderer.h" />
+    <ClInclude Include="src\ForgeDelta\Renderer\RendererAPI.h" />
     <ClInclude Include="src\ForgeDelta\Renderer\RendererCommand.h" />
     <ClInclude Include="src\ForgeDelta\Renderer\Shader.h" />
     <ClInclude Include="src\ForgeDelta\Renderer\Buffer.h" />
@@ -170,6 +172,7 @@
     <ClInclude Include="src\ForgeDelta\Renderer\VertexArray.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ForgeDelta\Renderer\Context.cpp" />
     <ClCompile Include="src\ForgeDelta\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\ForgeDelta\Renderer\Renderer.cpp" />
     <ClCompile Include="src\ForgeDelta\Renderer\RendererCommand.cpp" />

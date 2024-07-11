@@ -3,7 +3,7 @@
 #include <functional>
 #include<string>
 
-class GLFWwindow;
+struct GLFWwindow;
 
 namespace ForgeDelta {
   class Event;
@@ -14,7 +14,7 @@ namespace ForgeDelta {
   using EventCallbackFn = std::function<void(Event&)>;
 
   struct Window {
-    std::string Title = "ForgeDelta";
+    const char * Title = "ForgeDelta";
     uint32_t Width = 1280;
     uint32_t Height = 720;
     bool VSync = true;

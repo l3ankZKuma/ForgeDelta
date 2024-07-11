@@ -37,7 +37,8 @@ namespace ForgeDelta {
     while (m_running) {  // Correct usage of m_running
 
       OnWindowClear(m_window);
-      float time = (float)glfwGetTime();
+
+      float time = static_cast<flaot>(glfwGetTime());
       timeStep = time - m_lastFrameTime;
       m_lastFrameTime = time;
 
@@ -48,8 +49,10 @@ namespace ForgeDelta {
       }
 
       m_imGuiLayer->Begin();
+
       for (Layer* layer : m_layerStack)
         layer->OnImGuiRender();
+
       m_imGuiLayer->End();
 
       OnWindowUpdate(m_window);  // Properly update the window

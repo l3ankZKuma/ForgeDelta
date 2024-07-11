@@ -31,13 +31,15 @@ namespace ForgeDelta {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    window->GLFWWindow = glfwCreateWindow(window->Width, window->Height, window->Title.c_str(), nullptr, nullptr);
+    window->GLFWWindow = glfwCreateWindow(window->Width, window->Height, window->Title, nullptr, nullptr);
     if (!window->GLFWWindow) {
       std::cerr << "Failed to create GLFW window!" << std::endl;
       return;
     }
 
     glfwMakeContextCurrent(window->GLFWWindow);
+    FD_CORE_INFO("Created Window");
+
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
       std::cerr << "Failed to initialize GLAD!" << std::endl;
       return;
