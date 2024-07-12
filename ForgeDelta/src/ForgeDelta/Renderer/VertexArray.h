@@ -15,7 +15,7 @@ namespace ForgeDelta {
     static void CreateVertexArray(VertexArrayData& vertexArrayData);
     static void DeleteVertexArray(VertexArrayData& vertexArrayData);
     static void BindVertexArray(const VertexArrayData& vertexArrayData);
-    static void UnbindVertexArray();
+    inline static void UnbindVertexArray(){glBindVertexArray(0);}
 
     static void AddVertexBuffer(VertexArrayData& vertexArrayData, VertexBufferData* vertexBufferData);
     static void SetIndexBuffer(VertexArrayData& vertexArrayData, IndexBufferData* indexBufferData);

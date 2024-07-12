@@ -1,6 +1,5 @@
 #include <ForgeDelta.h>
 #include "imgui.h"
-#include <iostream>
 
 class Layers : public ForgeDelta::Layer {
 public:
@@ -18,11 +17,14 @@ public:
       return;
     }
 
-    // Setup vertex data
+
+
     GLfloat vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-         0.5f, -0.5f, 0.0f,
-         0.0f,  0.5f, 0.0f
+      // Position      // Color
+      -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // Bottom-left vertex (red)
+       0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // Bottom-right vertex (green)
+       0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f   // Top vertex (blue)
+
     };
 
     GLuint indices[] = {
@@ -36,7 +38,8 @@ public:
     m_VertexBufferData.Data = vertices;
     m_VertexBufferData.Size = sizeof(vertices);
     m_VertexBufferData.Layout = {
-        { ForgeDelta::ShaderDataType::Float3, "a_Position" }
+        { ForgeDelta::ShaderDataType::Float3, "a_Position" },
+        { ForgeDelta::ShaderDataType::Float3, "a_Color" }
     };
     ForgeDelta::OpenGLBufferService::CreateVertexBuffer(m_VertexBufferData);
 
@@ -59,24 +62,15 @@ public:
 
   void OnUpdate(ForgeDelta::TimeStep ts) override {
     // Clear the color buffer with a default color
-    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+
 
     // Retrieve and bind the shader from the library
-    try {
-      const auto& shader = m_ShaderLibrary.Get("BasicShader");
-      std::cout << "Binding BasicShader..." << std::endl;
-      ForgeDelta::OpenGLShaderService::BindShader(shader, 0);
-    }
-    catch (const std::exception& e) {
-      std::cerr << "Error: " << e.what() << std::endl;
-      return;
-    }
+    const auto& BasicShader = m_ShaderLibrary.Get("BasicShader");
+    ForgeDelta::OpenGLShaderService::BindShader(BasicShader, m_ShaderLibrary.GetIndex("BasicShader"));
+    ForgeDelta::Renderer::Submit(m_VertexArrayData,BasicShader);
 
-    ForgeDelta::OpenGLVertexArrayService::BindVertexArray(m_VertexArrayData);
-    glDrawElements(GL_TRIANGLES, m_IndexBufferData.Count, GL_UNSIGNED_INT, nullptr);
-    ForgeDelta::OpenGLVertexArrayService::UnbindVertexArray();
-    ForgeDelta::OpenGLShaderService::UnbindShader();
+
+
   }
 
   void OnEvent(ForgeDelta::Event& e) override {}

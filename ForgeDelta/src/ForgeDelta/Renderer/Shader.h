@@ -45,6 +45,9 @@ namespace ForgeDelta {
     ShaderData Load(const char* filePath);
     ShaderData Load(const char* name, const char* filePath);
     const ShaderData& Get(const std::string& name) const;
+    inline GLuint GetIndex(const std::string& name) const {
+      return m_ShaderIndices.at(name); 
+    }
 
   private:
     std::unordered_map<std::string, GLuint> m_ShaderIndices;

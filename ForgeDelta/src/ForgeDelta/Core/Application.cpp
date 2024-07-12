@@ -8,6 +8,8 @@
 #include "ForgeDelta/ImGui/ImGuiLayer.h"
 
 #include"ForgeDelta/Core/Base.h"
+#include"ForgeDelta/Renderer/Renderer.h"
+#include"ForgeDelta/Renderer/RendererCommand.h"
 
 
 namespace ForgeDelta {
@@ -23,6 +25,10 @@ namespace ForgeDelta {
     PushOverlay(m_imGuiLayer);
 
 
+
+    Renderer::Init();
+
+
   }
 
   Application::~Application() {
@@ -33,26 +39,32 @@ namespace ForgeDelta {
   void Application::Run() {
     TimeStep timeStep;
 
+
+
+
     while (m_running) {  // Correct usage of m_running
 
-      OnWindowClear(m_window);
+      ForgeDelta::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+      ForgeDelta::RenderCommand::Clear();
 
-      float time = static_cast<float>(glfwGetTime());
-      timeStep = time - m_lastFrameTime;
-      m_lastFrameTime = time;
+      
+
+        float time = static_cast<float>(glfwGetTime());
+        timeStep = time - m_lastFrameTime;
+        m_lastFrameTime = time;
 
 
-      if (!m_minimized) {
+        if (!m_minimized) {
+          for (Layer* layer : m_layerStack)
+            layer->OnUpdate(timeStep);
+        }
+
+        m_imGuiLayer->Begin();
+
         for (Layer* layer : m_layerStack)
-          layer->OnUpdate(timeStep);
-      }
+          layer->OnImGuiRender();
 
-      m_imGuiLayer->Begin();
-
-      for (Layer* layer : m_layerStack)
-        layer->OnImGuiRender();
-
-      m_imGuiLayer->End();
+        m_imGuiLayer->End();
 
       OnWindowUpdate(m_window);  // Properly update the window
     }

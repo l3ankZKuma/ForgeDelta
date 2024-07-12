@@ -15,8 +15,17 @@
 #include "ForgeDelta/Renderer/Buffer.h"
 #include "ForgeDelta/Renderer/Shader.h"
 #include "ForgeDelta/Renderer/VertexArray.h"
-  
+
+
+#include"ForgeDelta/Renderer/Renderer.h"
+#include"ForgeDelta/Renderer/RendererCommand.h"
+#include"ForgeDelta/Renderer/RendererAPI.h"
+
 //----------------------------------------------
+
+
+
+
 
 
 //Manager

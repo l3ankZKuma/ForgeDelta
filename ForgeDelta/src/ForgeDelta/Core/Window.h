@@ -27,7 +27,6 @@ namespace ForgeDelta {
 
   void InitializeWindow(Window* windowData);
   void ShutdownWindow(Window* windowData);
-  void OnWindowClear(Window* windowData);
   void OnWindowUpdate(Window* windowData);
   void SetVSync(Window* windowData, bool enabled);
   void SetEventCallback(Window* windowData, const EventCallbackFn& callback);

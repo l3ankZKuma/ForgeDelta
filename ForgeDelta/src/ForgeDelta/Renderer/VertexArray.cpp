@@ -17,9 +17,6 @@ namespace ForgeDelta {
     glBindVertexArray(vertexArrayData.VAO);
   }
 
-  void OpenGLVertexArrayService::UnbindVertexArray() {
-    glBindVertexArray(0);
-  }
 
   void OpenGLVertexArrayService::AddVertexBuffer(VertexArrayData& vertexArrayData, VertexBufferData* vertexBufferData) {
     glBindVertexArray(vertexArrayData.VAO);

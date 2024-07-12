@@ -200,7 +200,7 @@ namespace ForgeDelta {
     for (GLuint i = 0; i < shaderData.Count; ++i) {
       const std::string& name = shaderData.Names[i];
       m_ShaderIndices[name] = m_Shaders.size();
-      m_Shaders.push_back(shaderData);
+      m_Shaders.emplace_back(shaderData);
     }
   }
 
