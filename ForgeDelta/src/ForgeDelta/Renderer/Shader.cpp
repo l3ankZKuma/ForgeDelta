@@ -1,98 +1,95 @@
-#include "fdpch.h"
+#include"fdpch.h"
 #include "Shader.h"
-#include "ForgeDelta/Core/Log.h"
-#include "ForgeDelta/Core/Base.h"
 
 namespace ForgeDelta {
+
+  MemoryPool::MemoryPool(size_t size) {
+    pool = std::malloc(size);
+  }
+
+  MemoryPool::~MemoryPool() {
+    std::free(pool);
+  }
+
+  void* MemoryPool::allocate(size_t size) {
+    if (!freeList.empty()) {
+      void* ptr = freeList.back();
+      freeList.pop_back();
+      return ptr;
+    }
+    return std::malloc(size);
+  }
+
+  void MemoryPool::deallocate(void* ptr) {
+    freeList.push_back(ptr);
+  }
 
   static GLenum ShaderTypeFromString(const std::string& type) {
     if (type == "vertex") return GL_VERTEX_SHADER;
     if (type == "fragment" || type == "pixel") return GL_FRAGMENT_SHADER;
-    FD_CORE_ASSERT(false, "Unknown shader type!");
+    std::cerr << "Unknown shader type!" << std::endl;
     return 0;
   }
 
-  void OpenGLShaderService::CreateShader(ShaderData& shaderData, GLuint count) {
-    shaderData.Count = count;
-    shaderData.Names.resize(count);
-    shaderData.RendererIDs.resize(count);
-    shaderData.UniformLocationCaches.resize(count);
-
-    for (GLuint i = 0; i < count; ++i) {
-      shaderData.RendererIDs[i] = glCreateProgram();  // Initialize each program ID
-      if (shaderData.RendererIDs[i] == 0) {
-        std::cerr << "Error creating shader program!" << std::endl;
-      }
+  void OpenGLShaderService::CreateShader(ShaderData& shaderData) {
+    shaderData.RendererID = glCreateProgram();
+    if (shaderData.RendererID == 0) {
+      std::cerr << "Error creating shader program!" << std::endl;
     }
   }
 
   void OpenGLShaderService::DeleteShader(ShaderData& shaderData) {
-    for (GLuint i = 0; i < shaderData.Count; ++i) {
-      glDeleteProgram(shaderData.RendererIDs[i]);
-    }
+    glDeleteProgram(shaderData.RendererID);
   }
 
-  void OpenGLShaderService::BindShader(const ShaderData& shaderData, GLuint index) {
-    if (index >= shaderData.RendererIDs.size()) {
-      std::cerr << "BindShader error: index " << index << " out of range. RendererIDs size: " << shaderData.RendererIDs.size() << std::endl;
-      return;
-    }
-    glUseProgram(shaderData.RendererIDs[index]);
+  void OpenGLShaderService::BindShader(const ShaderData& shaderData) {
+    glUseProgram(shaderData.RendererID);
   }
 
-  GLuint OpenGLShaderService::GetUniformLocation(ShaderData& shaderData, GLuint index, const char* name) {
-    if (index >= shaderData.UniformLocationCaches.size()) {
-      std::cerr << "GetUniformLocation error: index " << index << " out of range. UniformLocationCaches size: " << shaderData.UniformLocationCaches.size() << std::endl;
-      return -1;
-    }
-    auto& uniformCache = shaderData.UniformLocationCaches[index];
+  GLuint OpenGLShaderService::GetUniformLocation(ShaderData& shaderData, const char* name) {
+    auto& uniformCache = shaderData.UniformLocationCache;
     if (uniformCache.find(name) != uniformCache.end()) {
       return uniformCache[name];
     }
 
-    if (index >= shaderData.RendererIDs.size()) {
-      std::cerr << "GetUniformLocation error: index " << index << " out of range. RendererIDs size: " << shaderData.RendererIDs.size() << std::endl;
-      return -1;
-    }
-
-    GLuint location = glGetUniformLocation(shaderData.RendererIDs[index], name);
+    GLuint location = glGetUniformLocation(shaderData.RendererID, name);
     uniformCache[name] = location;
 
     return location;
   }
 
-  void OpenGLShaderService::UploadUniformInt(ShaderData& shaderData, GLuint index, const char* name, int value) {
-    GLuint location = GetUniformLocation(shaderData, index, name);
+  void OpenGLShaderService::UploadUniformInt(ShaderData& shaderData, const char* name, int value) {
+    GLuint location = GetUniformLocation(shaderData, name);
     glUniform1i(location, value);
   }
 
-  void OpenGLShaderService::UploadUniformIntArray(ShaderData& shaderData, GLuint index, const char* name, int* values, uint32_t count) {
-    GLuint location = GetUniformLocation(shaderData, index, name);
+  void OpenGLShaderService::UploadUniformIntArray(ShaderData& shaderData, const char* name, int* values, uint32_t count) {
+    GLuint location = GetUniformLocation(shaderData, name);
     glUniform1iv(location, count, values);
   }
 
-  void OpenGLShaderService::UploadUniformFloat(ShaderData& shaderData, GLuint index, const char* name, float value) {
-    GLuint location = GetUniformLocation(shaderData, index, name);
+  void OpenGLShaderService::UploadUniformFloat(ShaderData& shaderData, const char* name, float value) {
+    GLuint location = GetUniformLocation(shaderData, name);
     glUniform1f(location, value);
   }
 
-  void OpenGLShaderService::UploadUniformFloat2(ShaderData& shaderData, GLuint index, const char* name, const glm::vec2& value) {
-    GLuint location = GetUniformLocation(shaderData, index, name);
+  void OpenGLShaderService::UploadUniformFloat2(ShaderData& shaderData, const char* name, const glm::vec2& value) {
+    GLuint location = GetUniformLocation(shaderData, name);
     glUniform2f(location, value.x, value.y);
   }
 
-  void OpenGLShaderService::UploadUniformFloat3(ShaderData& shaderData, GLuint index, const char* name, const glm::vec3& value) {
-    GLuint location = GetUniformLocation(shaderData, index, name);
+  void OpenGLShaderService::UploadUniformFloat3(ShaderData& shaderData, const char* name, const glm::vec3& value) {
+    GLuint location = GetUniformLocation(shaderData, name);
     glUniform3f(location, value.x, value.y, value.z);
   }
 
-  void OpenGLShaderService::UploadUniformFloat4(ShaderData& shaderData, GLuint index, const char* name, const glm::vec4& value) {
-    GLuint location = GetUniformLocation(shaderData, index, name);
+  void OpenGLShaderService::UploadUniformFloat4(ShaderData& shaderData, const char* name, const glm::vec4& value) {
+    GLuint location = GetUniformLocation(shaderData, name);
     glUniform4f(location, value.x, value.y, value.z, value.w);
   }
 
-  void OpenGLShaderService::UploadUniformMat4(ShaderData& shaderData, GLuint index, const char* name, const glm::mat4& value) {
-    GLuint location = GetUniformLocation(shaderData, index, name);
+  void OpenGLShaderService::UploadUniformMat4(ShaderData& shaderData, const char* name, const glm::mat4& value) {
+    GLuint location = GetUniformLocation(shaderData, name);
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
   }
 
@@ -156,7 +153,6 @@ namespace ForgeDelta {
         glGetShaderInfoLog(shader, maxLength, &maxLength, infoLog.data());
 
         glDeleteShader(shader);
-        FD_CORE_ERROR("Shader compilation failed: {0}", infoLog.data());
         std::cerr << "Shader compilation failed: " << infoLog.data() << std::endl;
         return;
       }
@@ -177,7 +173,6 @@ namespace ForgeDelta {
       glGetProgramInfoLog(program, maxLength, &maxLength, infoLog.data());
 
       glDeleteProgram(program);
-      FD_CORE_ERROR("Program linking failed: {0}", infoLog.data());
       std::cerr << "Program linking failed: " << infoLog.data() << std::endl;
 
       for (size_t i = 0; i < shaderCount; ++i) {
@@ -193,60 +188,60 @@ namespace ForgeDelta {
     }
   }
 
+  ShaderLibrary::ShaderLibrary() : m_MemoryPool(1024 * 1024) {}
+
+  ShaderLibrary::~ShaderLibrary() {}
+
   void ShaderLibrary::Add(ShaderData& shaderData) {
-    for (GLuint i = 0; i < shaderData.Count; ++i) {
-      const std::string& name = shaderData.Names[i];
-      m_ShaderIndices[name] = m_Shaders.size();
-      m_Shaders.emplace_back(shaderData);
-    }
+    const std::string& name = shaderData.Name;
+    m_ShaderIndices[name] = m_Shaders.size();
+    m_Shaders.emplace_back(shaderData);
   }
 
   ShaderData ShaderLibrary::Load(const char* filePath) {
     ShaderData shaderData;
-    GLuint count = ++m_ShaderCount; // Increment the shader count
-    OpenGLShaderService::CreateShader(shaderData, count); // Use the new count value
+    OpenGLShaderService::CreateShader(shaderData);
     std::string source = OpenGLShaderService::ReadFile(filePath);
     if (source.empty()) {
-      FD_CORE_ERROR("Shader source is empty!");
+      std::cerr << "Shader source is empty!" << std::endl;
       return shaderData;
     }
     auto shaderSources = OpenGLShaderService::Preprocess(source);
     GLuint program = glCreateProgram();
     OpenGLShaderService::Compile(program, shaderSources);
-    shaderData.RendererIDs[count - 1] = program;
+    shaderData.RendererID = program;
 
     auto lastSlash = std::string(filePath).find_last_of("/\\");
     lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
     auto lastDot = std::string(filePath).rfind('.');
     auto nameLength = lastDot == std::string::npos ? std::string(filePath).size() - lastSlash : lastDot - lastSlash;
-    shaderData.Names[count - 1] = std::string(filePath).substr(lastSlash, nameLength);
+    shaderData.Name = std::string(filePath).substr(lastSlash, nameLength);
 
-    std::cout << "Adding shader: " << shaderData.Names[count - 1] << std::endl;
+    std::cout << "Adding shader: " << shaderData.Name << std::endl;
     Add(shaderData);
     return shaderData;
   }
 
   ShaderData ShaderLibrary::Load(const char* name, const char* filePath) {
     ShaderData shaderData;
-    GLuint count = ++m_ShaderCount; // Increment the shader count
-    OpenGLShaderService::CreateShader(shaderData, count); // Use the new count value
+    OpenGLShaderService::CreateShader(shaderData);
     std::string source = OpenGLShaderService::ReadFile(filePath);
     if (source.empty()) {
-      FD_CORE_ERROR("Shader source is empty!");
+      std::cerr << "Shader source is empty!" << std::endl;
       return shaderData;
     }
     auto shaderSources = OpenGLShaderService::Preprocess(source);
     GLuint program = glCreateProgram();
     OpenGLShaderService::Compile(program, shaderSources);
-    shaderData.RendererIDs[count - 1] = program;
-    shaderData.Names[count - 1] = name;
+    shaderData.RendererID = program;
+    shaderData.Name = name;
 
     std::cout << "Adding shader: " << name << std::endl;
     Add(shaderData);
     return shaderData;
   }
 
-  ShaderData& ShaderLibrary::Get(const std::string& name) {  // Change const to non-const
+  ShaderData& ShaderLibrary::Get(const std::string& name) {
     auto it = m_ShaderIndices.find(name);
     if (it != m_ShaderIndices.end()) {
       GLuint index = it->second;
@@ -255,5 +250,4 @@ namespace ForgeDelta {
     throw std::runtime_error("Shader not found!");
   }
 
-
-} // namespace ForgeDelta
+}
