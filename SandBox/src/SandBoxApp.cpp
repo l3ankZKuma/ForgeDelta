@@ -1,6 +1,7 @@
 #include <ForgeDelta.h>
 #include "imgui.h"
 
+
 class Layers : public ForgeDelta::Layer {
 public:
   Layers() : Layer("Layers") {}
@@ -61,19 +62,36 @@ public:
   }
 
   void OnUpdate(ForgeDelta::TimeStep ts) override {
-    // Clear the color buffer with a default color
+
+    m_CameraController.OnUpdate(ts);
+
+    ForgeDelta::Renderer::BeginScene(m_CameraController.GetCamera());
+
+    {
+
+      // Clear the color buffer with a default color
+
+      // Retrieve and bind the shader from the library
+      auto& BasicShader = m_ShaderLibrary.Get("BasicShader");
+      auto shaderIndex = m_ShaderLibrary.GetIndex("BasicShader");
+      // Submit to the renderer
+      ForgeDelta::Renderer::Submit(m_VertexArrayData, BasicShader, shaderIndex, m_model);
 
 
-    // Retrieve and bind the shader from the library
-    const auto& BasicShader = m_ShaderLibrary.Get("BasicShader");
-    ForgeDelta::OpenGLShaderService::BindShader(BasicShader, m_ShaderLibrary.GetIndex("BasicShader"));
-    ForgeDelta::Renderer::Submit(m_VertexArrayData,BasicShader);
 
+    }
+
+    ForgeDelta::Renderer::EndScene();
+  }
+
+
+  void OnEvent(ForgeDelta::Event& e) override {
+    
+    ForgeDelta::EventDispatcher dispatcher(e);
+    m_CameraController.OnEvent(e);
 
 
   }
-
-  void OnEvent(ForgeDelta::Event& e) override {}
 
   void OnImGuiRender() override {
     ImGui::Begin("Settings");
@@ -86,7 +104,17 @@ private:
   ForgeDelta::VertexArrayData m_VertexArrayData;
   ForgeDelta::VertexBufferData m_VertexBufferData;
   ForgeDelta::IndexBufferData m_IndexBufferData;
+  
+  glm::mat4 m_model{1.0f};
+
+  ForgeDelta::OrthographicCamera2DController m_CameraController{ 16.0f / 9.0f, true };
+
+
+
+  
 };
+
+
 
 class SandBox : public ForgeDelta::Application {
 public:

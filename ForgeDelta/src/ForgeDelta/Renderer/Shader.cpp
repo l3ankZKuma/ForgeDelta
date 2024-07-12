@@ -2,9 +2,6 @@
 #include "Shader.h"
 #include "ForgeDelta/Core/Log.h"
 #include "ForgeDelta/Core/Base.h"
-#include <iostream>
-#include <fstream>
-#include <vector>
 
 namespace ForgeDelta {
 
@@ -249,14 +246,14 @@ namespace ForgeDelta {
     return shaderData;
   }
 
-  const ShaderData& ShaderLibrary::Get(const std::string& name) const {
+  ShaderData& ShaderLibrary::Get(const std::string& name) {  // Change const to non-const
     auto it = m_ShaderIndices.find(name);
     if (it != m_ShaderIndices.end()) {
       GLuint index = it->second;
       return m_Shaders[index];
     }
-    // Handle case where shader is not found.
     throw std::runtime_error("Shader not found!");
   }
+
 
 } // namespace ForgeDelta

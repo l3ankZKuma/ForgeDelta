@@ -18,7 +18,7 @@ namespace ForgeDelta {
     static void CreateShader(ShaderData& shaderData, GLuint count);
     static void DeleteShader(ShaderData& shaderData);
     static void BindShader(const ShaderData& shaderData, GLuint index);
-    inline static void UnbindShader(){ glUseProgram(0);}
+    inline static void UnbindShader() { glUseProgram(0); }
 
     static void UploadUniformInt(ShaderData& shaderData, GLuint index, const char* name, int value);
     static void UploadUniformIntArray(ShaderData& shaderData, GLuint index, const char* name, int* values, uint32_t count);
@@ -36,6 +36,7 @@ namespace ForgeDelta {
     static GLuint GetUniformLocation(ShaderData& shaderData, GLuint index, const char* name);
   };
 
+
   class ShaderLibrary {
   public:
     ShaderLibrary() = default;
@@ -44,7 +45,7 @@ namespace ForgeDelta {
     void Add(ShaderData& shaderData);
     ShaderData Load(const char* filePath);
     ShaderData Load(const char* name, const char* filePath);
-    const ShaderData& Get(const std::string& name) const;
+    ShaderData& Get(const std::string& name);
     inline GLuint GetIndex(const std::string& name) const {
       return m_ShaderIndices.at(name); 
     }

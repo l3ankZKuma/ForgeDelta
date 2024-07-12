@@ -25,6 +25,13 @@
 
 
 
+//------------------[Camera]------------------
+
+#include"ForgeDelta/Renderer/Camera/Orthographic2DCamera.h"
+#include"ForgeDelta/Core/OrthographicCamera2DController.h"
+
+
+//----------------------------------------------
 
 
 

@@ -17,9 +17,9 @@ namespace ForgeDelta {
 		static void OnWindowResize(uint32_t width, uint32_t height);
 		static void Shutdown();
 
-		static void Submit(VertexArrayData & VAO,const ShaderData &shader); 
+		static void Submit(VertexArrayData & VAO, ShaderData &shader,uint32_t index,const glm::mat4 & transform); 
 
-		static void BeginScene(/*const Orthographic2DCamera& camera*/);
+		static void BeginScene(const Orthographic2DCamera& camera);
 		static void EndScene();
 
 
@@ -30,7 +30,7 @@ namespace ForgeDelta {
 			glm::mat4 ViewProjectionMatrix;
 		};
 
-		inline static SceneData* s_SceneData = new SceneData;
+		inline static SceneData* s_SceneData{ new SceneData };
 
 	};
 
