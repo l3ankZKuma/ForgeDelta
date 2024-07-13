@@ -50,6 +50,7 @@ public:
      0.5f,  0.5f, 0.0f,  1.0f, 1.0f, 1.0f,  0.0f, 1.0f   // Top-left vertex (gray)
     };
 
+
     GLuint logoIndices[] = {
         0, 1, 2,
         2, 3, 0
@@ -96,15 +97,15 @@ public:
 
 
 
-
       auto& BasicShader = m_ShaderLibrary.Get("BasicShader");
       ForgeDelta::Renderer::Submit(m_VertexArrayData, BasicShader, m_model);
+
 
       auto& TextureShader = m_ShaderLibrary.Get("Texture");
       ForgeDelta::OpenGLShaderService::BindShader(TextureShader);
       ForgeDelta::g_TextureSystem.BindTexture(m_LogoTextureID);
       ForgeDelta::OpenGLShaderService::UploadUniformInt(TextureShader, "texture1", 0);
-      ForgeDelta::Renderer::Submit(m_LogoVertexArrayData, TextureShader, m_model);
+      ForgeDelta::Renderer::Submit(m_LogoVertexArrayData, TextureShader,m_model);
    
     
     

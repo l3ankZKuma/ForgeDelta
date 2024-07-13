@@ -25,6 +25,7 @@ namespace ForgeDelta {
   void Renderer::EndScene() {}
 
   void Renderer::Submit(VertexArrayData& VAO, ShaderData& shader, const glm::mat4& transform) {
+    
     OpenGLShaderService::BindShader(shader);
     OpenGLShaderService::UploadUniformMat4(shader, "model", transform);
     OpenGLShaderService::UploadUniformMat4(shader, "vp", s_SceneData->ViewProjectionMatrix);
