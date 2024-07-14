@@ -32,7 +32,7 @@ namespace ForgeDelta {
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    static void DrawIndexed(VertexArrayData & vertexArray) {
+    static void DrawIndexed(VertexArrayData& vertexArray) {
       const auto& count = vertexArray.IndexBuffer->Count;
       glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
     }

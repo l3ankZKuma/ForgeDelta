@@ -35,7 +35,7 @@ public:
         { ForgeDelta::ShaderDataType::Float3, "a_Position" },
         { ForgeDelta::ShaderDataType::Float3, "a_Color" }
     };
-    ForgeDelta::OpenGLBufferService::CreateVertexBuffer(m_VertexB`ufferData);
+    ForgeDelta::OpenGLBufferService::CreateVertexBuffer(m_VertexBufferData);
 
     // Index Buffer
     m_IndexBufferData.Data = indices;
