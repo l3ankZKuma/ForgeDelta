@@ -123,7 +123,7 @@ project "Sandbox"
         "%{IncludeDir.glad}",
         "%{IncludeDir.glfw}",
         "%{IncludeDir.EASTL}",
-        "%{IncludeDir.EABase}"
+        "%{IncludeDir.EABase}",
     }
 
     links

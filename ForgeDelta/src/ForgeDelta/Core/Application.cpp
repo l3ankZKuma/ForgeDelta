@@ -105,7 +105,8 @@ namespace ForgeDelta {
     if (e.GetWidth() == 0 || e.GetHeight() == 0) {
       m_minimized = true;
       return true;
-    }
+    } 
+    Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
     m_minimized = false;
     return false;
   }
