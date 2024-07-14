@@ -180,28 +180,84 @@ public:
   SandBox2D() : Layer("SandBox2D") {}
   virtual ~SandBox2D() = default;
 
-  void OnAttach() {
+  void OnAttach() override {
+    m_ShaderLibrary.Load("Grid", "assets/shaders/Grid.glsl");
 
+    GLfloat gridVertices[] = {
+      -1.0f, -1.0f, 0.0f,  0.0f, 0.0f, 0.0f,  0.0f, 0.0f,  // Bottom-left vertex (black)
+       1.0f, -1.0f, 0.0f,  0.0f, 0.0f, 0.0f,  1.0f, 0.0f,  // Bottom-right vertex (black)
+       1.0f,  1.0f, 0.0f,  0.0f, 0.0f, 0.0f,  1.0f, 1.0f,  // Top-right vertex (black)
+      -1.0f,  1.0f, 0.0f,  0.0f, 0.0f, 0.0f,  0.0f, 1.0f   // Top-left vertex (black)
+    };
+
+    GLuint gridIndices[] = {
+        0, 1, 2,
+        2, 3, 0
+    };
+
+    ForgeDelta::BufferLayout gridLayout = {
+      { ForgeDelta::ShaderDataType::Float3, "a_Position" },
+      { ForgeDelta::ShaderDataType::Float3, "a_Color" },
+      { ForgeDelta::ShaderDataType::Float2, "a_TexCoord" }
+    };
+
+    SetupBuffers(m_GridVAO, m_GridVBO, m_GridEBO, gridVertices, sizeof(gridVertices), gridIndices, sizeof(gridIndices), gridLayout);
   }
-  void OnDetach() {
 
-
+  void OnDetach() override {
+    // Cleanup code if needed
   }
-  void OnUpdate(ForgeDelta::TimeStep ts) {
 
+  void OnUpdate(ForgeDelta::TimeStep ts) override {
+    m_CameraController.OnUpdate(ts);
+    ForgeDelta::Renderer::BeginScene(m_CameraController.GetCamera());
 
+    {
+      auto& GridShader = m_ShaderLibrary.Get("Grid");
+      ForgeDelta::OpenGLShaderService::BindShader(GridShader);
+      ForgeDelta::OpenGLShaderService::UploadUniformFloat4(GridShader, "uColor", uColor);
+      ForgeDelta::Renderer::Submit(m_GridVAO, GridShader, glm::mat4(1.f));
+    }
+
+    ForgeDelta::Renderer::EndScene();
   }
-  void OnEvent(ForgeDelta::Event& e) {
 
-
+  void OnEvent(ForgeDelta::Event& e) override {
+    ForgeDelta::EventDispatcher dispatcher(e);
+    m_CameraController.OnEvent(e);
   }
-  void OnImGuiRender()  {
 
-
+  void OnImGuiRender() override {
+    ImGui::Begin("Settings");
+    ImGui::ColorEdit4("Grid Color", glm::value_ptr(uColor));
+    ImGui::End();
   }
 
 private:
-  // Add member variables here if needed
+  ForgeDelta::ShaderLibrary m_ShaderLibrary;
+  VAO m_GridVAO;
+  VBO m_GridVBO;
+  EBO m_GridEBO;
+  ForgeDelta::OrthographicCamera2DController m_CameraController{ 16.0f / 9.0f, true };
+  glm::vec4 uColor{ 0.2f, 0.3f, 0.8f, 1.0f };
+
+  void SetupBuffers(VAO& vao, VBO& vbo, EBO& ebo, GLfloat* vertices, size_t verticesSize,
+    GLuint* indices, size_t indicesSize, const ForgeDelta::BufferLayout& layout) {
+    ForgeDelta::OpenGLVertexArrayService::CreateVertexArray(vao);
+
+    vbo.Data = vertices;
+    vbo.Size = verticesSize;
+    vbo.Layout = layout;
+    ForgeDelta::OpenGLBufferService::CreateVertexBuffer(vbo);
+
+    ebo.Data = indices;
+    ebo.Size = indicesSize;
+    ebo.Count = indicesSize / sizeof(GLuint);
+    ForgeDelta::OpenGLBufferService::CreateIndexBuffer(ebo);
+
+    ForgeDelta::OpenGLVertexArrayService::AddVertexBuffer(vao, &vbo);
+    ForgeDelta::OpenGLVertexArrayService::SetIndexBuffer(vao, &ebo);
+  }
 };
 
 
