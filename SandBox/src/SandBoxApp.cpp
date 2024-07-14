@@ -25,27 +25,12 @@ public:
         0, 1, 2
     };
 
-    // Vertex Array
-    ForgeDelta::OpenGLVertexArrayService::CreateVertexArray(m_VertexArrayData);
-
-    // Vertex Buffer
-    m_VertexBufferData.Data = vertices;
-    m_VertexBufferData.Size = sizeof(vertices);
-    m_VertexBufferData.Layout = {
+    ForgeDelta::BufferLayout layout = {
         { ForgeDelta::ShaderDataType::Float3, "a_Position" },
         { ForgeDelta::ShaderDataType::Float3, "a_Color" }
     };
-    ForgeDelta::OpenGLBufferService::CreateVertexBuffer(m_VertexBufferData);
 
-    // Index Buffer
-    m_IndexBufferData.Data = indices;
-    m_IndexBufferData.Size = sizeof(indices);
-    m_IndexBufferData.Count = 3;
-    ForgeDelta::OpenGLBufferService::CreateIndexBuffer(m_IndexBufferData);
-
-    // Add buffers to vertex array
-    ForgeDelta::OpenGLVertexArrayService::AddVertexBuffer(m_VertexArrayData, &m_VertexBufferData);
-    ForgeDelta::OpenGLVertexArrayService::SetIndexBuffer(m_VertexArrayData, &m_IndexBufferData);
+    SetupBuffers(m_VertexArrayData, m_VertexBufferData, m_IndexBufferData, vertices, sizeof(vertices), indices, sizeof(indices), layout);
 
     //----------------------------------------------------------------------------------------------------------------------------
 
@@ -61,26 +46,13 @@ public:
         2, 3, 0
     };
 
-    // Vertex Array
-    ForgeDelta::OpenGLVertexArrayService::CreateVertexArray(m_LogoVertexArrayData);
-
-    m_LogoVertexBufferData.Data = logoVertices;
-    m_LogoVertexBufferData.Size = sizeof(logoVertices);
-    m_LogoVertexBufferData.Layout = {
-        { ForgeDelta::ShaderDataType::Float3, "a_Position" },
-        { ForgeDelta::ShaderDataType::Float3, "a_Color" },
-        { ForgeDelta::ShaderDataType::Float2, "a_TexCoord" }
+    ForgeDelta::BufferLayout logoLayout = {
+      { ForgeDelta::ShaderDataType::Float3, "a_Position" },
+      { ForgeDelta::ShaderDataType::Float3, "a_Color" },
+      { ForgeDelta::ShaderDataType::Float2, "a_TexCoord" }
     };
-    ForgeDelta::OpenGLBufferService::CreateVertexBuffer(m_LogoVertexBufferData);
 
-    m_LogoIndexBufferData.Data = logoIndices;
-    m_LogoIndexBufferData.Size = sizeof(logoIndices);
-    m_LogoIndexBufferData.Count = 6;
-    ForgeDelta::OpenGLBufferService::CreateIndexBuffer(m_LogoIndexBufferData);
-
-    ForgeDelta::OpenGLVertexArrayService::AddVertexBuffer(m_LogoVertexArrayData, &m_LogoVertexBufferData);
-    ForgeDelta::OpenGLVertexArrayService::SetIndexBuffer(m_LogoVertexArrayData, &m_LogoIndexBufferData);
-
+    SetupBuffers(m_LogoVertexArrayData, m_LogoVertexBufferData, m_LogoIndexBufferData, logoVertices, sizeof(logoVertices), logoIndices, sizeof(logoIndices), logoLayout);
     m_LogoTextureID = ForgeDelta::g_TextureSystem.CreateTexture2D("assets/textures/TwitterLogo.png");
 
     //----------------------------------------------------------------------------------------------------------------------------
@@ -97,25 +69,7 @@ public:
         2, 3, 0
     };
 
-    ForgeDelta::OpenGLVertexArrayService::CreateVertexArray(m_CheckBoardVAO);
-
-    m_CheckBoardVBO.Data = checkerVertices;
-    m_CheckBoardVBO.Size = sizeof(checkerVertices);
-    m_CheckBoardVBO.Layout = {
-        { ForgeDelta::ShaderDataType::Float3, "a_Position" },
-        { ForgeDelta::ShaderDataType::Float3, "a_Color" },
-        { ForgeDelta::ShaderDataType::Float2, "a_TexCoord" }
-    };
-    ForgeDelta::OpenGLBufferService::CreateVertexBuffer(m_CheckBoardVBO);
-
-    m_CheckBoardEBO.Data = checkerIndices;
-    m_CheckBoardEBO.Size = sizeof(checkerIndices);
-    m_CheckBoardEBO.Count = 6;
-    ForgeDelta::OpenGLBufferService::CreateIndexBuffer(m_CheckBoardEBO);
-
-    ForgeDelta::OpenGLVertexArrayService::AddVertexBuffer(m_CheckBoardVAO, &m_CheckBoardVBO);
-    ForgeDelta::OpenGLVertexArrayService::SetIndexBuffer(m_CheckBoardVAO, &m_CheckBoardEBO);
-
+    SetupBuffers(m_CheckBoardVAO, m_CheckBoardVBO, m_CheckBoardEBO, checkerVertices, sizeof(checkerVertices), checkerIndices, sizeof(checkerIndices), logoLayout);
     m_CheckBoardTextureID = ForgeDelta::g_TextureSystem.CreateTexture2D("assets/textures/CheckerBoard.png");
 
     //----------------------------------------------------------------------------------------------------------------------------
@@ -193,6 +147,26 @@ private:
   glm::mat4 m_model{ 1.0f };
 
   ForgeDelta::OrthographicCamera2DController m_CameraController{ 16.0f / 9.0f, true };
+
+  private:
+
+    void SetupBuffers(VAO& vao, VBO& vbo, EBO& ebo,GLfloat* vertices, size_t verticesSize,
+      GLuint* indices, size_t indicesSize, const ForgeDelta::BufferLayout& layout) {
+      ForgeDelta::OpenGLVertexArrayService::CreateVertexArray(vao);
+
+      vbo.Data = vertices;
+      vbo.Size = verticesSize;
+      vbo.Layout = layout;
+      ForgeDelta::OpenGLBufferService::CreateVertexBuffer(vbo);
+
+      ebo.Data = indices;
+      ebo.Size = indicesSize;
+      ebo.Count = indicesSize / sizeof(GLuint);
+      ForgeDelta::OpenGLBufferService::CreateIndexBuffer(ebo);
+
+      ForgeDelta::OpenGLVertexArrayService::AddVertexBuffer(vao, &vbo);
+      ForgeDelta::OpenGLVertexArrayService::SetIndexBuffer(vao, &ebo);
+    }
 };
 
 class SandBox : public ForgeDelta::Application {
