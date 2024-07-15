@@ -1,25 +1,31 @@
 #type vertex
-#version 420
+#version 410 core
 
-layout(location = 0) in vec3 aPos;
-layout(location =1) in vec3 aNormal;
-layout(location = 2) in vec2 aTexCoord;
-uniform mat4 vp;
-uniform mat4 model;
+layout(location = 0) in vec3 a_Position;
+layout(location= 1) in vec3 a_Color;
+layout(location =2) in vec2 a_TexCoord;
+
 out vec2 ourTexCoord;
 
-void main() {
-  gl_Position = vp * model * vec4(aPos, 1.0);
-  ourTexCoord = aTexCoord;
+uniform mat4 u_ViewProjection;
+uniform mat4 u_Transform;
+
+void main()
+{
+	gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+	ourTexCoord = a_TexCoord;
+
 }
 
 #type fragment
-#version 420 core
+#version 410 core
 
-out vec4 fragColor;
 in vec2 ourTexCoord;
-uniform sampler2D texture1;
+uniform sampler2D u_Texture;
+out vec4 FragColor;
 
-void main() {
-  fragColor = texture(texture1, ourTexCoord);
+void main()
+{
+	FragColor = texture(u_Texture, ourTexCoord);
+
 }

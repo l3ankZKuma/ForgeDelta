@@ -199,6 +199,8 @@ public:
       ForgeDelta::Renderer2D::DrawQuad(glm::vec2(1.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)); // Green Quad
       ForgeDelta::Renderer2D::DrawQuad(glm::vec2(0.0f, 1.0f), glm::vec2(1.0f, 1.0f), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)); // Blue Quad
 
+      //Texure
+      ForgeDelta::Renderer2D::DrawQuad(glm::vec2(1.0f, 1.0f), glm::vec2(1.f, 1.f), m_CheckerBoardTextureID);
     }
     ForgeDelta::Renderer2D::EndScene();
   }
@@ -217,6 +219,8 @@ public:
 private:
   ForgeDelta::OrthographicCamera2DController m_CameraController{ 16.0f / 9.0f, true };
   glm::vec4 uColor{ 0.2f, 0.3f, 0.8f, 1.0f };
+
+  uint32_t m_CheckerBoardTextureID = ForgeDelta::g_TextureSystem.CreateTexture2D("assets/textures/CheckerBoard.png");
 };
 
 
