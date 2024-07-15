@@ -15,7 +15,8 @@ public:
     // Load the shader from the file
     m_ShaderLibrary.Load("BasicShader", "assets/shaders/BasicShader.glsl");
     m_ShaderLibrary.Load("Texture", "assets/shaders/Texture.glsl");
-    m_ShaderLibrary.Load("Grid", "assets / shaders / Grid.glsl");
+    m_ShaderLibrary.Load("Grid", "assets/shaders/Grid.glsl");
+    m_ShaderLibrary.Load("Quad", "assets/shaders/Quad.glsl");
 
     GLfloat vertices[] = {
       // Position      // Color
@@ -182,29 +183,33 @@ public:
   virtual ~SandBox2D() = default;
 
   void OnAttach() override {
+   // FD_SCOPE_TIMER("SandBox2D::OnAttach");
     ForgeDelta::Renderer2D::Init();
   }
 
   void OnDetach() override {
+    //FD_SCOPE_TIMER("SandBox2D::OnDetach");
     ForgeDelta::Renderer2D::Shutdown();
   }
 
   void OnUpdate(ForgeDelta::TimeStep ts) override {
-
-    ForgeDelta::Timer timer("SandBox2D::OnUpdate");
+    FD_SCOPE_PERF("SandBox2D::OnUpdate");
 
     m_CameraController.OnUpdate(ts);
     ForgeDelta::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
     {
+      FD_SCOPE_PERF("Renderer2D::Draw");
+
       // Example usage of Renderer2D to draw quads
       ForgeDelta::Renderer2D::DrawQuad(glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)); // Red Quad
       ForgeDelta::Renderer2D::DrawQuad(glm::vec2(1.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)); // Green Quad
-      ForgeDelta::Renderer2D::DrawQuad(glm::vec3(0.0f, 1.0f,-1.f), glm::vec2(1.0f, 1.0f), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)); // Blue Quad
+      ForgeDelta::Renderer2D::DrawQuad(glm::vec3(0.0f, 1.0f, -1.f), glm::vec2(1.0f, 1.0f), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)); // Blue Quad
 
-      //Texure
+      // Texture
       ForgeDelta::Renderer2D::DrawQuad(glm::vec2(1.0f, 1.0f), glm::vec2(10.f, 10.f), m_CheckerBoardTextureID);
     }
+
     ForgeDelta::Renderer2D::EndScene();
   }
 
@@ -216,6 +221,13 @@ public:
   void OnImGuiRender() override {
     ImGui::Begin("Settings");
     ImGui::ColorEdit4("Grid Color", glm::value_ptr(uColor));
+
+    ImGui::Text("Profiling Results:");
+    const auto& data = ForgeDelta::Application::Get().GetPerformanceProfiler().GetPerFrameData();
+    for (const auto& result : data) {
+      ImGui::Text("%s: %f ms ", result.first.c_str(), result.second.Time / result.second.Samples);
+    }
+
     ImGui::End();
   }
 
@@ -224,17 +236,13 @@ private:
   glm::vec4 uColor{ 0.2f, 0.3f, 0.8f, 1.0f };
 
   uint32_t m_CheckerBoardTextureID = ForgeDelta::g_TextureSystem.CreateTexture2D("assets/textures/CheckerBoard.png");
-
-
 };
-
-
 
 
 class SandBox : public ForgeDelta::Application {
 public:
   SandBox() {
-    //PushLayer(new ExampleLayer());
+   // PushLayer(new ExampleLayer());
     PushLayer(new SandBox2D());
   }
 
