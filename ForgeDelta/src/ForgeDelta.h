@@ -1,5 +1,6 @@
 #pragma once
 
+//------------------[Core]----------------------
 
 #include "ForgeDelta/Core/Application.h"
 #include "ForgeDelta/Core/Layer.h"
@@ -9,7 +10,11 @@
 #include "ForgeDelta/Core/TimeStep.h"
 #include "ForgeDelta/Core/Window.h"
 
+#include"ForgeDelta/Core/Timer.h"
+
+
 //------------------[Renderer]------------------
+
 
 #include "ForgeDelta/Renderer/Renderer.h"
 #include "ForgeDelta/Renderer/Buffer.h"
@@ -25,8 +30,12 @@
 #include"ForgeDelta/Renderer/Renderer2D.h"
 
 
-#include"ForgeDelta/Core/Timer.h"
-//----------------------------------------------
+
+//-------------------[Debug}--------------------
+
+
+#include "ForgeDelta/Debug/Instrumentor.h"
+
 
 
 

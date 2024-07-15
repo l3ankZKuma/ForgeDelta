@@ -177,29 +177,39 @@ private:
 
 
 
+
 class SandBox2D : public ForgeDelta::Layer {
 public:
   SandBox2D() : Layer("SandBox2D") {}
   virtual ~SandBox2D() = default;
 
   void OnAttach() override {
-   // FD_SCOPE_TIMER("SandBox2D::OnAttach");
+    FD_PROFILE_FUNCTION(); // Profile the OnAttach function
     ForgeDelta::Renderer2D::Init();
   }
 
   void OnDetach() override {
-    //FD_SCOPE_TIMER("SandBox2D::OnDetach");
+    FD_PROFILE_FUNCTION(); // Profile the OnDetach function
     ForgeDelta::Renderer2D::Shutdown();
   }
 
   void OnUpdate(ForgeDelta::TimeStep ts) override {
-    FD_SCOPE_PERF("SandBox2D::OnUpdate");
+    FD_PROFILE_FUNCTION(); // Profile the OnUpdate function
 
-    m_CameraController.OnUpdate(ts);
+    // Update
+    {
+      FD_PROFILE_SCOPE("SandBox2D::OnUpdate - CameraController Update");
+      m_CameraController.OnUpdate(ts);
+    }
+
+    ForgeDelta::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+    ForgeDelta::RenderCommand::Clear();
+
     ForgeDelta::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
+    // Render
     {
-      FD_SCOPE_PERF("Renderer2D::Draw");
+      FD_PROFILE_SCOPE("SandBox2D::OnUpdate - Render");
 
       // Example usage of Renderer2D to draw quads
       ForgeDelta::Renderer2D::DrawQuad(glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)); // Red Quad
@@ -214,11 +224,14 @@ public:
   }
 
   void OnEvent(ForgeDelta::Event& e) override {
+    FD_PROFILE_FUNCTION(); // Profile the OnEvent function
     ForgeDelta::EventDispatcher dispatcher(e);
     m_CameraController.OnEvent(e);
   }
 
   void OnImGuiRender() override {
+    FD_PROFILE_FUNCTION(); // Profile the OnImGuiRender function
+
     ImGui::Begin("Settings");
     ImGui::ColorEdit4("Grid Color", glm::value_ptr(uColor));
 
@@ -238,16 +251,13 @@ private:
   uint32_t m_CheckerBoardTextureID = ForgeDelta::g_TextureSystem.CreateTexture2D("assets/textures/CheckerBoard.png");
 };
 
-
 class SandBox : public ForgeDelta::Application {
 public:
   SandBox() {
-   // PushLayer(new ExampleLayer());
     PushLayer(new SandBox2D());
   }
 
   ~SandBox() {}
-
 };
 
 ForgeDelta::Application* ForgeDelta::CreateApplication() {

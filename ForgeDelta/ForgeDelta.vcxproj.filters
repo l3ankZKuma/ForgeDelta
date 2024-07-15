@@ -93,6 +93,7 @@
     <ClInclude Include="src\ForgeDelta\Core\Thread.h" />
     <ClInclude Include="src\ForgeDelta\Core\RenderThread.h" />
     <ClInclude Include="src\ForgeDelta\Core\Timer.h" />
+    <ClInclude Include="src\ForgeDelta\Debug\Instrumentor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ForgeDelta\Core\Application.cpp">

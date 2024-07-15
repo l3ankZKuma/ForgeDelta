@@ -44,8 +44,6 @@ namespace ForgeDelta {
 
     while (m_running) {  // Correct usage of m_running
 
-      ForgeDelta::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
-      ForgeDelta::RenderCommand::Clear();
 
       
 

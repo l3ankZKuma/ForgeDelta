@@ -10,6 +10,17 @@
 #define BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
 #define BIT(x) (1u << x)
 
+#ifdef FD_PLATFORM_WINDOWS
+  #ifdef FD_BUILD_DLL
+    #define FORGEDELTA_API __declspec(dllexport)
+  #else
+    #define FORGEDELTA_API __declspec(dllimport)
+  #endif
+#endif
+
+
+
+
 namespace ForgeDelta {
 
   template<typename T>
