@@ -190,6 +190,9 @@ public:
   }
 
   void OnUpdate(ForgeDelta::TimeStep ts) override {
+
+    ForgeDelta::Timer timer("SandBox2D::OnUpdate");
+
     m_CameraController.OnUpdate(ts);
     ForgeDelta::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
@@ -221,6 +224,8 @@ private:
   glm::vec4 uColor{ 0.2f, 0.3f, 0.8f, 1.0f };
 
   uint32_t m_CheckerBoardTextureID = ForgeDelta::g_TextureSystem.CreateTexture2D("assets/textures/CheckerBoard.png");
+
+
 };
 
 

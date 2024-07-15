@@ -24,6 +24,8 @@
 
 #include"ForgeDelta/Renderer/Renderer2D.h"
 
+
+#include"ForgeDelta/Core/Timer.h"
 //----------------------------------------------
 
 

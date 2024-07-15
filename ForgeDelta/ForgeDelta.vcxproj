@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="src\ForgeDelta\Core\RenderThread.h" />
     <ClInclude Include="src\ForgeDelta\Core\Thread.h" />
+    <ClInclude Include="src\ForgeDelta\Core\Timer.h" />
     <ClInclude Include="src\ForgeDelta\Renderer\Renderer2D.h" />
     <ClInclude Include="src\ForgeDelta\Core\OrthographicCamera2DController.h" />
     <ClInclude Include="src\ForgeDelta\Renderer\Camera\Orthographic2DCamera.h" />
