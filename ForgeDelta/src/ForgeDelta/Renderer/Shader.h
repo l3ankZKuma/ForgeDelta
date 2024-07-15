@@ -38,6 +38,7 @@ namespace ForgeDelta {
     static void UploadUniformFloat3(ShaderData& shaderData, const char* name, const glm::vec3& value);
     static void UploadUniformFloat4(ShaderData& shaderData, const char* name, const glm::vec4& value);
     static void UploadUniformMat4(ShaderData& shaderData, const char* name, const glm::mat4& value);
+    static void UploadUniformBool(ShaderData& shaderData, const char* name, bool value);
 
     static std::string ReadFile(const char* filePath);
     static std::unordered_map<GLenum, std::string> Preprocess(const std::string& source);

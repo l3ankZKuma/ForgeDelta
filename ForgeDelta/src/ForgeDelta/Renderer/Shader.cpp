@@ -1,5 +1,7 @@
-#include"fdpch.h"
+#include "fdpch.h"
 #include "Shader.h"
+
+#include"ForgeDelta/Core/Log.h"
 
 namespace ForgeDelta {
 
@@ -27,14 +29,14 @@ namespace ForgeDelta {
   static GLenum ShaderTypeFromString(const std::string& type) {
     if (type == "vertex") return GL_VERTEX_SHADER;
     if (type == "fragment" || type == "pixel") return GL_FRAGMENT_SHADER;
-    std::cerr << "Unknown shader type!" << std::endl;
+    FD_CORE_ERROR("Unknown shader type!");
     return 0;
   }
 
   void OpenGLShaderService::CreateShader(ShaderData& shaderData) {
     shaderData.RendererID = glCreateProgram();
     if (shaderData.RendererID == 0) {
-      std::cerr << "Error creating shader program!" << std::endl;
+      FD_CORE_ERROR("Error creating shader program!");
     }
   }
 
@@ -93,6 +95,11 @@ namespace ForgeDelta {
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
   }
 
+  void OpenGLShaderService::UploadUniformBool(ShaderData& shaderData, const char* name, bool value) {
+    GLuint location = GetUniformLocation(shaderData, name);
+    glUniform1i(location, value);
+  }
+
   std::string OpenGLShaderService::ReadFile(const char* filePath) {
     std::string result;
     std::ifstream file(filePath, std::ios::in | std::ios::binary);
@@ -102,10 +109,10 @@ namespace ForgeDelta {
       file.seekg(0, std::ios::beg);
       file.read(&result[0], result.size());
       file.close();
-      std::cout << "Successfully read shader file: " << filePath << std::endl;
+      FD_CORE_INFO("Successfully read shader file: {0}", filePath);
     }
     else {
-      std::cerr << "Failed to open shader file: " << filePath << std::endl;
+      FD_CORE_ERROR("Failed to open shader file: {0}", filePath);
     }
     return result;
   }
@@ -153,7 +160,7 @@ namespace ForgeDelta {
         glGetShaderInfoLog(shader, maxLength, &maxLength, infoLog.data());
 
         glDeleteShader(shader);
-        std::cerr << "Shader compilation failed: " << infoLog.data() << std::endl;
+        FD_CORE_ERROR("Shader compilation failed: {0}", infoLog.data());
         return;
       }
 
@@ -173,7 +180,7 @@ namespace ForgeDelta {
       glGetProgramInfoLog(program, maxLength, &maxLength, infoLog.data());
 
       glDeleteProgram(program);
-      std::cerr << "Program linking failed: " << infoLog.data() << std::endl;
+      FD_CORE_ERROR("Program linking failed: {0}", infoLog.data());
 
       for (size_t i = 0; i < shaderCount; ++i) {
         glDeleteShader(shaderIDs[i]);
@@ -203,7 +210,7 @@ namespace ForgeDelta {
     OpenGLShaderService::CreateShader(shaderData);
     std::string source = OpenGLShaderService::ReadFile(filePath);
     if (source.empty()) {
-      std::cerr << "Shader source is empty!" << std::endl;
+      FD_CORE_ERROR("Shader source is empty!");
       return shaderData;
     }
     auto shaderSources = OpenGLShaderService::Preprocess(source);
@@ -217,7 +224,7 @@ namespace ForgeDelta {
     auto nameLength = lastDot == std::string::npos ? std::string(filePath).size() - lastSlash : lastDot - lastSlash;
     shaderData.Name = std::string(filePath).substr(lastSlash, nameLength);
 
-    std::cout << "Adding shader: " << shaderData.Name << std::endl;
+    FD_CORE_INFO("Adding shader: {0}", shaderData.Name);
     Add(shaderData);
     return shaderData;
   }
@@ -227,7 +234,7 @@ namespace ForgeDelta {
     OpenGLShaderService::CreateShader(shaderData);
     std::string source = OpenGLShaderService::ReadFile(filePath);
     if (source.empty()) {
-      std::cerr << "Shader source is empty!" << std::endl;
+      FD_CORE_ERROR("Shader source is empty!");
       return shaderData;
     }
     auto shaderSources = OpenGLShaderService::Preprocess(source);
@@ -236,7 +243,7 @@ namespace ForgeDelta {
     shaderData.RendererID = program;
     shaderData.Name = name;
 
-    std::cout << "Adding shader: " << name << std::endl;
+    FD_CORE_INFO("Adding shader: {0}", name);
     Add(shaderData);
     return shaderData;
   }

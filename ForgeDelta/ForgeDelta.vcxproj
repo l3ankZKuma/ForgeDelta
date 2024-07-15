@@ -143,6 +143,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ForgeDelta\Core\RenderThread.h" />
+    <ClInclude Include="src\ForgeDelta\Core\Thread.h" />
     <ClInclude Include="src\ForgeDelta\Renderer\Renderer2D.h" />
     <ClInclude Include="src\ForgeDelta\Core\OrthographicCamera2DController.h" />
     <ClInclude Include="src\ForgeDelta\Renderer\Camera\Orthographic2DCamera.h" />
@@ -181,6 +183,7 @@
     <ClCompile Include="src\ForgeDelta\Renderer\GraphicsContext.cpp" />
     <ClCompile Include="src\ForgeDelta\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\ForgeDelta\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\ForgeDelta\Renderer\RenderThread.cpp" />
     <ClCompile Include="src\ForgeDelta\Renderer\Shader.cpp" />
     <ClCompile Include="src\ForgeDelta\Renderer\Buffer.cpp" />
     <ClCompile Include="src\ForgeDelta\Core\Application.cpp" />

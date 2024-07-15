@@ -90,6 +90,8 @@
     <ClInclude Include="src\ForgeDelta\Renderer\Camera\Orthographic2DCamera.h" />
     <ClInclude Include="src\ForgeDelta\Core\OrthographicCamera2DController.h" />
     <ClInclude Include="src\ForgeDelta\Renderer\Renderer2D.h" />
+    <ClInclude Include="src\ForgeDelta\Core\Thread.h" />
+    <ClInclude Include="src\ForgeDelta\Core\RenderThread.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ForgeDelta\Core\Application.cpp">
@@ -132,5 +134,6 @@
     <ClCompile Include="src\ForgeDelta\Renderer\Camera\Orthographic2DCamera.cpp" />
     <ClCompile Include="src\ForgeDelta\Core\OrthographicCamera2DController.cpp" />
     <ClCompile Include="src\ForgeDelta\Renderer\Renderer2D.cpp" />
+    <ClCompile Include="src\ForgeDelta\Renderer\RenderThread.cpp" />
   </ItemGroup>
 </Project>

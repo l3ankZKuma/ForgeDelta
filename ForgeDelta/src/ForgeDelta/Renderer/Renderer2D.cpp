@@ -6,7 +6,6 @@
 #include "ForgeDelta/Renderer/Buffer.h"
 #include "ForgeDelta/Renderer/Camera/Orthographic2DCamera.h"
 #include "ForgeDelta/Renderer/RendererCommand.h"
-#include <glm/gtc/matrix_transform.hpp>
 
 namespace ForgeDelta {
 
@@ -18,8 +17,7 @@ namespace ForgeDelta {
     VAO QuadVAO;
     VBO QuadVBO;
     EBO QuadEBO;
-    ShaderData FlatColorShader;
-    ShaderData TextureShader;
+    ShaderData QuadShader;
   };
 
   static Renderer2DStorage* s_Data = nullptr;
@@ -28,12 +26,9 @@ namespace ForgeDelta {
   void Renderer2D::Init() {
     s_Data = new Renderer2DStorage();
 
-    // Load the shaders
-    s_ShaderLibrary.Load("FlatColor", "assets/shaders/FlatColor.glsl");
-    s_ShaderLibrary.Load("Texture", "assets/shaders/Texture.glsl");
-
-    s_Data->FlatColorShader = s_ShaderLibrary.Get("FlatColor");
-    s_Data->TextureShader = s_ShaderLibrary.Get("Texture");
+    // Load the Quad shader
+    s_ShaderLibrary.Load("Quad", "assets/shaders/Quad.glsl");
+    s_Data->QuadShader = s_ShaderLibrary.Get("Quad");
 
     // Setup quad vertex data
     SetupQuad();
@@ -77,10 +72,8 @@ namespace ForgeDelta {
   }
 
   void Renderer2D::BeginScene(const Orthographic2DCamera& camera) {
-    OpenGLShaderService::BindShader(s_Data->FlatColorShader);
-    OpenGLShaderService::UploadUniformMat4(s_Data->FlatColorShader, "u_ViewProjection", camera.GetViewProjectionMatrix());
-    OpenGLShaderService::BindShader(s_Data->TextureShader);
-    OpenGLShaderService::UploadUniformMat4(s_Data->TextureShader, "u_ViewProjection", camera.GetViewProjectionMatrix());
+    OpenGLShaderService::BindShader(s_Data->QuadShader);
+    OpenGLShaderService::UploadUniformMat4(s_Data->QuadShader, "u_ViewProjection", camera.GetViewProjectionMatrix());
   }
 
   void Renderer2D::EndScene() {
@@ -92,11 +85,12 @@ namespace ForgeDelta {
   }
 
   void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color) {
-    OpenGLShaderService::BindShader(s_Data->FlatColorShader);
+    OpenGLShaderService::BindShader(s_Data->QuadShader);
     OpenGLVertexArrayService::BindVertexArray(s_Data->QuadVAO);
     glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), glm::vec3(size, 1.0f));
-    OpenGLShaderService::UploadUniformMat4(s_Data->FlatColorShader, "u_Transform", transform);
-    OpenGLShaderService::UploadUniformFloat4(s_Data->FlatColorShader, "u_Color", color);
+    OpenGLShaderService::UploadUniformMat4(s_Data->QuadShader, "u_Transform", transform);
+    OpenGLShaderService::UploadUniformFloat4(s_Data->QuadShader, "u_Color", color);
+    OpenGLShaderService::UploadUniformBool(s_Data->QuadShader, "u_UseTexture", false);
     RenderCommand::DrawIndexed(s_Data->QuadVAO);
   }
 
@@ -105,13 +99,15 @@ namespace ForgeDelta {
   }
 
   void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, uint32_t textureID) {
-    OpenGLShaderService::BindShader(s_Data->TextureShader);
+    OpenGLShaderService::BindShader(s_Data->QuadShader);
     g_TextureSystem.BindTexture(textureID);
 
     OpenGLVertexArrayService::BindVertexArray(s_Data->QuadVAO);
     glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), glm::vec3(size, 1.0f));
-    OpenGLShaderService::UploadUniformMat4(s_Data->TextureShader, "u_Transform", transform);
-    OpenGLShaderService::UploadUniformInt(s_Data->TextureShader, "u_Texture", 0);
+    OpenGLShaderService::UploadUniformMat4(s_Data->QuadShader, "u_Transform", transform);
+    OpenGLShaderService::UploadUniformInt(s_Data->QuadShader, "u_Texture", 0);
+    OpenGLShaderService::UploadUniformBool(s_Data->QuadShader, "u_UseTexture", true);
+
     RenderCommand::DrawIndexed(s_Data->QuadVAO);
   }
 
