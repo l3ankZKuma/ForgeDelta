@@ -7,12 +7,20 @@
 #include "ForgeDelta/Renderer/Buffer.h"
 #include "ForgeDelta/Renderer/Camera/Orthographic2DCamera.h"
 #include "ForgeDelta/Renderer/RendererCommand.h"
+
+
+
 namespace ForgeDelta {
 
+
+  using VAO = VertexArrayData;
+  using VBO = VertexBufferData;
+  using EBO = IndexBufferData;
+
   struct Renderer2DStorage {
-    VertexArrayData QuadVAO;
-    VertexBufferData QuadVBO;
-    IndexBufferData QuadEBO;
+    VAO QuadVAO;
+    VBO QuadVBO;
+    EBO QuadEBO;
     ShaderData Shader;
   };
 
