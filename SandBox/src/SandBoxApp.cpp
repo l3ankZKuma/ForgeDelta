@@ -214,10 +214,25 @@ public:
       // Example usage of Renderer2D to draw quads
       ForgeDelta::Renderer2D::DrawQuad(glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)); // Red Quad
       ForgeDelta::Renderer2D::DrawQuad(glm::vec2(1.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)); // Green Quad
-      ForgeDelta::Renderer2D::DrawQuad(glm::vec3(0.0f, 1.0f, -1.f), glm::vec2(1.0f, 1.0f), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)); // Blue Quad
+      ForgeDelta::Renderer2D::DrawQuad(glm::vec2(0.0f, 3.0f), glm::vec2(1.0f, 1.0f), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)); // Blue Quad
+
+
+      // Rotated Quad
+
+      ForgeDelta::Renderer2D::DrawRotatedQuad(glm::vec2(2.0f, 2.0f), glm::vec2(3.0f, 3.0f), 45.0f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)); // Yellow Rotated Quad
+
 
       // Texture
-      ForgeDelta::Renderer2D::DrawQuad(glm::vec2(1.0f, 1.0f), glm::vec2(10.f, 10.f), m_CheckerBoardTextureID);
+      ForgeDelta::Renderer2D::DrawQuad(glm::vec3(1.0f, 1.0f,0.f), glm::vec2(10.f, 10.f), m_CheckerBoardTextureID,10.f);
+
+
+    
+
+
+
+
+
+     
     }
 
     ForgeDelta::Renderer2D::EndScene();

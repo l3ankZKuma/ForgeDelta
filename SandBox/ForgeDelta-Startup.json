@@ -1,1 +1,1 @@
-{"otherData": {},"traceEvents":[{},{"cat":"function","dur":27007,"name":"void SandBox2D::OnAttach(void)","ph":"X","pid":0,"tid":29492,"ts":175241612612.400}]}
+{"otherData": {},"traceEvents":[{},{"cat":"function","dur":280603,"name":"ForgeDelta::Application::Application(void)","ph":"X","pid":0,"tid":3308,"ts":190435001619.700},{"cat":"function","dur":69079,"name":"void SandBox2D::OnAttach(void)","ph":"X","pid":0,"tid":3308,"ts":190435384181.400}]}

@@ -11,10 +11,13 @@
 #include"ForgeDelta/Renderer/Renderer.h"
 #include"ForgeDelta/Renderer/RendererCommand.h"
 
+#include"ForgeDelta/Debug/Instrumentor.h"
+
 
 namespace ForgeDelta {
 
   Application::Application() {
+    FD_PROFILE_FUNCTION();  // Profile the Run function
 
     s_instance = this;  // Correct usage of s_instance
 
@@ -32,6 +35,7 @@ namespace ForgeDelta {
   }
 
   Application::~Application() {
+
     ShutdownWindow(m_window);  // Properly shut down the window
     delete m_window;
   }

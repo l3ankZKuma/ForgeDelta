@@ -94,11 +94,11 @@ namespace ForgeDelta {
     RenderCommand::DrawIndexed(s_Data->QuadVAO);
   }
 
-  void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, uint32_t textureID) {
-    DrawQuad(glm::vec3(position, 0.0f), size, textureID);
+  void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, uint32_t textureID, float tilingFactor, const glm::vec4& tintColor) {
+    DrawQuad(glm::vec3(position, 0.0f), size, textureID, tilingFactor, tintColor);
   }
 
-  void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, uint32_t textureID) {
+  void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, uint32_t textureID, float tilingFactor, const glm::vec4& tintColor) {
     OpenGLShaderService::BindShader(s_Data->QuadShader);
     g_TextureSystem.BindTexture(textureID);
 
@@ -107,8 +107,54 @@ namespace ForgeDelta {
     OpenGLShaderService::UploadUniformMat4(s_Data->QuadShader, "u_Transform", transform);
     OpenGLShaderService::UploadUniformInt(s_Data->QuadShader, "u_Texture", 0);
     OpenGLShaderService::UploadUniformBool(s_Data->QuadShader, "u_UseTexture", true);
+    OpenGLShaderService::UploadUniformFloat(s_Data->QuadShader, "u_TilingFactor", tilingFactor);
+    OpenGLShaderService::UploadUniformFloat4(s_Data->QuadShader, "u_TintColor", tintColor);
 
     RenderCommand::DrawIndexed(s_Data->QuadVAO);
   }
 
-} // namespace ForgeDelta
+  void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color) {
+    DrawRotatedQuad(glm::vec3(position, 0.0f), size, rotation, color);
+  }
+
+  void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const glm::vec4& color) {
+    OpenGLShaderService::BindShader(s_Data->QuadShader);
+    OpenGLVertexArrayService::BindVertexArray(s_Data->QuadVAO);
+
+    glm::mat4 transform =
+      glm::translate(glm::mat4(1.0f), position) *
+      glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)) *
+      glm::scale(glm::mat4(1.0f), glm::vec3(size, 1.0f));
+
+    OpenGLShaderService::UploadUniformMat4(s_Data->QuadShader, "u_Transform", transform);
+    OpenGLShaderService::UploadUniformFloat4(s_Data->QuadShader, "u_Color", color);
+    OpenGLShaderService::UploadUniformBool(s_Data->QuadShader, "u_UseTexture", false);
+
+    RenderCommand::DrawIndexed(s_Data->QuadVAO);
+  }
+
+  void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, uint32_t textureID, float tilingFactor, const glm::vec4& tintColor) {
+    DrawRotatedQuad(glm::vec3(position, 0.0f), size, rotation, textureID, tilingFactor, tintColor);
+  }
+
+  void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, uint32_t textureID, float tilingFactor, const glm::vec4& tintColor) {
+    OpenGLShaderService::BindShader(s_Data->QuadShader);
+    g_TextureSystem.BindTexture(textureID);
+
+    OpenGLVertexArrayService::BindVertexArray(s_Data->QuadVAO);
+
+    glm::mat4 transform =
+      glm::translate(glm::mat4(1.0f), position) *
+      glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f)) *
+      glm::scale(glm::mat4(1.0f), glm::vec3(size, 1.0f));
+
+    OpenGLShaderService::UploadUniformMat4(s_Data->QuadShader, "u_Transform", transform);
+    OpenGLShaderService::UploadUniformInt(s_Data->QuadShader, "u_Texture", 0);
+    OpenGLShaderService::UploadUniformBool(s_Data->QuadShader, "u_UseTexture", true);
+    OpenGLShaderService::UploadUniformFloat(s_Data->QuadShader, "u_TilingFactor", tilingFactor);
+    OpenGLShaderService::UploadUniformFloat4(s_Data->QuadShader, "u_TintColor", tintColor);
+
+    RenderCommand::DrawIndexed(s_Data->QuadVAO);
+  }
+
+}

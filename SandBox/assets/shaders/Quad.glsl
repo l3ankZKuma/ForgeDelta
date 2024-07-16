@@ -29,11 +29,13 @@ out vec4 FragColor;
 uniform sampler2D u_Texture;
 uniform bool u_UseTexture;
 uniform vec4 u_Color;
+uniform float u_TilingFactor;
+uniform vec4 u_TintColor;
 
 void main()
 {
     if (u_UseTexture) {
-        FragColor = texture(u_Texture, v_TexCoord);
+        FragColor = texture(u_Texture, v_TexCoord * u_TilingFactor) * u_TintColor;
     } else {
       FragColor = u_Color;
     }
