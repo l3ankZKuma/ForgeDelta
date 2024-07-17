@@ -15,14 +15,18 @@ namespace ForgeDelta {
   using EventCallbackFn = std::function<void(Event&)>;
 
   struct Window {
-    const char * Title = "ForgeDelta";
-    uint32_t Width = 1280;
-    uint32_t Height = 720;
-    bool VSync = true;
+    constexpr static const char* DefaultTitle = "ForgeDelta";
+    constexpr static uint32_t DefaultWidth = 1280;
+    constexpr static uint32_t DefaultHeight = 720;
+    constexpr static bool DefaultVSync =true;
+
+    const char* Title = DefaultTitle;
+    uint32_t Width = DefaultWidth;
+    uint32_t Height = DefaultHeight;
+    bool VSync = DefaultVSync;
     GLFWwindow* GLFWWindow = nullptr;
     EventCallbackFn EventCallback;
-    GraphicsContext* Context;
-    
+    GraphicsContext* Context = nullptr;
   };
 
   void InitializeWindow(Window* windowData);

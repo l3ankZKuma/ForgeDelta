@@ -11,7 +11,7 @@
 
 namespace ForgeDelta {
 
-  static bool s_GLFWInitialized = false;
+  constinit static bool s_GLFWInitialized = false;
 
   static void GLFWErrorCallback(int error, const char* description) {
     std::cerr << "GLFW Error (" << error << "): " << description << std::endl;

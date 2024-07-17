@@ -9,7 +9,8 @@ namespace ForgeDelta {
 
 	class Layer {
 	public:
-		Layer(const std::string_view = "Layer");
+		constexpr static std::string_view DefaultName = "Layer";
+		Layer(const std::string_view name = DefaultName);
 		virtual ~Layer() = default;
 
 		virtual void OnAttach() = 0;

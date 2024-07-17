@@ -45,7 +45,7 @@ namespace ForgeDelta {
     bool OnWindowClose(WindowCloseEvent& e);
     bool OnWindowResize(WindowResizeEvent& e);
 
-    inline static Application* s_instance{ nullptr };
+    constinit inline static constinit Application* s_instance{ nullptr };
     PerformanceProfiler m_PerformanceProfiler; // Add this line
   };
 

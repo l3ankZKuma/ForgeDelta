@@ -13,6 +13,15 @@ namespace ForgeDelta {
   using VBO = VertexBufferData;
   using EBO = IndexBufferData;
 
+  struct QuadVertex {
+    glm::vec3 Position;
+    glm::vec4 Color;
+    glm::vec2 TexCoord;
+    float TexIndex;
+    float TilingFactor;
+  };
+
+
   struct Renderer2DStorage {
     VAO QuadVAO;
     VBO QuadVBO;

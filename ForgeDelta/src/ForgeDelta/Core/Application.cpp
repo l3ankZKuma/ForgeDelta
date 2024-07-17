@@ -55,6 +55,10 @@ namespace ForgeDelta {
         timeStep = time - m_lastFrameTime;
         m_lastFrameTime = time;
 
+#if 0
+        FD_CORE_INFO("FPS : {0}", 1.0f / timeStep.GetSeconds());
+
+#endif 
 
         if (!m_minimized) {
           for (Layer* layer : m_layerStack)
