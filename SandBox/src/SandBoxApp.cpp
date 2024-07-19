@@ -7,6 +7,7 @@ using VAO = ForgeDelta::VertexArrayData;
 using VBO = ForgeDelta::VertexBufferData;
 using EBO = ForgeDelta::IndexBufferData;
 
+/*
 class ExampleLayer : public ForgeDelta::Layer {
 public:
   ExampleLayer() : Layer("Layers") {}
@@ -99,7 +100,7 @@ public:
   }
 
   void OnUpdate(ForgeDelta::TimeStep ts) override {
-    m_CameraController.OnUpdate(ts); 
+    m_CameraController.OnUpdate(ts);
     ForgeDelta::Renderer::BeginScene(m_CameraController.GetCamera());
 
     {
@@ -154,28 +155,27 @@ private:
 
   ForgeDelta::OrthographicCamera2DController m_CameraController{ 16.0f / 9.0f, true };
 
-  private:
+private:
 
-    void SetupBuffers(VAO& vao, VBO& vbo, EBO& ebo,GLfloat* vertices, size_t verticesSize,
-      GLuint* indices, size_t indicesSize, const ForgeDelta::BufferLayout& layout) {
-      ForgeDelta::OpenGLVertexArrayService::CreateVertexArray(vao);
+  void SetupBuffers(VAO& vao, VBO& vbo, EBO& ebo, GLfloat* vertices, size_t verticesSize,
+    GLuint* indices, size_t indicesSize, const ForgeDelta::BufferLayout& layout) {
+    ForgeDelta::OpenGLVertexArrayService::CreateVertexArray(vao);
 
-      vbo.Data = vertices;
-      vbo.Size = verticesSize;
-      vbo.Layout = layout;
-      ForgeDelta::OpenGLBufferService::CreateVertexBuffer(vbo);
+    vbo.Data = vertices;
+    vbo.Size = verticesSize;
+    vbo.Layout = layout;
+    ForgeDelta::OpenGLBufferService::CreateVertexBuffer(vbo);
 
-      ebo.Data = indices;
-      ebo.Size = indicesSize;
-      ebo.Count = indicesSize / sizeof(GLuint);
-      ForgeDelta::OpenGLBufferService::CreateIndexBuffer(ebo);
+    ebo.Data = indices;
+    ebo.Size = indicesSize;
+    ebo.Count = indicesSize / sizeof(GLuint);
+    ForgeDelta::OpenGLBufferService::CreateIndexBuffer(ebo);
 
-      ForgeDelta::OpenGLVertexArrayService::AddVertexBuffer(vao, &vbo);
-      ForgeDelta::OpenGLVertexArrayService::SetIndexBuffer(vao, &ebo);
-    }
+    ForgeDelta::OpenGLVertexArrayService::AddVertexBuffer(vao, &vbo);
+    ForgeDelta::OpenGLVertexArrayService::SetIndexBuffer(vao, &ebo);
+  }
 };
-
-
+*/
 
 
 class SandBox2D : public ForgeDelta::Layer {
@@ -216,23 +216,13 @@ public:
       ForgeDelta::Renderer2D::DrawQuad(glm::vec2(1.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)); // Green Quad
       ForgeDelta::Renderer2D::DrawQuad(glm::vec2(0.0f, 3.0f), glm::vec2(1.0f, 1.0f), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)); // Blue Quad
 
-
       // Rotated Quad
 
       ForgeDelta::Renderer2D::DrawRotatedQuad(glm::vec2(2.0f, 2.0f), glm::vec2(3.0f, 3.0f), 45.0f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)); // Yellow Rotated Quad
 
-
       // Texture
-      ForgeDelta::Renderer2D::DrawQuad(glm::vec3(1.0f, 1.0f,0.f), glm::vec2(10.f, 10.f), m_CheckerBoardTextureID,10.f);
+      ForgeDelta::Renderer2D::DrawQuad(glm::vec3(1.0f, 1.0f, 0.f), glm::vec2(10.f, 10.f), m_CheckerBoardTextureID, 10.f);
 
-
-    
-
-
-
-
-
-     
     }
 
     ForgeDelta::Renderer2D::EndScene();
@@ -269,6 +259,8 @@ private:
 class SandBox : public ForgeDelta::Application {
 public:
   SandBox() {
+
+
     PushLayer(new SandBox2D());
   }
 

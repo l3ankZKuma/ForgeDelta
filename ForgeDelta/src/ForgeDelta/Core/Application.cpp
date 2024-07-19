@@ -35,12 +35,14 @@ namespace ForgeDelta {
   }
 
   Application::~Application() {
+    FD_PROFILE_FUNCTION();  // Profile the Run function
 
     ShutdownWindow(m_window);  // Properly shut down the window
     delete m_window;
   }
 
   void Application::Run() {
+
     TimeStep timeStep;
 
 

@@ -7,6 +7,8 @@
 #include "ForgeDelta/Renderer/Camera/Orthographic2DCamera.h"
 #include "ForgeDelta/Renderer/RendererCommand.h"
 
+
+
 namespace ForgeDelta {
 
   using VAO = VertexArrayData;
@@ -22,14 +24,28 @@ namespace ForgeDelta {
   };
 
 
-  struct Renderer2DStorage {
-    VAO QuadVAO;
-    VBO QuadVBO;
-    EBO QuadEBO;
-    ShaderData QuadShader;
-  };
+struct Renderer2DStorage {
+    static constexpr uint32_t MaxQuads = 10000;
+    static constexpr uint32_t MaxVertices = MaxQuads * 4;
+    static constexpr uint32_t MaxIndices = MaxQuads * 6;
+    static constexpr uint32_t MaxTextureSlots = 32;
 
-  static Renderer2DStorage* s_Data = nullptr;
+    VertexArrayData QuadVAO;
+    VertexBufferData QuadVBO;
+    IndexBufferData QuadEBO;
+    ShaderData QuadShader;
+
+    uint32_t QuadIndexCount = 0;
+    QuadVertex* QuadVertexBufferBase = nullptr;
+    QuadVertex* QuadVertexBufferPtr = nullptr;
+
+    std::array<uint32_t, MaxTextureSlots> TextureSlots;
+    uint32_t TextureSlotIndex = 1; // 0 is reserved for white texture
+
+    glm::vec4 QuadVertexPositions[4];
+};
+
+  static constinit Renderer2DStorage* s_Data = nullptr;
   static ShaderLibrary s_ShaderLibrary;
 
   void Renderer2D::Init() {
@@ -40,10 +56,6 @@ namespace ForgeDelta {
     s_Data->QuadShader = s_ShaderLibrary.Get("Quad");
 
     // Setup quad vertex data
-    SetupQuad();
-  }
-
-  void Renderer2D::SetupQuad() {
     GLfloat quadVertices[] = {
       // positions     // colors       // texCoords
       -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
@@ -60,7 +72,9 @@ namespace ForgeDelta {
     BufferLayout layout = {
         { ShaderDataType::Float3, "a_Position" },
         { ShaderDataType::Float3, "a_Color" },
-        { ShaderDataType::Float2, "a_TexCoord" }
+        { ShaderDataType::Float2, "a_TexCoord" },
+        /* {ShaderDataType::Float, "a_TexIndex"},
+         { ShaderDataType::Float, "a_TilingFactor" }*/
     };
 
     s_Data->QuadVBO = { quadVertices, sizeof(quadVertices) / sizeof(float), layout };
@@ -72,6 +86,7 @@ namespace ForgeDelta {
     OpenGLVertexArrayService::AddVertexBuffer(s_Data->QuadVAO, &s_Data->QuadVBO);
     OpenGLVertexArrayService::SetIndexBuffer(s_Data->QuadVAO, &s_Data->QuadEBO);
   }
+
 
   void Renderer2D::Shutdown() {
     OpenGLBufferService::DeleteVertexBuffer(s_Data->QuadVBO);

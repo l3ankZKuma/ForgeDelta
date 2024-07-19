@@ -54,7 +54,7 @@ namespace ForgeDelta {
   void OpenGLBufferService::CreateVertexBuffer(VertexBufferData& bufferData) {
     glGenBuffers(1, &bufferData.VBO);
     glBindBuffer(GL_ARRAY_BUFFER, bufferData.VBO);
-    glBufferData(GL_ARRAY_BUFFER, bufferData.Size * sizeof(GLfloat), bufferData.Data, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, bufferData.Size * sizeof(GLfloat), bufferData.Data, GL_DYNAMIC_DRAW);
   }
 
   void OpenGLBufferService::DeleteVertexBuffer(VertexBufferData& bufferData) {

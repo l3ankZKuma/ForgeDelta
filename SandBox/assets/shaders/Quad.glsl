@@ -4,6 +4,8 @@
 layout(location = 0) in vec3 a_Position;
 layout(location = 1) in vec3 a_Color;
 layout(location = 2) in vec2 a_TexCoord;
+layout(location =3 ) in float a_TexIndex;
+layout(location = 4) in float a_TilingFactor;
 
 out vec3 v_Color;
 out vec2 v_TexCoord;
@@ -19,7 +21,7 @@ void main()
 }
 
 #type fragment
-#version 330 core
+#version 410 core
 
 in vec3 v_Color;
 in vec2 v_TexCoord;
