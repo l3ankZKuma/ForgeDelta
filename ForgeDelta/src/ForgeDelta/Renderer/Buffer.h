@@ -62,7 +62,7 @@ namespace ForgeDelta {
   // OpenGL Buffer Service
   class OpenGLBufferService {
   public:
-    static void CreateVertexBuffer(VertexBufferData& bufferData);
+    static void CreateVertexBuffer(VertexBufferData& bufferData,bool isStatic = true);
     static void DeleteVertexBuffer(VertexBufferData& bufferData);
     static void BindVertexBuffer(const VertexBufferData& bufferData);
     static void UnbindVertexBuffer();
