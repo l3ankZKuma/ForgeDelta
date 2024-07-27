@@ -24,7 +24,7 @@ namespace ForgeDelta {
     void* pool;
   };
 
-  class OpenGLShaderService {
+  class ShaderSystem {
   public:
     static void CreateShader(ShaderData& shaderData);
     static void DeleteShader(ShaderData& shaderData);

@@ -23,21 +23,22 @@ namespace ForgeDelta {
       glEnable(GL_DEPTH_TEST);
     }
 
-    static void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) {
+    inline static void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) {
       glViewport(x, y, width, height);
     }
 
-    static void SetClearColor(const glm::vec4& color) {
+    inline static void SetClearColor(const glm::vec4& color) {
       glClearColor(color.r, color.g, color.b, color.a);
     }
 
-    static void Clear() {
+    inline static void Clear() {
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    static void DrawIndexed(VertexArrayData& vertexArray) {
+    inline static void DrawIndexed(VAO_Data& vertexArray,uint32_t idxCnt =0) {
       const auto& count = vertexArray.IndexBuffer->Count;
-      glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+      const auto cnt = idxCnt == 0 ? count : idxCnt;
+      glDrawElements(GL_TRIANGLES, cnt, GL_UNSIGNED_INT, nullptr);
     }
 
     inline static API GetAPI() { return s_API; }

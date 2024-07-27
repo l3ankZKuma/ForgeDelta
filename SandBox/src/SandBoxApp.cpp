@@ -3,9 +3,9 @@
 
 
 
-using VAO = ForgeDelta::VertexArrayData;
-using VBO = ForgeDelta::VertexBufferData;
-using EBO = ForgeDelta::IndexBufferData;
+using VAO = ForgeDelta::VAO_Data;
+using VBO = ForgeDelta::VBO_Data;
+using EBO = ForgeDelta::EBO_Data;
 
 /*
 class ExampleLayer : public ForgeDelta::Layer {
@@ -35,7 +35,7 @@ public:
         { ForgeDelta::ShaderDataType::Float3, "a_Color" }
     };
 
-    SetupBuffers(m_VertexArrayData, m_VertexBufferData, m_IndexBufferData, vertices, sizeof(vertices), indices, sizeof(indices), layout);
+    SetupBuffers(m_VAO_Data, m_VBO_Data, m_EBO_Data, vertices, sizeof(vertices), indices, sizeof(indices), layout);
 
     //----------------------------------------------------------------------------------------------------------------------------
 
@@ -57,7 +57,7 @@ public:
       { ForgeDelta::ShaderDataType::Float2, "a_TexCoord" }
     };
 
-    SetupBuffers(m_LogoVertexArrayData, m_LogoVertexBufferData, m_LogoIndexBufferData, logoVertices, sizeof(logoVertices), logoIndices, sizeof(logoIndices), logoLayout);
+    SetupBuffers(m_LogoVAO_Data, m_LogoVBO_Data, m_LogoEBO_Data, logoVertices, sizeof(logoVertices), logoIndices, sizeof(logoIndices), logoLayout);
     m_LogoTextureID = ForgeDelta::g_TextureSystem.CreateTexture2D("assets/textures/TwitterLogo.png");
 
     //----------------------------------------------------------------------------------------------------------------------------
@@ -84,19 +84,19 @@ public:
 
   void OnDetach() override {
     // Delete Vertex Buffers
-    ForgeDelta::OpenGLBufferService::DeleteVertexBuffer(m_VertexBufferData);
-    ForgeDelta::OpenGLBufferService::DeleteVertexBuffer(m_LogoVertexBufferData);
-    ForgeDelta::OpenGLBufferService::DeleteVertexBuffer(m_CheckBoardVBO);
+    ForgeDelta::BufferSystem::DeleleVBO(m_VBO_Data);
+    ForgeDelta::BufferSystem::DeleleVBO(m_LogoVBO_Data);
+    ForgeDelta::BufferSystem::DeleleVBO(m_CheckBoardVBO);
 
     // Delete Index Buffers
-    ForgeDelta::OpenGLBufferService::DeleteIndexBuffer(m_IndexBufferData);
-    ForgeDelta::OpenGLBufferService::DeleteIndexBuffer(m_LogoIndexBufferData);
-    ForgeDelta::OpenGLBufferService::DeleteIndexBuffer(m_CheckBoardEBO);
+    ForgeDelta::BufferSystem::DeleteEBO(m_EBO_Data);
+    ForgeDelta::BufferSystem::DeleteEBO(m_LogoEBO_Data);
+    ForgeDelta::BufferSystem::DeleteEBO(m_CheckBoardEBO);
 
     // Delete Vertex Arrays
-    ForgeDelta::OpenGLVertexArrayService::DeleteVertexArray(m_VertexArrayData);
-    ForgeDelta::OpenGLVertexArrayService::DeleteVertexArray(m_LogoVertexArrayData);
-    ForgeDelta::OpenGLVertexArrayService::DeleteVertexArray(m_CheckBoardVAO);
+    ForgeDelta::VAOSystem::DeleteVertexArray(m_VAO_Data);
+    ForgeDelta::VAOSystem::DeleteVertexArray(m_LogoVAO_Data);
+    ForgeDelta::VAOSystem::DeleteVertexArray(m_CheckBoardVAO);
   }
 
   void OnUpdate(ForgeDelta::TimeStep ts) override {
@@ -105,19 +105,19 @@ public:
 
     {
       auto& BasicShader = m_ShaderLibrary.Get("BasicShader");
-      ForgeDelta::Renderer::Submit(m_VertexArrayData, BasicShader, m_model);
+      ForgeDelta::Renderer::Submit(m_VAO_Data, BasicShader, m_model);
 
       auto& TextureShader2 = m_ShaderLibrary.Get("Texture");
-      ForgeDelta::OpenGLShaderService::BindShader(TextureShader2);
+      ForgeDelta::ShaderSystem::BindShader(TextureShader2);
       ForgeDelta::g_TextureSystem.BindTexture(m_CheckBoardTextureID);
-      ForgeDelta::OpenGLShaderService::UploadUniformInt(TextureShader2, "texture1", 0);
+      ForgeDelta::ShaderSystem::UploadUniformInt(TextureShader2, "texture1", 0);
       ForgeDelta::Renderer::Submit(m_CheckBoardVAO, TextureShader2, m_model);
 
       auto& TextureShader = m_ShaderLibrary.Get("Texture");
-      ForgeDelta::OpenGLShaderService::BindShader(TextureShader);
+      ForgeDelta::ShaderSystem::BindShader(TextureShader);
       ForgeDelta::g_TextureSystem.BindTexture(m_LogoTextureID);
-      ForgeDelta::OpenGLShaderService::UploadUniformInt(TextureShader, "texture1", 0);
-      ForgeDelta::Renderer::Submit(m_LogoVertexArrayData, TextureShader, m_model);
+      ForgeDelta::ShaderSystem::UploadUniformInt(TextureShader, "texture1", 0);
+      ForgeDelta::Renderer::Submit(m_LogoVAO_Data, TextureShader, m_model);
     }
 
     ForgeDelta::Renderer::EndScene();
@@ -136,13 +136,13 @@ public:
 
 private:
   ForgeDelta::ShaderLibrary m_ShaderLibrary;
-  VAO m_VertexArrayData;
-  VBO m_VertexBufferData;
-  EBO m_IndexBufferData;
+  VAO m_VAO_Data;
+  VBO m_VBO_Data;
+  EBO m_EBO_Data;
 
-  VAO m_LogoVertexArrayData;
-  VBO m_LogoVertexBufferData;
-  EBO m_LogoIndexBufferData;
+  VAO m_LogoVAO_Data;
+  VBO m_LogoVBO_Data;
+  EBO m_LogoEBO_Data;
 
   VAO m_CheckBoardVAO;
   VBO m_CheckBoardVBO;
@@ -159,20 +159,20 @@ private:
 
   void SetupBuffers(VAO& vao, VBO& vbo, EBO& ebo, GLfloat* vertices, size_t verticesSize,
     GLuint* indices, size_t indicesSize, const ForgeDelta::BufferLayout& layout) {
-    ForgeDelta::OpenGLVertexArrayService::CreateVertexArray(vao);
+    ForgeDelta::VAOSystem::CreateVertexArray(vao);
 
     vbo.Data = vertices;
     vbo.Size = verticesSize;
     vbo.Layout = layout;
-    ForgeDelta::OpenGLBufferService::CreateVertexBuffer(vbo);
+    ForgeDelta::BufferSystem::CreateVBO(vbo);
 
     ebo.Data = indices;
     ebo.Size = indicesSize;
     ebo.Count = indicesSize / sizeof(GLuint);
-    ForgeDelta::OpenGLBufferService::CreateIndexBuffer(ebo);
+    ForgeDelta::BufferSystem::CreateEBO(ebo);
 
-    ForgeDelta::OpenGLVertexArrayService::AddVertexBuffer(vao, &vbo);
-    ForgeDelta::OpenGLVertexArrayService::SetIndexBuffer(vao, &ebo);
+    ForgeDelta::VAOSystem::AddVertexBuffer(vao, &vbo);
+    ForgeDelta::VAOSystem::SetIndexBuffer(vao, &ebo);
   }
 };
 */
@@ -218,10 +218,10 @@ public:
 
       // Rotated Quad
 
-      ForgeDelta::Renderer2D::DrawRotatedQuad(glm::vec2(2.0f, 2.0f), glm::vec2(3.0f, 3.0f), 45.0f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)); // Yellow Rotated Quad
+      //ForgeDelta::Renderer2D::DrawRotatedQuad(glm::vec2(2.0f, 2.0f), glm::vec2(3.0f, 3.0f), 45.0f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)); // Yellow Rotated Quad
 
       // Texture
-      ForgeDelta::Renderer2D::DrawQuad(glm::vec3(1.0f, 1.0f, 0.f), glm::vec2(10.f, 10.f), m_CheckerBoardTextureID, 10.f);
+      //ForgeDelta::Renderer2D::DrawQuad(glm::vec3(1.0f, 1.0f, 0.f), glm::vec2(10.f, 10.f), m_CheckerBoardTextureID, 10.f);
 
     }
 

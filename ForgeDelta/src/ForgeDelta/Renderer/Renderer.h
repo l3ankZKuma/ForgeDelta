@@ -4,7 +4,7 @@
 
 namespace ForgeDelta {
 	class Orthographic2DCamera;
-	struct VertexArrayData;
+	struct VAO_Data;
 	struct ShaderData;
 }
 
@@ -17,7 +17,7 @@ namespace ForgeDelta {
     static void OnWindowResize(uint32_t width, uint32_t height);
     static void Shutdown();
 
-    static void Submit(VertexArrayData& VAO, ShaderData& shader, const glm::mat4& transform);
+    static void Submit(VAO_Data& VAO, ShaderData& shader, const glm::mat4& transform);
 
     static void BeginScene(const Orthographic2DCamera& camera);
     static void EndScene();

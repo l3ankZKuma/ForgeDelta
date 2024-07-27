@@ -4,21 +4,21 @@
 
 namespace ForgeDelta {
 
-  struct VertexArrayData {
+  struct VAO_Data {
     GLuint VAO;
-    std::vector<VertexBufferData*> VertexBuffers;
-    IndexBufferData* IndexBuffer;
+    std::vector<VBO_Data*> VertexBuffers;
+    EBO_Data* IndexBuffer;
   };
 
-  class OpenGLVertexArrayService {
+  class VAOSystem {
   public:
-    static void CreateVertexArray(VertexArrayData& vertexArrayData);
-    static void DeleteVertexArray(VertexArrayData& vertexArrayData);
-    static void BindVertexArray(const VertexArrayData& vertexArrayData);
+    static void CreateVertexArray(VAO_Data& VAO_Data);
+    static void DeleteVertexArray(VAO_Data& VAO_Data);
+    static void BindVertexArray(const VAO_Data& VAO_Data);
     inline static void UnbindVertexArray() { glBindVertexArray(0); }
 
-    static void AddVertexBuffer(VertexArrayData& vertexArrayData, VertexBufferData* vertexBufferData);
-    static void SetIndexBuffer(VertexArrayData& vertexArrayData, IndexBufferData* indexBufferData);
+    static void AddVertexBuffer(VAO_Data& VAO_Data, VBO_Data* VBO_Data);
+    static void SetIndexBuffer(VAO_Data& VAO_Data, EBO_Data* EBO_Data);
 
   private:
     static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type);

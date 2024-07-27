@@ -4,25 +4,25 @@
 
 namespace ForgeDelta {
 
-  void OpenGLVertexArrayService::CreateVertexArray(VertexArrayData& vertexArrayData) {
-    glGenVertexArrays(1, &vertexArrayData.VAO);
-    glBindVertexArray(vertexArrayData.VAO);
+  void VAOSystem::CreateVertexArray(VAO_Data& VAO_Data) {
+    glGenVertexArrays(1, &VAO_Data.VAO);
+    glBindVertexArray(VAO_Data.VAO);
   }
 
-  void OpenGLVertexArrayService::DeleteVertexArray(VertexArrayData& vertexArrayData) {
-    glDeleteVertexArrays(1, &vertexArrayData.VAO);
+  void VAOSystem::DeleteVertexArray(VAO_Data& VAO_Data) {
+    glDeleteVertexArrays(1, &VAO_Data.VAO);
   }
 
-  void OpenGLVertexArrayService::BindVertexArray(const VertexArrayData& vertexArrayData) {
-    glBindVertexArray(vertexArrayData.VAO);
+  void VAOSystem::BindVertexArray(const VAO_Data& VAO_Data) {
+    glBindVertexArray(VAO_Data.VAO);
   }
 
 
-  void OpenGLVertexArrayService::AddVertexBuffer(VertexArrayData& vertexArrayData, VertexBufferData* vertexBufferData) {
-    glBindVertexArray(vertexArrayData.VAO);
-    OpenGLBufferService::BindVertexBuffer(*vertexBufferData);
+  void VAOSystem::AddVertexBuffer(VAO_Data& VAO_Data, VBO_Data* VBO_Data) {
+    glBindVertexArray(VAO_Data.VAO);
+    BufferSystem::BindVBO(*VBO_Data);
 
-    const auto& layout = vertexBufferData->Layout;
+    const auto& layout = VBO_Data->Layout;
     const auto& elements = layout.Elements;
     uint32_t index = 0;
     for (const auto& element : elements) {
@@ -36,17 +36,17 @@ namespace ForgeDelta {
       index++;
     }
 
-    vertexArrayData.VertexBuffers.push_back(vertexBufferData);
+    VAO_Data.VertexBuffers.push_back(VBO_Data);
   }
 
-  void OpenGLVertexArrayService::SetIndexBuffer(VertexArrayData& vertexArrayData, IndexBufferData* indexBufferData) {
-    glBindVertexArray(vertexArrayData.VAO);
-    OpenGLBufferService::BindIndexBuffer(*indexBufferData);
+  void VAOSystem::SetIndexBuffer(VAO_Data& VAO_Data, EBO_Data* EBO_Data) {
+    glBindVertexArray(VAO_Data.VAO);
+    BufferSystem::BindEBO(*EBO_Data);
 
-    vertexArrayData.IndexBuffer = indexBufferData;
+    VAO_Data.IndexBuffer = EBO_Data;
   }
 
-  GLenum OpenGLVertexArrayService::ShaderDataTypeToOpenGLBaseType(ShaderDataType type) {
+  GLenum VAOSystem::ShaderDataTypeToOpenGLBaseType(ShaderDataType type) {
     switch (type) {
     case ShaderDataType::Float: return GL_FLOAT;
     case ShaderDataType::Float2: return GL_FLOAT;

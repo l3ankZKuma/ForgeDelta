@@ -55,6 +55,7 @@ namespace ForgeDelta {
     ~TextureSystem();
 
     uint32_t CreateTexture2D(const char* path);
+    uint32_t CreateTexture2D(uint32_t width, uint32_t height,uint32_t color);
     uint32_t CreateTextureCube(const std::array<const char*, 6>& paths);
     void DeleteTexture(uint32_t textureID);
     void BindTexture(uint32_t textureID, uint32_t slot = 0) const;

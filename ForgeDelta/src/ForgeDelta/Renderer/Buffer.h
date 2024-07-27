@@ -44,7 +44,7 @@ namespace ForgeDelta {
   };
 
   // Vertex Buffer Data Struct
-  struct VertexBufferData {
+  struct VBO_Data {
     GLfloat* Data;
     GLuint Size;
     BufferLayout Layout;
@@ -52,7 +52,7 @@ namespace ForgeDelta {
   };
 
   // Index Buffer Data Struct
-  struct IndexBufferData {
+  struct EBO_Data {
     GLuint* Data;
     GLuint Size;
     GLuint Count;
@@ -60,17 +60,18 @@ namespace ForgeDelta {
   };
 
   // OpenGL Buffer Service
-  class OpenGLBufferService {
+  class BufferSystem {
   public:
-    static void CreateVertexBuffer(VertexBufferData& bufferData,bool isStatic = true);
-    static void DeleteVertexBuffer(VertexBufferData& bufferData);
-    static void BindVertexBuffer(const VertexBufferData& bufferData);
-    static void UnbindVertexBuffer();
+    static void CreateVBO(VBO_Data& bufferData,bool isStatic = true);
+    static void DeleleVBO(VBO_Data& bufferData);
+    static void BindVBO(const VBO_Data& bufferData);
+    static void UnBindVBO();
+    static void SetVBO(VBO_Data& bufferData,const void*data ,uint32_t size);
 
-    static void CreateIndexBuffer(IndexBufferData& bufferData);
-    static void DeleteIndexBuffer(IndexBufferData& bufferData);
-    static void BindIndexBuffer(const IndexBufferData& bufferData);
-    static void UnbindIndexBuffer();
+    static void CreateEBO(EBO_Data& bufferData);
+    static void DeleteEBO(EBO_Data& bufferData);
+    static void BindEBO(const EBO_Data& bufferData);
+    static void UnBindEBO();
   };
 
 

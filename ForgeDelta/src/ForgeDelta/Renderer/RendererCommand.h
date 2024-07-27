@@ -3,7 +3,7 @@
 #include"RendererAPI.h"
 
 namespace ForgeDelta {
-  struct VertexArrayData;
+  struct VAO_Data;
 }
 
 namespace ForgeDelta {
@@ -15,20 +15,20 @@ namespace ForgeDelta {
       RendererAPI::Init();
     }
 
-    static void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) {
+    inline static void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) {
       RendererAPI::SetViewport(x, y, width, height);
     }
 
-    static void SetClearColor(const glm::vec4& color) {
+    inline static void SetClearColor(const glm::vec4& color) {
       RendererAPI::SetClearColor(color);
     }
 
-    static void Clear() {
+    inline static void Clear() {
       RendererAPI::Clear();
     }
 
-    static void DrawIndexed(VertexArrayData& vertexArray) {
-      RendererAPI::DrawIndexed(vertexArray);
+    inline static void DrawIndexed(VAO_Data& vertexArray,uint32_t idxCnt=0) {
+      RendererAPI::DrawIndexed(vertexArray,idxCnt);
     }
 
   };

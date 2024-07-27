@@ -24,15 +24,15 @@ namespace ForgeDelta {
 
   void Renderer::EndScene() {}
 
-  void Renderer::Submit(VertexArrayData& VAO, ShaderData& shader, const glm::mat4& transform) {
+  void Renderer::Submit(VAO_Data& VAO, ShaderData& shader, const glm::mat4& transform) {
     
-    OpenGLShaderService::BindShader(shader);
-    OpenGLShaderService::UploadUniformMat4(shader, "model", transform);
-    OpenGLShaderService::UploadUniformMat4(shader, "vp", s_SceneData->ViewProjectionMatrix);
+    ShaderSystem::BindShader(shader);
+    ShaderSystem::UploadUniformMat4(shader, "model", transform);
+    ShaderSystem::UploadUniformMat4(shader, "vp", s_SceneData->ViewProjectionMatrix);
 
-    OpenGLVertexArrayService::BindVertexArray(VAO);
+    VAOSystem::BindVertexArray(VAO);
     RenderCommand::DrawIndexed(VAO);
-    OpenGLVertexArrayService::UnbindVertexArray();
-    OpenGLShaderService::UnbindShader();
+    VAOSystem::UnbindVertexArray();
+    ShaderSystem::UnbindShader();
   }
 }

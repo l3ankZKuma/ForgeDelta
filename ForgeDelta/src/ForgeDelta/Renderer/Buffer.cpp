@@ -50,40 +50,46 @@ namespace ForgeDelta {
     return 0;
   }
 
-void OpenGLBufferService::CreateVertexBuffer(VertexBufferData& bufferData, bool isStatic) {
+void BufferSystem::CreateVBO(VBO_Data& bufferData, bool isStatic) {
     glGenBuffers(1, &bufferData.VBO);
     glBindBuffer(GL_ARRAY_BUFFER, bufferData.VBO);
     glBufferData(GL_ARRAY_BUFFER, bufferData.Size, bufferData.Data, 
                  isStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
 }
 
-  void OpenGLBufferService::DeleteVertexBuffer(VertexBufferData& bufferData) {
+  void BufferSystem::DeleleVBO(VBO_Data& bufferData) {
     glDeleteBuffers(1, &bufferData.VBO);
   }
 
-  void OpenGLBufferService::BindVertexBuffer(const VertexBufferData& bufferData) {
+  void BufferSystem::BindVBO(const VBO_Data& bufferData) {
     glBindBuffer(GL_ARRAY_BUFFER, bufferData.VBO);
   }
 
-  void OpenGLBufferService::UnbindVertexBuffer() {
+  void BufferSystem::UnBindVBO() {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
   }
 
-  void OpenGLBufferService::CreateIndexBuffer(IndexBufferData& bufferData) {
+
+  void BufferSystem::SetVBO(VBO_Data& bufferData, const void* data, uint32_t size) {
+    glBindBuffer(GL_ARRAY_BUFFER, bufferData.VBO);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
+  }
+
+  void BufferSystem::CreateEBO(EBO_Data& bufferData) {
     glGenBuffers(1, &bufferData.EBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferData.EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, bufferData.Size , bufferData.Data, GL_STATIC_DRAW);
   }
 
-  void OpenGLBufferService::DeleteIndexBuffer(IndexBufferData& bufferData) {
+  void BufferSystem::DeleteEBO(EBO_Data& bufferData) {
     glDeleteBuffers(1, &bufferData.EBO);
   }
 
-  void OpenGLBufferService::BindIndexBuffer(const IndexBufferData& bufferData) {
+  void BufferSystem::BindEBO(const EBO_Data& bufferData) {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferData.EBO);
   }
 
-  void OpenGLBufferService::UnbindIndexBuffer() {
+  void BufferSystem::UnBindEBO() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
   }
 

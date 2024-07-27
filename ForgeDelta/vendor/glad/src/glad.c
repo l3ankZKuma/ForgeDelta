@@ -306,8 +306,8 @@ PFNGLBINDTEXTUREUNITPROC glad_glBindTextureUnit = NULL;
 PFNGLBINDTEXTURESPROC glad_glBindTextures = NULL;
 PFNGLBINDTRANSFORMFEEDBACKPROC glad_glBindTransformFeedback = NULL;
 PFNGLBINDVERTEXARRAYPROC glad_glBindVertexArray = NULL;
-PFNGLBINDVERTEXBUFFERPROC glad_glBindVertexBuffer = NULL;
-PFNGLBINDVERTEXBUFFERSPROC glad_glBindVertexBuffers = NULL;
+PFNGLBindVBOPROC glad_glBindVBO = NULL;
+PFNGLBindVBOSPROC glad_glBindVBOs = NULL;
 PFNGLBITMAPPROC glad_glBitmap = NULL;
 PFNGLBLENDCOLORPROC glad_glBlendColor = NULL;
 PFNGLBLENDEQUATIONPROC glad_glBlendEquation = NULL;
@@ -2270,7 +2270,7 @@ static void load_GL_VERSION_4_3(GLADloadproc load) {
 	glad_glTexStorage2DMultisample = (PFNGLTEXSTORAGE2DMULTISAMPLEPROC)load("glTexStorage2DMultisample");
 	glad_glTexStorage3DMultisample = (PFNGLTEXSTORAGE3DMULTISAMPLEPROC)load("glTexStorage3DMultisample");
 	glad_glTextureView = (PFNGLTEXTUREVIEWPROC)load("glTextureView");
-	glad_glBindVertexBuffer = (PFNGLBINDVERTEXBUFFERPROC)load("glBindVertexBuffer");
+	glad_glBindVBO = (PFNGLBindVBOPROC)load("glBindVBO");
 	glad_glVertexAttribFormat = (PFNGLVERTEXATTRIBFORMATPROC)load("glVertexAttribFormat");
 	glad_glVertexAttribIFormat = (PFNGLVERTEXATTRIBIFORMATPROC)load("glVertexAttribIFormat");
 	glad_glVertexAttribLFormat = (PFNGLVERTEXATTRIBLFORMATPROC)load("glVertexAttribLFormat");
@@ -2298,7 +2298,7 @@ static void load_GL_VERSION_4_4(GLADloadproc load) {
 	glad_glBindTextures = (PFNGLBINDTEXTURESPROC)load("glBindTextures");
 	glad_glBindSamplers = (PFNGLBINDSAMPLERSPROC)load("glBindSamplers");
 	glad_glBindImageTextures = (PFNGLBINDIMAGETEXTURESPROC)load("glBindImageTextures");
-	glad_glBindVertexBuffers = (PFNGLBINDVERTEXBUFFERSPROC)load("glBindVertexBuffers");
+	glad_glBindVBOs = (PFNGLBindVBOSPROC)load("glBindVBOs");
 }
 static void load_GL_VERSION_4_5(GLADloadproc load) {
 	if(!GLAD_GL_VERSION_4_5) return;

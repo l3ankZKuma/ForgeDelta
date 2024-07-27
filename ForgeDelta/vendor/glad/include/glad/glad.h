@@ -4695,9 +4695,9 @@ GLAPI PFNGLTEXSTORAGE3DMULTISAMPLEPROC glad_glTexStorage3DMultisample;
 typedef void (APIENTRYP PFNGLTEXTUREVIEWPROC)(GLuint texture, GLenum target, GLuint origtexture, GLenum internalformat, GLuint minlevel, GLuint numlevels, GLuint minlayer, GLuint numlayers);
 GLAPI PFNGLTEXTUREVIEWPROC glad_glTextureView;
 #define glTextureView glad_glTextureView
-typedef void (APIENTRYP PFNGLBINDVERTEXBUFFERPROC)(GLuint bindingindex, GLuint buffer, GLintptr offset, GLsizei stride);
-GLAPI PFNGLBINDVERTEXBUFFERPROC glad_glBindVertexBuffer;
-#define glBindVertexBuffer glad_glBindVertexBuffer
+typedef void (APIENTRYP PFNGLBindVBOPROC)(GLuint bindingindex, GLuint buffer, GLintptr offset, GLsizei stride);
+GLAPI PFNGLBindVBOPROC glad_glBindVBO;
+#define glBindVBO glad_glBindVBO
 typedef void (APIENTRYP PFNGLVERTEXATTRIBFORMATPROC)(GLuint attribindex, GLint size, GLenum type, GLboolean normalized, GLuint relativeoffset);
 GLAPI PFNGLVERTEXATTRIBFORMATPROC glad_glVertexAttribFormat;
 #define glVertexAttribFormat glad_glVertexAttribFormat
@@ -4771,9 +4771,9 @@ GLAPI PFNGLBINDSAMPLERSPROC glad_glBindSamplers;
 typedef void (APIENTRYP PFNGLBINDIMAGETEXTURESPROC)(GLuint first, GLsizei count, const GLuint *textures);
 GLAPI PFNGLBINDIMAGETEXTURESPROC glad_glBindImageTextures;
 #define glBindImageTextures glad_glBindImageTextures
-typedef void (APIENTRYP PFNGLBINDVERTEXBUFFERSPROC)(GLuint first, GLsizei count, const GLuint *buffers, const GLintptr *offsets, const GLsizei *strides);
-GLAPI PFNGLBINDVERTEXBUFFERSPROC glad_glBindVertexBuffers;
-#define glBindVertexBuffers glad_glBindVertexBuffers
+typedef void (APIENTRYP PFNGLBindVBOSPROC)(GLuint first, GLsizei count, const GLuint *buffers, const GLintptr *offsets, const GLsizei *strides);
+GLAPI PFNGLBindVBOSPROC glad_glBindVBOs;
+#define glBindVBOs glad_glBindVBOs
 #endif
 #ifndef GL_VERSION_4_5
 #define GL_VERSION_4_5 1

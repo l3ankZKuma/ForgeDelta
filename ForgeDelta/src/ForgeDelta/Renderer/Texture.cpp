@@ -39,6 +39,43 @@ namespace ForgeDelta {
     return MaxTextures;
   }
 
+  uint32_t TextureSystem::CreateTexture2D(uint32_t width, uint32_t height, uint32_t color)
+  {
+    for (size_t i = 0; i < MaxTextures; ++i)
+    {
+      if (!m_Used[i])
+      {
+        m_Used[i] = true;
+        TextureData& texture = m_TexturePool[i];
+        texture.type = TextureType::Texture2D;
+        texture.width = width;
+        texture.height = height;
+        texture.format = TextureFormat::RGBA;
+        texture.wrap = TextureWrap::Repeat;
+        texture.filter = TextureFilter::Linear;
+        m_ActiveTextures.push_back(i);
+
+        glGenTextures(1, &texture.rendererID);
+        glBindTexture(GL_TEXTURE_2D, texture.rendererID);
+
+        // Create texture data
+        std::vector<uint32_t> textureData(width * height, color);
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureData.data());
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+        texture.isLoaded = true;
+        return i;
+      }
+    }
+    FD_CORE_ERROR("Texture pool is full!");
+    return MaxTextures;
+  }
+
   uint32_t TextureSystem::CreateTextureCube(const std::array<const char*, 6>& paths) {
     for (size_t i = 0; i < MaxTextures; ++i) {
       if (!m_Used[i]) {

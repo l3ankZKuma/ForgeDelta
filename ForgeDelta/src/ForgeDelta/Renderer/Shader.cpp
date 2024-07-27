@@ -33,22 +33,22 @@ namespace ForgeDelta {
     return 0;
   }
 
-  void OpenGLShaderService::CreateShader(ShaderData& shaderData) {
+  void ShaderSystem::CreateShader(ShaderData& shaderData) {
     shaderData.RendererID = glCreateProgram();
     if (shaderData.RendererID == 0) {
       FD_CORE_ERROR("Error creating shader program!");
     }
   }
 
-  void OpenGLShaderService::DeleteShader(ShaderData& shaderData) {
+  void ShaderSystem::DeleteShader(ShaderData& shaderData) {
     glDeleteProgram(shaderData.RendererID);
   }
 
-  void OpenGLShaderService::BindShader(const ShaderData& shaderData) {
+  void ShaderSystem::BindShader(const ShaderData& shaderData) {
     glUseProgram(shaderData.RendererID);
   }
 
-  GLuint OpenGLShaderService::GetUniformLocation(ShaderData& shaderData, const char* name) {
+  GLuint ShaderSystem::GetUniformLocation(ShaderData& shaderData, const char* name) {
     auto& uniformCache = shaderData.UniformLocationCache;
     if (uniformCache.find(name) != uniformCache.end()) {
       return uniformCache[name];
@@ -60,47 +60,47 @@ namespace ForgeDelta {
     return location;
   }
 
-  void OpenGLShaderService::UploadUniformInt(ShaderData& shaderData, const char* name, int value) {
+  void ShaderSystem::UploadUniformInt(ShaderData& shaderData, const char* name, int value) {
     GLuint location = GetUniformLocation(shaderData, name);
     glUniform1i(location, value);
   }
 
-  void OpenGLShaderService::UploadUniformIntArray(ShaderData& shaderData, const char* name, int* values, uint32_t count) {
+  void ShaderSystem::UploadUniformIntArray(ShaderData& shaderData, const char* name, int* values, uint32_t count) {
     GLuint location = GetUniformLocation(shaderData, name);
     glUniform1iv(location, count, values);
   }
 
-  void OpenGLShaderService::UploadUniformFloat(ShaderData& shaderData, const char* name, float value) {
+  void ShaderSystem::UploadUniformFloat(ShaderData& shaderData, const char* name, float value) {
     GLuint location = GetUniformLocation(shaderData, name);
     glUniform1f(location, value);
   }
 
-  void OpenGLShaderService::UploadUniformFloat2(ShaderData& shaderData, const char* name, const glm::vec2& value) {
+  void ShaderSystem::UploadUniformFloat2(ShaderData& shaderData, const char* name, const glm::vec2& value) {
     GLuint location = GetUniformLocation(shaderData, name);
     glUniform2f(location, value.x, value.y);
   }
 
-  void OpenGLShaderService::UploadUniformFloat3(ShaderData& shaderData, const char* name, const glm::vec3& value) {
+  void ShaderSystem::UploadUniformFloat3(ShaderData& shaderData, const char* name, const glm::vec3& value) {
     GLuint location = GetUniformLocation(shaderData, name);
     glUniform3f(location, value.x, value.y, value.z);
   }
 
-  void OpenGLShaderService::UploadUniformFloat4(ShaderData& shaderData, const char* name, const glm::vec4& value) {
+  void ShaderSystem::UploadUniformFloat4(ShaderData& shaderData, const char* name, const glm::vec4& value) {
     GLuint location = GetUniformLocation(shaderData, name);
     glUniform4f(location, value.x, value.y, value.z, value.w);
   }
 
-  void OpenGLShaderService::UploadUniformMat4(ShaderData& shaderData, const char* name, const glm::mat4& value) {
+  void ShaderSystem::UploadUniformMat4(ShaderData& shaderData, const char* name, const glm::mat4& value) {
     GLuint location = GetUniformLocation(shaderData, name);
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
   }
 
-  void OpenGLShaderService::UploadUniformBool(ShaderData& shaderData, const char* name, bool value) {
+  void ShaderSystem::UploadUniformBool(ShaderData& shaderData, const char* name, bool value) {
     GLuint location = GetUniformLocation(shaderData, name);
     glUniform1i(location, value);
   }
 
-  std::string OpenGLShaderService::ReadFile(const char* filePath) {
+  std::string ShaderSystem::ReadFile(const char* filePath) {
     std::string result;
     std::ifstream file(filePath, std::ios::in | std::ios::binary);
     if (file) {
@@ -117,7 +117,7 @@ namespace ForgeDelta {
     return result;
   }
 
-  std::unordered_map<GLenum, std::string> OpenGLShaderService::Preprocess(const std::string& source) {
+  std::unordered_map<GLenum, std::string> ShaderSystem::Preprocess(const std::string& source) {
     std::unordered_map<GLenum, std::string> shaderSources;
     const char* typeToken = "#type";
     size_t typeTokenLength = strlen(typeToken);
@@ -137,7 +137,7 @@ namespace ForgeDelta {
     return shaderSources;
   }
 
-  void OpenGLShaderService::Compile(GLuint program, const std::unordered_map<GLenum, std::string>& shaderSources) {
+  void ShaderSystem::Compile(GLuint program, const std::unordered_map<GLenum, std::string>& shaderSources) {
     std::array<GLuint, 2> shaderIDs;
     size_t shaderCount = 0;
 
@@ -207,15 +207,15 @@ namespace ForgeDelta {
 
   ShaderData ShaderLibrary::Load(const char* filePath) {
     ShaderData shaderData;
-    OpenGLShaderService::CreateShader(shaderData);
-    std::string source = OpenGLShaderService::ReadFile(filePath);
+    ShaderSystem::CreateShader(shaderData);
+    std::string source = ShaderSystem::ReadFile(filePath);
     if (source.empty()) {
       FD_CORE_ERROR("Shader source is empty!");
       return shaderData;
     }
-    auto shaderSources = OpenGLShaderService::Preprocess(source);
+    auto shaderSources = ShaderSystem::Preprocess(source);
     GLuint program = glCreateProgram();
-    OpenGLShaderService::Compile(program, shaderSources);
+    ShaderSystem::Compile(program, shaderSources);
     shaderData.RendererID = program;
 
     auto lastSlash = std::string(filePath).find_last_of("/\\");
@@ -231,15 +231,15 @@ namespace ForgeDelta {
 
   ShaderData ShaderLibrary::Load(const char* name, const char* filePath) {
     ShaderData shaderData;
-    OpenGLShaderService::CreateShader(shaderData);
-    std::string source = OpenGLShaderService::ReadFile(filePath);
+    ShaderSystem::CreateShader(shaderData);
+    std::string source = ShaderSystem::ReadFile(filePath);
     if (source.empty()) {
       FD_CORE_ERROR("Shader source is empty!");
       return shaderData;
     }
-    auto shaderSources = OpenGLShaderService::Preprocess(source);
+    auto shaderSources = ShaderSystem::Preprocess(source);
     GLuint program = glCreateProgram();
-    OpenGLShaderService::Compile(program, shaderSources);
+    ShaderSystem::Compile(program, shaderSources);
     shaderData.RendererID = program;
     shaderData.Name = name;
 
