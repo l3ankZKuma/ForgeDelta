@@ -57,7 +57,7 @@ void BufferSystem::CreateVBO(VBO_Data& bufferData, bool isStatic) {
                  isStatic ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
 }
 
-  void BufferSystem::DeleleVBO(VBO_Data& bufferData) {
+  void BufferSystem::DeleteVBO(VBO_Data& bufferData) {
     glDeleteBuffers(1, &bufferData.VBO);
   }
 

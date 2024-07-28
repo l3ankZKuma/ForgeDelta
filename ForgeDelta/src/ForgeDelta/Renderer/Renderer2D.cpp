@@ -6,15 +6,14 @@
 #include "ForgeDelta/Renderer/Buffer.h"
 #include "ForgeDelta/Renderer/Camera/Orthographic2DCamera.h"
 #include "ForgeDelta/Renderer/RendererCommand.h"
-#include"ForgeDelta/Core/Log.h"
-#include"ForgeDelta/Debug/Instrumentor.h"
+#include "ForgeDelta/Core/Log.h"
+#include "ForgeDelta/Debug/Instrumentor.h"
 
 namespace ForgeDelta {
 
   using VAO = VAO_Data;
   using VBO = VBO_Data;
   using EBO = EBO_Data;
-
 
   struct QuadVertex {
     glm::vec3 Position;
@@ -47,8 +46,11 @@ namespace ForgeDelta {
     Renderer2D::Statistics Stats;
   };
 
-  static  Renderer2DStorage s_Data;
+  static Renderer2DStorage s_Data;
   static ShaderLibrary s_ShaderLibrary;
+
+  std::jthread Renderer2D::s_RenderThread;
+  std::atomic<bool> Renderer2D::s_IsRunning(false);
 
   void Renderer2D::Init() {
     FD_PROFILE_FUNCTION();
@@ -118,15 +120,42 @@ namespace ForgeDelta {
     s_Data.QuadVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
     s_Data.QuadVertexPositions[2] = { 0.5f,  0.5f, 0.0f, 1.0f };
     s_Data.QuadVertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
+
+    // Start the render thread
+    StartRenderThread();
   }
 
   void Renderer2D::Shutdown() {
     FD_PROFILE_FUNCTION();
 
+    // Stop the render thread
+    StopRenderThread();
+
     delete[] s_Data.QuadVertexBufferBase;
-    BufferSystem::DeleleVBO(s_Data.QuadVBO);
+    BufferSystem::DeleteVBO(s_Data.QuadVBO);  
     BufferSystem::DeleteEBO(s_Data.QuadEBO);
     VAOSystem::DeleteVertexArray(s_Data.QuadVAO);
+  }
+
+  void Renderer2D::StartRenderThread() {
+    s_IsRunning = true;
+    s_RenderThread = std::jthread(RenderLoop);
+  }
+
+  void Renderer2D::StopRenderThread() {
+    s_IsRunning = false;
+    if (s_RenderThread.joinable()) {
+      s_RenderThread.join();
+    }
+  }
+
+  void Renderer2D::RenderLoop() {
+    while (s_IsRunning) {
+      // Render operations
+      Flush();
+      // Sleep for a while to simulate frame time or use a condition variable
+      std::this_thread::sleep_for(std::chrono::milliseconds(16));
+    }
   }
 
   void Renderer2D::BeginScene(const Orthographic2DCamera& camera) {
@@ -138,15 +167,10 @@ namespace ForgeDelta {
     s_Data.QuadIndexCount = 0;
     s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
     s_Data.TextureSlotIndex = 1;
-
   }
 
   void Renderer2D::EndScene() {
-
     FD_PROFILE_FUNCTION();
-
-
-
     Flush();
   }
 
@@ -166,9 +190,7 @@ namespace ForgeDelta {
   }
 
   void Renderer2D::FlushAndReset() {
-
     EndScene();
-
     s_Data.QuadIndexCount = 0;
     s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
     s_Data.TextureSlotIndex = 1;
@@ -180,8 +202,6 @@ namespace ForgeDelta {
 
   void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color) {
     FD_PROFILE_FUNCTION();
-
-
 
     constexpr size_t quadVertexCount = 4;
     constexpr float textureIndex = 0.0f; // White Texture
@@ -202,7 +222,6 @@ namespace ForgeDelta {
       s_Data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
       s_Data.QuadVertexBufferPtr++;
     }
-
 
     s_Data.QuadIndexCount += 6;
     s_Data.Stats.QuadCount++;
@@ -239,7 +258,6 @@ namespace ForgeDelta {
       s_Data.TextureSlotIndex++;
     }
 
-
     glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
       * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
@@ -254,8 +272,6 @@ namespace ForgeDelta {
 
     s_Data.QuadIndexCount += 6;
     s_Data.Stats.QuadCount++;
-
-
   }
 
   void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color) {
@@ -339,9 +355,7 @@ namespace ForgeDelta {
   }
 
   void Renderer2D::ResetStats() {
-
-    s_Data.Stats.DrawCalls = 0;
-    s_Data.Stats.QuadCount = 0;
+    memset(&s_Data.Stats, 0, sizeof(Statistics));
   }
 
   Renderer2D::Statistics Renderer2D::GetStats() {
@@ -349,4 +363,3 @@ namespace ForgeDelta {
   }
 
 }
-

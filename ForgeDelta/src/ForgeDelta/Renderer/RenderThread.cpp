@@ -1,7 +1,9 @@
 #include "fdpch.h"
 
 #include "ForgeDelta/Renderer/Renderer.h"
-#include"ForgeDelta/Core/RenderThread.h"
+#include"ForgeDelta/Renderer/RenderThread.h"
+#include "ForgeDelta/Core/Thread.h"
+
 
 #include <Windows.h>
 

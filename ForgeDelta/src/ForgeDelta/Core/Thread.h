@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-#include <thread>
 
 namespace ForgeDelta {
 
@@ -20,6 +18,8 @@ namespace ForgeDelta {
 		void SetName(const std::string& name);
 
 		void Join();
+
+		std::thread::id GetID() const;
 	private:
 		std::string m_Name;
 		std::thread m_Thread;

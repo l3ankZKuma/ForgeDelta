@@ -84,9 +84,9 @@ public:
 
   void OnDetach() override {
     // Delete Vertex Buffers
-    ForgeDelta::BufferSystem::DeleleVBO(m_VBO_Data);
-    ForgeDelta::BufferSystem::DeleleVBO(m_LogoVBO_Data);
-    ForgeDelta::BufferSystem::DeleleVBO(m_CheckBoardVBO);
+    ForgeDelta::BufferSystem::DeleteVBO(m_VBO_Data);
+    ForgeDelta::BufferSystem::DeleteVBO(m_LogoVBO_Data);
+    ForgeDelta::BufferSystem::DeleteVBO(m_CheckBoardVBO);
 
     // Delete Index Buffers
     ForgeDelta::BufferSystem::DeleteEBO(m_EBO_Data);

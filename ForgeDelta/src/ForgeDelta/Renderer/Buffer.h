@@ -63,7 +63,7 @@ namespace ForgeDelta {
   class BufferSystem {
   public:
     static void CreateVBO(VBO_Data& bufferData,bool isStatic = true);
-    static void DeleleVBO(VBO_Data& bufferData);
+    static void DeleteVBO(VBO_Data& bufferData);
     static void BindVBO(const VBO_Data& bufferData);
     static void UnBindVBO();
     static void SetVBO(VBO_Data& bufferData,const void*data ,uint32_t size);
