@@ -1,3 +1,4 @@
+// Renderer2D.h
 #pragma once
 
 #include "ForgeDelta/Core/Base.h"
@@ -14,7 +15,6 @@ namespace ForgeDelta {
 
     static void BeginScene(const Orthographic2DCamera& camera);
     static void EndScene();
-    static void Flush();
 
     // Primitives
     static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color);
@@ -41,6 +41,7 @@ namespace ForgeDelta {
 
   private:
     static void FlushAndReset();
+    static void Flush();
   };
 
 }

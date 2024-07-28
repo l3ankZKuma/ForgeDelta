@@ -44,6 +44,12 @@ namespace ForgeDelta {
     TextureFilter filter;
     std::array<std::string, 6> paths;  // For cubemaps, we need 6 paths
     bool isLoaded;
+
+    bool operator==(const TextureData& other) const
+    {
+      return rendererID == other.rendererID;
+    }
+
   };
 
   class TextureSystem

@@ -36,8 +36,9 @@ namespace ForgeDelta {
     }
 
     inline static void DrawIndexed(VAO_Data& vertexArray,uint32_t idxCnt =0) {
+      glBindVertexArray(vertexArray.VAO);
       const auto& count = vertexArray.IndexBuffer->Count;
-      const auto cnt = idxCnt == 0 ? count : idxCnt;
+      const auto &cnt = idxCnt ? count : idxCnt;
       glDrawElements(GL_TRIANGLES, cnt, GL_UNSIGNED_INT, nullptr);
     }
 

@@ -202,7 +202,7 @@ public:
       m_CameraController.OnUpdate(ts);
     }
 
-    ForgeDelta::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+    ForgeDelta::RenderCommand::SetClearColor({0.5f, 0.5f, 0.5f, 1 });
     ForgeDelta::RenderCommand::Clear();
 
     ForgeDelta::Renderer2D::BeginScene(m_CameraController.GetCamera());
@@ -218,10 +218,10 @@ public:
 
       // Rotated Quad
 
-      //ForgeDelta::Renderer2D::DrawRotatedQuad(glm::vec2(2.0f, 2.0f), glm::vec2(3.0f, 3.0f), 45.0f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)); // Yellow Rotated Quad
+      ForgeDelta::Renderer2D::DrawRotatedQuad(glm::vec2(2.0f, 2.0f), glm::vec2(3.0f, 3.0f), 45.0f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)); // Yellow Rotated Quad
 
       // Texture
-      //ForgeDelta::Renderer2D::DrawQuad(glm::vec3(1.0f, 1.0f, 0.f), glm::vec2(10.f, 10.f), m_CheckerBoardTextureID, 10.f);
+      ForgeDelta::Renderer2D::DrawQuad(glm::vec3(1.0f, 1.0f, 0.f), glm::vec2(10.f, 10.f), m_CheckerBoardTextureID, 10.f);
 
     }
 
