@@ -1,1 +1,1 @@
-{"otherData": {},"traceEvents":[{},{"cat":"function","dur":41619,"name":"ForgeDelta::Application::~Application(void)","ph":"X","pid":0,"tid":20104,"ts":1243733380466.000}]}
+{"otherData": {},"traceEvents":[{},{"cat":"function","dur":44306,"name":"ForgeDelta::Application::~Application(void)","ph":"X","pid":0,"tid":30244,"ts":1248078916885.700}]}

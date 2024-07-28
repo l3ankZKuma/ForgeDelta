@@ -1,3 +1,12 @@
+D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Renderer\Renderer2D.cpp;D:\Project_CSKMITL\bin-int\Release-windows-x86_64\ForgeDelta\Renderer2D.obj
+D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Core\OrthographicCamera2DController.cpp;D:\Project_CSKMITL\bin-int\Release-windows-x86_64\ForgeDelta\OrthographicCamera2DController.obj
+D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Renderer\Camera\Orthographic2DCamera.cpp;D:\Project_CSKMITL\bin-int\Release-windows-x86_64\ForgeDelta\Orthographic2DCamera.obj
+D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Renderer\GraphicsContext.cpp;D:\Project_CSKMITL\bin-int\Release-windows-x86_64\ForgeDelta\GraphicsContext.obj
+D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\ImGui\ImGuiLayer.cpp;D:\Project_CSKMITL\bin-int\Release-windows-x86_64\ForgeDelta\ImGuiLayer.obj
+D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Renderer\Renderer.cpp;D:\Project_CSKMITL\bin-int\Release-windows-x86_64\ForgeDelta\Renderer.obj
+D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Renderer\RenderThread.cpp;D:\Project_CSKMITL\bin-int\Release-windows-x86_64\ForgeDelta\RenderThread.obj
+D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Renderer\Shader.cpp;D:\Project_CSKMITL\bin-int\Release-windows-x86_64\ForgeDelta\Shader.obj
+D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Renderer\Buffer.cpp;D:\Project_CSKMITL\bin-int\Release-windows-x86_64\ForgeDelta\Buffer.obj
 D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Core\Application.cpp;D:\Project_CSKMITL\bin-int\Release-windows-x86_64\ForgeDelta\Application.obj
 D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Core\Base.cpp;D:\Project_CSKMITL\bin-int\Release-windows-x86_64\ForgeDelta\Base.obj
 D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Core\Input.cpp;D:\Project_CSKMITL\bin-int\Release-windows-x86_64\ForgeDelta\Input.obj
@@ -5,6 +14,8 @@ D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Core\Layer.cpp;D:\Project_CSKMITL\b
 D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Core\LayerStack.cpp;D:\Project_CSKMITL\bin-int\Release-windows-x86_64\ForgeDelta\LayerStack.obj
 D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Core\Log.cpp;D:\Project_CSKMITL\bin-int\Release-windows-x86_64\ForgeDelta\Log.obj
 D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Core\Window.cpp;D:\Project_CSKMITL\bin-int\Release-windows-x86_64\ForgeDelta\Window.obj
-D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Imgui\ImguiBuild.cpp;D:\Project_CSKMITL\bin-int\Release-windows-x86_64\ForgeDelta\ImguiBuild.obj
+D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\ImGui\ImGuiBuild.cpp;D:\Project_CSKMITL\bin-int\Release-windows-x86_64\ForgeDelta\ImGuiBuild.obj
 D:\Project_CSKMITL\ForgeDelta\src\fdpch.cpp;D:\Project_CSKMITL\bin-int\Release-windows-x86_64\ForgeDelta\fdpch.obj
+D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Renderer\Texture.cpp;D:\Project_CSKMITL\bin-int\Release-windows-x86_64\ForgeDelta\Texture.obj
 D:\Project_CSKMITL\ForgeDelta\vendor\stb_image\stb_image.cpp;D:\Project_CSKMITL\bin-int\Release-windows-x86_64\ForgeDelta\stb_image.obj
+D:\Project_CSKMITL\ForgeDelta\src\ForgeDelta\Renderer\VertexArray.cpp;D:\Project_CSKMITL\bin-int\Release-windows-x86_64\ForgeDelta\VertexArray.obj

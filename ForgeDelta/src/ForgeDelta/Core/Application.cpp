@@ -57,7 +57,7 @@ namespace ForgeDelta {
         timeStep = time - m_lastFrameTime;
         m_lastFrameTime = time;
 
-#if 0
+#if 1
         FD_CORE_INFO("FPS : {0}", 1.0f / timeStep.GetSeconds());
 
 #endif 

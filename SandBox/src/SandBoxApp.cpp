@@ -180,7 +180,7 @@ private:
 
 class SandBox2D : public ForgeDelta::Layer {
 public:
-  SandBox2D() : Layer("SandBox2D") {}
+  SandBox2D() : Layer("SandBox2D"), m_Rotation(0.0f) {}
   virtual ~SandBox2D() = default;
 
   void OnAttach() override {
@@ -196,13 +196,18 @@ public:
   void OnUpdate(ForgeDelta::TimeStep ts) override {
     FD_PROFILE_FUNCTION(); // Profile the OnUpdate function
 
+    ForgeDelta::Renderer2D::ResetStats();
+
     // Update
     {
       FD_PROFILE_SCOPE("SandBox2D::OnUpdate - CameraController Update");
       m_CameraController.OnUpdate(ts);
     }
 
-    ForgeDelta::RenderCommand::SetClearColor({0.5f, 0.5f, 0.5f, 1 });
+    // Update rotation angle
+    m_Rotation += ts * 50.0f; // Adjust the speed as needed
+
+    ForgeDelta::RenderCommand::SetClearColor({ 0.5f, 0.5f, 0.5f, 1 });
     ForgeDelta::RenderCommand::Clear();
 
     ForgeDelta::Renderer2D::BeginScene(m_CameraController.GetCamera());
@@ -210,18 +215,26 @@ public:
     // Render
     {
       FD_PROFILE_SCOPE("SandBox2D::OnUpdate - Render");
-
       // Example usage of Renderer2D to draw quads
       ForgeDelta::Renderer2D::DrawQuad(glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)); // Red Quad
       ForgeDelta::Renderer2D::DrawQuad(glm::vec2(1.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)); // Green Quad
       ForgeDelta::Renderer2D::DrawQuad(glm::vec2(0.0f, 3.0f), glm::vec2(1.0f, 1.0f), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)); // Blue Quad
 
-      // Rotated Quad
-
-      ForgeDelta::Renderer2D::DrawRotatedQuad(glm::vec2(2.0f, 2.0f), glm::vec2(3.0f, 3.0f), 45.0f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)); // Yellow Rotated Quad
+      // Rotated Quad (spinning)
+      ForgeDelta::Renderer2D::DrawRotatedQuad(glm::vec2(2.0f, 2.0f), glm::vec2(3.0f, 3.0f), m_Rotation, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)); // Yellow Rotated Quad
 
       // Texture
-      ForgeDelta::Renderer2D::DrawQuad(glm::vec3(1.0f, 1.0f, 0.f), glm::vec2(10.f, 10.f), m_CheckerBoardTextureID, 10.f);
+      ForgeDelta::Renderer2D::DrawQuad(glm::vec3(0.0f, 0.0f, -1.f), glm::vec2(10.f, 10.f), m_CheckerBoardTextureID, 10.f);
+
+      // Render a grid of quads
+      for (float x = -5.0f; x < 5.0f; x += 0.5f) {
+        for (float y = -5.0f; y < 5.0f; y += 0.5f) {
+          glm::vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f, 1.0f };
+          ForgeDelta::Renderer2D::DrawQuad({ x, y }, { 0.45f, 0.45f }, color);
+        }
+      }
+
+
 
     }
 
@@ -236,15 +249,19 @@ public:
 
   void OnImGuiRender() override {
     FD_PROFILE_FUNCTION(); // Profile the OnImGuiRender function
-
     ImGui::Begin("Settings");
     ImGui::ColorEdit4("Grid Color", glm::value_ptr(uColor));
 
-    ImGui::Text("Profiling Results:");
-    const auto& data = ForgeDelta::Application::Get().GetPerformanceProfiler().GetPerFrameData();
-    for (const auto& result : data) {
-      ImGui::Text("%s: %f ms ", result.first.c_str(), result.second.Time / result.second.Samples);
-    }
+
+    ImGui::Text("Renderer2D Stats:");
+    auto stats = ForgeDelta::Renderer2D::GetStats();
+    ImGui::Text("Draw Calls: %d", stats.DrawCalls);
+    ImGui::Text("Quads: %d", stats.QuadCount);
+    ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
+    ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+
+
+
 
     ImGui::End();
   }
@@ -252,9 +269,10 @@ public:
 private:
   ForgeDelta::OrthographicCamera2DController m_CameraController{ 16.0f / 9.0f, true };
   glm::vec4 uColor{ 0.2f, 0.3f, 0.8f, 1.0f };
-
-  uint32_t m_CheckerBoardTextureID = ForgeDelta::g_TextureSystem.CreateTexture2D("assets/textures/CheckerBoard.png");
+  uint32_t m_CheckerBoardTextureID = ForgeDelta::g_TextureSystem.CreateTexture2D("assets/textures/ck_board.png");
+  float m_Rotation;
 };
+
 
 class SandBox : public ForgeDelta::Application {
 public:
