@@ -240,9 +240,15 @@ namespace ForgeDelta {
 
     const TextureData& parentTexture = m_TexturePool[parentTextureID];
 
-
-    glm::vec2 min = { (coords.x * cellSize.x) / parentTexture.width, (coords.y * cellSize.y) / parentTexture.height };
-    glm::vec2 max = { ((coords.x + spriteSize.x) * cellSize.x) / parentTexture.width, ((coords.y + spriteSize.y) * cellSize.y) / parentTexture.height };
+    // Calculate UV coordinates with (0,0) at top-left
+    glm::vec2 min = {
+        (coords.x * cellSize.x) / parentTexture.width,
+        (coords.y * cellSize.y) / parentTexture.height
+    };
+    glm::vec2 max = {
+        ((coords.x + spriteSize.x) * cellSize.x) / parentTexture.width,
+        ((coords.y + spriteSize.y) * cellSize.y) / parentTexture.height
+    };
 
     return CreateSubTexture(parentTextureID, min, max);
   }

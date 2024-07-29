@@ -189,7 +189,7 @@ public:
     m_SpriteSheet = ForgeDelta::g_TextureSystem.CreateTexture2D("assets/Game/RPGpack_sheet_2X.png");
 
 
-    m_GrassTile = ForgeDelta::g_TextureSystem.CreateSubTextureFromCoords(m_SpriteSheet,{0,0},{381, 381});
+    m_GrassTile = ForgeDelta::g_TextureSystem.CreateSubTextureFromCoords(m_SpriteSheet,{0,1664-381},{381, 381});
 
 
 
