@@ -178,13 +178,22 @@ private:
 */
 
 
-class SandBox2D : public ForgeDelta::Layer {
+ class SandBox2D : public ForgeDelta::Layer {
 public:
   SandBox2D() : Layer("SandBox2D"), m_Rotation(0.0f) {}
   virtual ~SandBox2D() = default;
 
   void OnAttach() override {
     FD_PROFILE_FUNCTION(); // Profile the OnAttach function
+
+    m_SpriteSheet = ForgeDelta::g_TextureSystem.CreateTexture2D("assets/Game/RPGpack_sheet_2X.png");
+
+
+    m_GrassTile = ForgeDelta::g_TextureSystem.CreateSubTextureFromCoords(m_SpriteSheet,{0,0},{381, 381});
+
+
+
+
     ForgeDelta::Renderer2D::Init();
   }
 
@@ -207,9 +216,11 @@ public:
     // Update rotation angle
     m_Rotation += ts * 50.0f; // Adjust the speed as needed
 
-    ForgeDelta::RenderCommand::SetClearColor({ 0.5f, 0.5f, 0.5f, 1 });
+    ForgeDelta::RenderCommand::SetClearColor({ 0.f, 0.f, 0.f, 1 });
     ForgeDelta::RenderCommand::Clear();
 
+    /*
+    * 
     ForgeDelta::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
     // Render
@@ -234,12 +245,29 @@ public:
         }
       }
 
-
+      
 
     }
 
     ForgeDelta::Renderer2D::EndScene();
+     */
+
+
+
+
+
+    ForgeDelta::Renderer2D::BeginScene(m_CameraController.GetCamera());
+    {
+
+
+      //Draw the grass tile
+      ForgeDelta::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 1.0f, 1.0f }, m_GrassTile,true);
+
+    }
+    ForgeDelta::Renderer2D::EndScene();
   }
+
+
 
   void OnEvent(ForgeDelta::Event& e) override {
     FD_PROFILE_FUNCTION(); // Profile the OnEvent function
@@ -269,7 +297,19 @@ public:
 private:
   ForgeDelta::OrthographicCamera2DController m_CameraController{ 16.0f / 9.0f, true };
   glm::vec4 uColor{ 0.2f, 0.3f, 0.8f, 1.0f };
-  uint32_t m_CheckerBoardTextureID = ForgeDelta::g_TextureSystem.CreateTexture2D("assets/textures/ck_board.png");
+
+
+  uint32_t m_SpriteSheet;
+  uint32_t m_GrassTile;
+  uint32_t m_WaterTile;
+  uint32_t m_TreeSprite;
+  uint32_t m_HouseWallBeige;
+  uint32_t m_HouseRoofBrown;
+  uint32_t m_WindowRoundArch;
+  
+  
+  
+  
   float m_Rotation;
 };
 

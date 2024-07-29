@@ -45,10 +45,10 @@ namespace ForgeDelta {
     std::array<std::string, 6> paths;  // For cubemaps, we need 6 paths
     bool isLoaded;
 
-    bool operator==(const TextureData& other) const
-    {
-      return rendererID == other.rendererID;
-    }
+
+    glm::vec2 subTextureMin;  // New: for subtexture support
+    glm::vec2 subTextureMax;  // New: for subtexture support
+
 
   };
 
@@ -68,6 +68,12 @@ namespace ForgeDelta {
     uint32_t GetWidth(uint32_t textureID) const;
     uint32_t GetHeight(uint32_t textureID) const;
     TextureType GetTextureType(uint32_t textureID) const;
+
+
+    // New SubTexture methods
+    uint32_t CreateSubTexture(uint32_t parentTextureID, const glm::vec2& min, const glm::vec2& max);
+    uint32_t CreateSubTextureFromCoords(uint32_t parentTextureID, const glm::vec2& coords, const glm::vec2& spriteSize, const glm::vec2& cellSize = { 1, 1 });
+    const glm::vec2* GetSubTextureCoords(uint32_t textureID) const;
 
   private:
     std::array<TextureData, MaxTextures> m_TexturePool;

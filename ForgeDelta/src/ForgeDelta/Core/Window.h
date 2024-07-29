@@ -18,7 +18,7 @@ namespace ForgeDelta {
     constexpr static const char* DefaultTitle = "ForgeDelta";
     constexpr static uint32_t DefaultWidth = 1280;
     constexpr static uint32_t DefaultHeight = 720;
-    constexpr static bool DefaultVSync =true;
+    constexpr static bool DefaultVSync = true;
 
     const char* Title = DefaultTitle;
     uint32_t Width = DefaultWidth;

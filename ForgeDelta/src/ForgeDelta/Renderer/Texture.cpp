@@ -158,7 +158,7 @@ namespace ForgeDelta {
       glGenTextures(1, &texture.rendererID);
       glBindTexture(GL_TEXTURE_2D, texture.rendererID);
 
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -209,4 +209,58 @@ namespace ForgeDelta {
     texture.isLoaded = true;
   }
 
+
+
+  uint32_t TextureSystem::CreateSubTexture(uint32_t parentTextureID, const glm::vec2& min, const glm::vec2& max) {
+    if (parentTextureID >= MaxTextures || !m_Used[parentTextureID]) {
+      FD_CORE_ERROR("Invalid parent texture ID!");
+      return MaxTextures;
+    }
+
+    for (size_t i = 0; i < MaxTextures; ++i) {
+      if (!m_Used[i]) {
+        m_Used[i] = true;
+        TextureData& subTexture = m_TexturePool[i];
+        subTexture = m_TexturePool[parentTextureID]; // Copy parent texture data
+        subTexture.subTextureMin = min;
+        subTexture.subTextureMax = max;
+        m_ActiveTextures.push_back(i);
+        return i;
+      }
+    }
+    FD_CORE_ERROR("Texture pool is full!");
+    return MaxTextures;
+  }
+
+  uint32_t TextureSystem::CreateSubTextureFromCoords(uint32_t parentTextureID, const glm::vec2& coords, const glm::vec2& spriteSize, const glm::vec2& cellSize) {
+    if (parentTextureID >= MaxTextures || !m_Used[parentTextureID]) {
+      FD_CORE_ERROR("Invalid parent texture ID!");
+      return MaxTextures;
+    }
+
+    const TextureData& parentTexture = m_TexturePool[parentTextureID];
+
+
+    glm::vec2 min = { (coords.x * cellSize.x) / parentTexture.width, (coords.y * cellSize.y) / parentTexture.height };
+    glm::vec2 max = { ((coords.x + spriteSize.x) * cellSize.x) / parentTexture.width, ((coords.y + spriteSize.y) * cellSize.y) / parentTexture.height };
+
+    return CreateSubTexture(parentTextureID, min, max);
+  }
+
+  const glm::vec2* TextureSystem::GetSubTextureCoords(uint32_t textureID) const {
+    if (textureID < MaxTextures && m_Used[textureID]) {
+      const TextureData& texture = m_TexturePool[textureID];
+
+      
+      static glm::vec2 coords[4];
+      coords[0] = { texture.subTextureMin.x, texture.subTextureMin.y };
+      coords[1] = { texture.subTextureMax.x, texture.subTextureMin.y };
+      coords[2] = { texture.subTextureMax.x, texture.subTextureMax.y };
+      coords[3] = { texture.subTextureMin.x, texture.subTextureMax.y };
+
+      FD_CORE_INFO("Subtexture coords: {0}, {1}, {2}, {3}", coords[0].x, coords[0].y, coords[1].x, coords[1].y);
+      return coords;
+    }
+    return nullptr;
+  }
 }

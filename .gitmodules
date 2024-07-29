@@ -22,3 +22,6 @@
 [submodule "ForgeDelta/vendor/box2d"]
 	path = ForgeDelta/vendor/box2d
 	url = https://github.com/erincatto/box2d
+[submodule "ForgeDelta/vendor/opencv"]
+	path = ForgeDelta/vendor/opencv
+	url = https://github.com/opencv/opencv
