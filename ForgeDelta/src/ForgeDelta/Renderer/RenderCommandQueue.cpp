@@ -1,7 +1,6 @@
 #include "fdpch.h"
-#include "RenderCommandQueue.h"
-
-#include "ForgeDelta/Core/RenderThread.h"
+#include"RenderCommandQueue.h"
+#include"ForgeDelta/Core/Log.h"
 
 #define FD_RENDER_TRACE(...) FD_CORE_TRACE(__VA_ARGS__)
 
@@ -9,7 +8,7 @@ namespace ForgeDelta {
 
 	RenderCommandQueue::RenderCommandQueue()
 	{
-		m_CommandBuffer = new uint8_t[10 * 1024 * 1024]; // 10mb buffer
+		m_CommandBuffer = new unsigned char[10 * 1024 * 1024]; // 10mb buffer
 		m_CommandBufferPtr = m_CommandBuffer;
 		memset(m_CommandBuffer, 0, 10 * 1024 * 1024);
 	}
@@ -19,44 +18,76 @@ namespace ForgeDelta {
 		delete[] m_CommandBuffer;
 	}
 
-	void* RenderCommandQueue::Allocate(RenderCommandFn fn, uint32_t size)
+	void RenderCommandQueue::Submit(const RenderCommand& command)
 	{
-		// NOTE(Yan): for debugging
-		// HZ_CORE_VERIFY(!RenderThread::IsCurrentThreadRT());
+		auto ptr = m_CommandBuffer;
 
-		// TODO: alignment
-		*(RenderCommandFn*)m_CommandBufferPtr = fn;
-		m_CommandBufferPtr += sizeof(RenderCommandFn);
+		memcpy(m_CommandBuffer, &command, sizeof(RenderCommand));
+		m_CommandBufferPtr += sizeof(RenderCommand);
+		m_RenderCommandCount++;
+	}
+	
+	void *RenderCommandQueue::Allocate(RenderCommandFn fn, unsigned int size)
+  {
+    unsigned int totalSize = sizeof(RenderCommandFn) + size + (16 - ((sizeof(RenderCommandFn) + size) % 16)); // Include padding
 
-		*(uint32_t*)m_CommandBufferPtr = size;
-		m_CommandBufferPtr += sizeof(uint32_t);
+    if (m_CommandBufferPtr + totalSize > m_CommandBuffer + (10 * 1024 * 1024)) // Check if we're about to exceed buffer
+    {
+      // Handle buffer overflow - perhaps by executing current commands and resetting, or by expanding the buffer
+      FD_CORE_ERROR("Render command buffer overflow!");
+      return nullptr;
+    }
 
-		void* memory = m_CommandBufferPtr;
-		m_CommandBufferPtr += size;
+    byte* buffer = m_CommandBufferPtr;
+    memcpy(buffer, &fn, sizeof(RenderCommandFn));
+    buffer += sizeof(RenderCommandFn);
 
-		m_CommandCount++;
-		return memory;
+    m_CommandBufferPtr += totalSize;
+    m_RenderCommandCount++;
+
+    return buffer;
+  }
+
+	void RenderCommandQueue::SubmitCommand(RenderCommandFn fn, void* params, unsigned int size)
+	{
+		unsigned int totalSize = sizeof(RenderCommandFn) + size + (16 - ((sizeof(RenderCommandFn) + size) % 16)); // Include padding
+
+		if (m_CommandBufferPtr + totalSize > m_CommandBuffer + (10 * 1024 * 1024)) // Check if we're about to exceed buffer
+		{
+			// Handle buffer overflow - perhaps by executing current commands and resetting, or by expanding the buffer
+			FD_CORE_ERROR("Render command buffer overflow!");
+			return;
+		}
+
+		byte*& buffer = m_CommandBufferPtr;
+		memcpy(buffer, &fn, sizeof(RenderCommandFn));
+		buffer += sizeof(RenderCommandFn);
+		memcpy(buffer, params, size);
+		buffer += size;
+
+		auto padding = totalSize - (sizeof(RenderCommandFn) + size);
+		buffer += padding;
+
+		m_RenderCommandCount++;
 	}
 
 	void RenderCommandQueue::Execute()
 	{
-		//HZ_RENDER_TRACE("RenderCommandQueue::Execute -- {0} commands, {1} bytes", m_CommandCount, (m_CommandBufferPtr - m_CommandBuffer));
-
 		byte* buffer = m_CommandBuffer;
 
-		for (uint32_t i = 0; i < m_CommandCount; i++)
+		for (unsigned int i = 0; i < m_RenderCommandCount; i++)
 		{
-			RenderCommandFn function = *(RenderCommandFn*)buffer;
+			RenderCommandFn fn = *(RenderCommandFn*)buffer;
 			buffer += sizeof(RenderCommandFn);
+			buffer += (*fn)(buffer);
 
-			uint32_t size = *(uint32_t*)buffer;
-			buffer += sizeof(uint32_t);
-			function(buffer);
-			buffer += size;
+			// Ensure proper alignment
+			uintptr_t address = reinterpret_cast<uintptr_t>(buffer);
+			buffer = reinterpret_cast<byte*>((address + 15) & ~15);
 		}
 
 		m_CommandBufferPtr = m_CommandBuffer;
-		m_CommandCount = 0;
+		m_RenderCommandCount = 0;
 	}
 
 }

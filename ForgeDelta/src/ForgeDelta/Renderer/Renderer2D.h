@@ -40,17 +40,11 @@ namespace ForgeDelta {
     static void ResetStats();
     static Statistics GetStats();
 
-    // Multithreading
-    static void StartRenderThread();
-    static void StopRenderThread();
-    static void RenderLoop();
 
   private:
     static void FlushAndReset();
     static void Flush();
 
-    static std::jthread s_RenderThread;
-    static std::atomic<bool> s_IsRunning;
   };
 
 }

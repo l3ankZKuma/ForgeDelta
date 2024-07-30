@@ -9,7 +9,7 @@
 
 #include"ForgeDelta/Core/Base.h"
 #include"ForgeDelta/Renderer/Renderer.h"
-#include"ForgeDelta/Renderer/RendererCommand.h"
+#include"ForgeDelta/Renderer/RenderCommand.h"
 
 #include"ForgeDelta/Debug/Instrumentor.h"
 
@@ -51,8 +51,6 @@ namespace ForgeDelta {
     while (m_running) {  // Correct usage of m_running
 
 
-      
-
         float time = static_cast<float>(glfwGetTime());
         timeStep = time - m_lastFrameTime;
         m_lastFrameTime = time;
@@ -63,9 +61,14 @@ namespace ForgeDelta {
 #endif 
 
         if (!m_minimized) {
+          Renderer::Get().WaitAndRender();
+
           for (Layer* layer : m_layerStack)
             layer->OnUpdate(timeStep);
+
+
         }
+
 
         m_imGuiLayer->Begin();
 
@@ -75,6 +78,7 @@ namespace ForgeDelta {
         m_imGuiLayer->End();
 
       OnWindowUpdate(m_window);  // Properly update the window
+
     }
   }
 

@@ -264,7 +264,6 @@ namespace ForgeDelta {
       coords[2] = { texture.subTextureMax.x, texture.subTextureMax.y };
       coords[3] = { texture.subTextureMin.x, texture.subTextureMax.y };
 
-      FD_CORE_INFO("Subtexture coords: {0}, {1}, {2}, {3}", coords[0].x, coords[0].y, coords[1].x, coords[1].y);
       return coords;
     }
     return nullptr;

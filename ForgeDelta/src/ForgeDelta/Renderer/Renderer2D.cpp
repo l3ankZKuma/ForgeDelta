@@ -5,7 +5,7 @@
 #include "ForgeDelta/Renderer/VertexArray.h"
 #include "ForgeDelta/Renderer/Buffer.h"
 #include "ForgeDelta/Renderer/Camera/Orthographic2DCamera.h"
-#include "ForgeDelta/Renderer/RendererCommand.h"
+#include "ForgeDelta/Renderer/RenderCommand.h"
 #include "ForgeDelta/Core/Log.h"
 #include "ForgeDelta/Debug/Instrumentor.h"
 
@@ -49,8 +49,6 @@ namespace ForgeDelta {
   static Renderer2DStorage s_Data;
   static ShaderLibrary s_ShaderLibrary;
 
-  std::jthread Renderer2D::s_RenderThread;
-  std::atomic<bool> Renderer2D::s_IsRunning(false);
 
   void Renderer2D::Init() {
     FD_PROFILE_FUNCTION();
@@ -121,15 +119,11 @@ namespace ForgeDelta {
     s_Data.QuadVertexPositions[2] = { 0.5f,  0.5f, 0.0f, 1.0f };
     s_Data.QuadVertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
 
-    // Start the render thread
-    StartRenderThread();
   }
 
   void Renderer2D::Shutdown() {
     FD_PROFILE_FUNCTION();
 
-    // Stop the render thread
-    StopRenderThread();
 
     delete[] s_Data.QuadVertexBufferBase;
     BufferSystem::DeleteVBO(s_Data.QuadVBO);  
@@ -137,26 +131,7 @@ namespace ForgeDelta {
     VAOSystem::DeleteVertexArray(s_Data.QuadVAO);
   }
 
-  void Renderer2D::StartRenderThread() {
-    s_IsRunning = true;
-    s_RenderThread = std::jthread(RenderLoop);
-  }
 
-  void Renderer2D::StopRenderThread() {
-    s_IsRunning = false;
-    if (s_RenderThread.joinable()) {
-      s_RenderThread.join();
-    }
-  }
-
-  void Renderer2D::RenderLoop() {
-    while (s_IsRunning) {
-      // Render operations
-      Flush();
-      // Sleep for a while to simulate frame time or use a condition variable
-      std::this_thread::sleep_for(std::chrono::milliseconds(16));
-    }
-  }
 
   void Renderer2D::BeginScene(const Orthographic2DCamera& camera) {
     FD_PROFILE_FUNCTION();
@@ -287,7 +262,6 @@ namespace ForgeDelta {
       s_Data.QuadVertexBufferPtr->Color = tintColor;
       s_Data.QuadVertexBufferPtr->TexCoord = textureCoords[i];
 
-      FD_CORE_INFO("Texture Coords: {0}, {1}", textureCoords[i].x, textureCoords[i].y);
 
       s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
       s_Data.QuadVertexBufferPtr->TilingFactor = tilingFactor;

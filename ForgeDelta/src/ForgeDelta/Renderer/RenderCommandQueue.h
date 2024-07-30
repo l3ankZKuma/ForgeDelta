@@ -1,22 +1,26 @@
 #pragma once
 
+
 namespace ForgeDelta {
 
 	class RenderCommandQueue
 	{
 	public:
-		typedef void(*RenderCommandFn)(void*);
+		using RenderCommand = std::function<unsigned int(void*)>;
+		typedef unsigned int(*RenderCommandFn)(void*);
 
 		RenderCommandQueue();
 		~RenderCommandQueue();
 
-		void* Allocate(RenderCommandFn func, uint32_t size);
-
+		void Submit(const RenderCommand& command);
+		void SubmitCommand(RenderCommandFn fn, void* params, unsigned int size);
+		void* Allocate(RenderCommandFn fn, unsigned int size);
 		void Execute();
 	private:
-		uint8_t* m_CommandBuffer;
-		uint8_t* m_CommandBufferPtr;
-		uint32_t m_CommandCount = 0;
+		unsigned char* m_CommandBuffer;
+		unsigned char* m_CommandBufferPtr;
+		unsigned int m_RenderCommandCount = 0;
+		unsigned int m_CommandCount = 0;
 	};
 
 

@@ -19,13 +19,15 @@ namespace ForgeDelta {
       RendererAPI::SetViewport(x, y, width, height);
     }
 
-    inline static void SetClearColor(const glm::vec4& color) {
-      RendererAPI::SetClearColor(color);
+
+    
+    static unsigned int Clear(void* data)
+    {
+      glm::vec4* color = static_cast<glm::vec4*>(data);
+      RendererAPI::Clear(color->r, color->g, color->b, color->a);
+      return sizeof(glm::vec4);
     }
 
-    inline static void Clear() {
-      RendererAPI::Clear();
-    }
 
     inline static void DrawIndexed(VAO_Data& vertexArray,uint32_t idxCnt=0) {
       RendererAPI::DrawIndexed(vertexArray,idxCnt);

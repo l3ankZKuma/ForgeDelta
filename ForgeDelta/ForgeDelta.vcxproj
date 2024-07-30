@@ -155,7 +155,7 @@
     <ClInclude Include="src\ForgeDelta\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\ForgeDelta\Renderer\Renderer.h" />
     <ClInclude Include="src\ForgeDelta\Renderer\RendererAPI.h" />
-    <ClInclude Include="src\ForgeDelta\Renderer\RendererCommand.h" />
+    <ClInclude Include="src\ForgeDelta\Renderer\RenderCommand.h" />
     <ClInclude Include="src\ForgeDelta\Renderer\Shader.h" />
     <ClInclude Include="src\ForgeDelta\Renderer\Buffer.h" />
     <ClInclude Include="src\ForgeDelta.h" />

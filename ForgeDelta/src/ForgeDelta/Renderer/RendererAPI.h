@@ -27,13 +27,14 @@ namespace ForgeDelta {
       glViewport(x, y, width, height);
     }
 
-    inline static void SetClearColor(const glm::vec4& color) {
-      glClearColor(color.r, color.g, color.b, color.a);
-    }
-
-    inline static void Clear() {
+    static void Clear(float r, float g, float b, float a)
+    {
+      FD_CORE_INFO("----Clearing with color: {0}, {1}, {2}, {3}", r, g, b, a);
+      glClearColor(r, g, b,a);
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
+
+
 
     inline static void DrawIndexed(VAO_Data& vertexArray,uint32_t idxCnt =0) {
       glBindVertexArray(vertexArray.VAO);
