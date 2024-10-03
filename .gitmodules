@@ -25,3 +25,6 @@
 [submodule "ForgeDelta/vendor/opencv"]
 	path = ForgeDelta/vendor/opencv
 	url = https://github.com/opencv/opencv
+[submodule "ForgeDelta/vendor/assimp"]
+	path = ForgeDelta/vendor/assimp
+	url = https://github.com/assimp/assimp

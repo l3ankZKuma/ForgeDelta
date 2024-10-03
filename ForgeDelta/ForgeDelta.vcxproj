@@ -143,6 +143,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ForgeDelta\Renderer\Framebuffer.h" />
     <ClInclude Include="src\ForgeDelta\Renderer\RenderCommandQueue.h" />
     <ClInclude Include="src\ForgeDelta\Renderer\RenderThread.h" />
     <ClInclude Include="src\ForgeDelta\Core\Thread.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="src\ForgeDelta\Renderer\VertexArray.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ForgeDelta\Renderer\Framebuffer.cpp" />
     <ClCompile Include="src\ForgeDelta\Core\Thread.cpp" />
     <ClCompile Include="src\ForgeDelta\Renderer\RenderCommandQueue.cpp" />
     <ClCompile Include="src\ForgeDelta\Renderer\Renderer2D.cpp" />

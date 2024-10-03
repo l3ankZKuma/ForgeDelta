@@ -20,6 +20,7 @@
 #include "ForgeDelta/Renderer/Buffer.h"
 #include "ForgeDelta/Renderer/Shader.h"
 #include "ForgeDelta/Renderer/VertexArray.h"
+#include"ForgeDelta/Renderer/Framebuffer.h"
 #include"ForgeDelta/Renderer/Texture.h"
 
 

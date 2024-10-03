@@ -95,6 +95,7 @@
     <ClInclude Include="src\ForgeDelta\Core\Timer.h" />
     <ClInclude Include="src\ForgeDelta\Debug\Instrumentor.h" />
     <ClInclude Include="src\ForgeDelta\Renderer\RenderCommandQueue.h" />
+    <ClInclude Include="src\ForgeDelta\Renderer\Framebuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ForgeDelta\Core\Application.cpp">
@@ -140,5 +141,6 @@
     <ClCompile Include="src\ForgeDelta\Renderer\RenderThread.cpp" />
     <ClCompile Include="src\ForgeDelta\Renderer\RenderCommandQueue.cpp" />
     <ClCompile Include="src\ForgeDelta\Core\Thread.cpp" />
+    <ClCompile Include="src\ForgeDelta\Renderer\Framebuffer.cpp" />
   </ItemGroup>
 </Project>

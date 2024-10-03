@@ -17,28 +17,29 @@
 namespace ForgeDelta {
 
   Application::Application() {
-    FD_PROFILE_FUNCTION();  // Profile the Run function
+    FD_PROFILE_FUNCTION();
 
-    s_instance = this;  // Correct usage of s_instance
+    s_instance = this;
 
     m_window = new Window();
-    InitializeWindow(m_window); // Correctly initialize the window
-    SetEventCallback(m_window,BIND_EVENT_FN(Application::OnEvent));  // Correct binding syntax
+    InitializeWindow(m_window); // Initialize the window.
+    SetEventCallback(m_window, BIND_EVENT_FN(Application::OnEvent));
+
     m_imGuiLayer = new ImGuiLayer();
     PushOverlay(m_imGuiLayer);
 
-
-
     Renderer::Init();
-
-
-  }
+}
 
   Application::~Application() {
     FD_PROFILE_FUNCTION();  // Profile the Run function
 
     ShutdownWindow(m_window);  // Properly shut down the window
     delete m_window;
+  }
+
+  void Application::Close() {
+    m_running = false;
   }
 
   void Application::Run() {
@@ -75,7 +76,7 @@ namespace ForgeDelta {
         for (Layer* layer : m_layerStack)
           layer->OnImGuiRender();
 
-        m_imGuiLayer->End();
+       m_imGuiLayer->End();
 
       OnWindowUpdate(m_window);  // Properly update the window
 
